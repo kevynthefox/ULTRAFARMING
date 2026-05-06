@@ -91,10 +91,12 @@ public class FreeFlyCamera : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Insert))
         {
             //StartLooking();
+            looking = true;
         }
         else if (Input.GetKeyUp(KeyCode.Insert))
         {
             //StopLooking();
+            looking = false;
         }
     }
 

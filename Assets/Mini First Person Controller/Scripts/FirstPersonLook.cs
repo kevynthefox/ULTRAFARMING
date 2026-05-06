@@ -6,11 +6,10 @@ public class FirstPersonLook : MonoBehaviour
     Transform character;
     public float sensitivity = 2;
     public float smoothing = 1.5f;
+    public bool firstPerson_thirdPerson; //first is false third is true
 
     Vector2 velocity;
     Vector2 frameVelocity;
-
-    public Transform head;
 
 
     void Reset()
@@ -36,7 +35,9 @@ public class FirstPersonLook : MonoBehaviour
 
         // Rotate camera up-down and controller left-right from velocity.
         transform.localRotation = Quaternion.AngleAxis(-velocity.y, Vector3.right);
-        head.localEulerAngles = new Vector3(transform.localRotation.x, transform.localRotation.y -90f, transform.localRotation.z -90f);
-        character.localRotation = Quaternion.AngleAxis(velocity.x, Vector3.up);
+        if (firstPerson_thirdPerson == false)
+        {
+            character.localRotation = Quaternion.AngleAxis(velocity.x, Vector3.up);
+        }
     }
 }
