@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 public class camera_controls : MonoBehaviour
 {
 
-    public GameObject camera_holder;
+    //public GameObject camera_holder;
 
     public Camera cam1;
     public Camera cam2;

@@ -10,6 +10,8 @@ public class FirstPersonLook : MonoBehaviour
     Vector2 velocity;
     Vector2 frameVelocity;
 
+    public Transform head;
+
 
     void Reset()
     {
@@ -34,6 +36,7 @@ public class FirstPersonLook : MonoBehaviour
 
         // Rotate camera up-down and controller left-right from velocity.
         transform.localRotation = Quaternion.AngleAxis(-velocity.y, Vector3.right);
+        head.localEulerAngles = new Vector3(transform.localRotation.x, transform.localRotation.y -90f, transform.localRotation.z -90f);
         character.localRotation = Quaternion.AngleAxis(velocity.x, Vector3.up);
     }
 }
