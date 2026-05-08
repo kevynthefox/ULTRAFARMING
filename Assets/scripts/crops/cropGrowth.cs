@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ public class cropGrowth : MonoBehaviour
     public GameObject top_section;
 
     public List<GameObject> segments;
+    public int current_segment;
 
     public GameObject next_point;
     public Quaternion procedural_rotation;
@@ -52,6 +54,11 @@ public class cropGrowth : MonoBehaviour
 
     public void step_growth()
     {
-
+        segments[current_segment].SetActive(true);
+        //play an animation here
+        
+        current_segment++;
     }
+
+    
 }
