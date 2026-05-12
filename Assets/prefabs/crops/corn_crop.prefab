@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5696965248677557264}
   m_Layer: 0
   m_Name: corn_crop
-  m_TagString: Untagged
+  m_TagString: growing_crop
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,14 +44,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45db38c81e9c77b6b8d485eede6f886b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::cropGrowth
-  maxGrowth: 10
-  growth_rate: 0
+  maxGrowth: 100
+  growth_rate: 0.1
+  excess_growth: 0
+  excess_segments: 0
   bottom_section: {fileID: 919132149155446097, guid: a556e5ed55d69966e8b80d664ba011c8, type: 3}
   middle_section: {fileID: 919132149155446097, guid: a48e54d0a74cb26ba9ccd0cb49066f5b, type: 3}
   top_section: {fileID: 919132149155446097, guid: 8d9c3d79c47c33f7cadb88da9ca9c7ba, type: 3}
   segments: []
   current_segment: 0
   segments_data: []
+  current_dist_percentage: 0
+  future_dist_percentage: 0
   next_point: {fileID: 0}
   previous_point: {fileID: 0}
   procedural_rotation: {x: 0, y: 0, z: 0, w: 0}
