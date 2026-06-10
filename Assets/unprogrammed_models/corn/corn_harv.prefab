@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2646178588961263383}
   - component: {fileID: -7409667764547902439}
   - component: {fileID: 4576175514905261879}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: corn_harv
   m_TagString: Untagged
   m_Icon: {fileID: 0}

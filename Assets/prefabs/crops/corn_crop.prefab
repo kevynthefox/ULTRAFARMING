@@ -46,13 +46,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::cropGrowth
   maxGrowth: 10
-  growth_rate: 0.1
+  growth_rate: 5
   excess_growth: 0
   excess_segments: 0
   bottom_section: {fileID: 919132149155446097, guid: a556e5ed55d69966e8b80d664ba011c8, type: 3}
   middle_section: {fileID: 919132149155446097, guid: a48e54d0a74cb26ba9ccd0cb49066f5b, type: 3}
   top_section: {fileID: 919132149155446097, guid: 8d9c3d79c47c33f7cadb88da9ca9c7ba, type: 3}
-  collider: {fileID: 664797725078444074}
   segments: []
   current_segment: 0
   segments_data: []
@@ -83,5 +82,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1, y: 2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}

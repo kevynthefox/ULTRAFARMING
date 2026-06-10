@@ -150,11 +150,20 @@ void FillArray(uint3 i : SV_DispatchThreadID)
     if (density <= 0 || (id.y <= 1 && forceFloor))
         voxelId = ida;
     
-    //we dont need this since we dont plan on having oceans
-    /*if (id.y < (int) oceanHeight - 1 && voxelId == 0)
+    //this code was originally for the oceans, but it can instead be used to (in order) fill in all holes, chop off all hills, then set all grass under the top to be dirt
+    if (id.y < (int) oceanHeight - 15)// && voxelId == 0)
     {
-        voxelId = 240;
-    }*/
+        voxelId = 1;
+    }
+    if (id.y > (int) oceanHeight - 18)// && voxelId == 0)
+    {
+        voxelId = 0;
+    }
+    
+    if (id.y < (int) oceanHeight - 18 && voxelId == 1)
+    {
+        voxelId = 2;
+    }
     
     
     for (int iX = 0; iX < 4; iX++)

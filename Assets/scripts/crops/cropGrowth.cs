@@ -35,7 +35,7 @@ public class cropGrowth : MonoBehaviour
     public GameObject previous_point;
     public Quaternion procedural_rotation;
     
-    [Header("collider")]
+    /*[Header("collider")]
     public BoxCollider collider;
     public float max_x;
     public float min_x;
@@ -51,7 +51,7 @@ public class cropGrowth : MonoBehaviour
     public float average_x;
     public float average_y;
     public float average_z;
-    public Vector3 average_distance_between_segments;
+    public Vector3 average_distance_between_segments;*/
     
     
     public void Start()
@@ -121,9 +121,9 @@ public class cropGrowth : MonoBehaviour
             //shrink them down until they're invisible so that they can grow, then turn them off to save processing power
         }
         
-        growthIncrementer.current.crops.Add(this);
-        if (growthIncrementer.current.crops.Count == 1)
+        if (growthIncrementer.current.crops.Count == 0)
         {
+            growthIncrementer.current.crops.Add(this);
             growthIncrementer.current.startGrowthIncrement();
             //if this is the first crop, start the growth incrementer
         }
@@ -382,6 +382,8 @@ public class cropGrowth : MonoBehaviour
     private void OnDestroy()
     {
         growthIncrementer.current.crops.Remove(this);
+        growthIncrementer.current.StopCoroutine(growthIncrementer.current.growthIncrement());
+        growthIncrementer.current.StartCoroutine(growthIncrementer.current.growthIncrement());
     }
 }
 

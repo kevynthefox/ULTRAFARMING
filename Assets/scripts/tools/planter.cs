@@ -14,6 +14,7 @@ public class planter : MonoBehaviour
     public LayerMask plant_mask;
     public float delay_between_actions;
     public int plants_left;
+    public TerrainInteractor un_digger;
 
     private void Start()
     {
@@ -52,7 +53,10 @@ public class planter : MonoBehaviour
     {
         Physics.Raycast(new Ray(current_plant_point.position, current_plant_point.forward), out var hitInfo);
         Vector3 plant_pos = hitInfo.point; 
+        
+        un_digger.dig_pulse();
         Instantiate(plant,plant_pos, transform.rotation);
+        
     }
     
 }

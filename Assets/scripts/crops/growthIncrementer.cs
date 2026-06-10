@@ -18,6 +18,7 @@ public class growthIncrementer : MonoBehaviour
         current = this;
     }
 
+    
     void Start()
     {
         growthIncrement();
@@ -30,7 +31,7 @@ public class growthIncrementer : MonoBehaviour
         //this is because you appearently cant start a coroutine from another script.
         StartCoroutine(growthIncrement());
     }
-    
+    [ContextMenu("growthIncrement")]
     public IEnumerator growthIncrement()
     {
         
@@ -52,6 +53,7 @@ public class growthIncrementer : MonoBehaviour
         }
     }
 
+    [ContextMenu("cycle_crop_list")]
     public void cycle_crop_list()
     {
         crops.Clear();

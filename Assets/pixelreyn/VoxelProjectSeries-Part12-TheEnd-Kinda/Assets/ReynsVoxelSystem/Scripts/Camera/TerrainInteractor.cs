@@ -100,6 +100,17 @@ public class TerrainInteractor : MonoBehaviour
         }
     }
 
+    public void dig_pulse()
+    {
+
+        foreach (Transform digpoint in dig_points)
+        {
+            current_dig_point = digpoint;
+            dig();
+        }
+
+    }
+
     public void dig()
     {
         //Debug.Log("trying to dig");
