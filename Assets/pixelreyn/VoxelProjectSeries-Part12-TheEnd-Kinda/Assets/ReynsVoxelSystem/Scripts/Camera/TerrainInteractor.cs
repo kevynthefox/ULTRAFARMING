@@ -13,6 +13,10 @@ public class TerrainInteractor : MonoBehaviour
     public byte voxelIDToPlace = 4;
 
     public bool dig_state;
+    public int range;
+    public List<Transform> dig_points;
+    public Transform current_dig_point;
+    public float delay_between_actions;
 
 
     private void Start()
@@ -79,10 +83,15 @@ public class TerrainInteractor : MonoBehaviour
         {
             if (dig_state == true)
             {
-                dig();
+                foreach( Transform digpoint in dig_points)
+                {
+                    current_dig_point = digpoint;
+                    dig();
+                }
+
             }
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(delay_between_actions);
         }
 
         if (dig_state == false)
@@ -93,7 +102,7 @@ public class TerrainInteractor : MonoBehaviour
 
     public void dig()
     {
-        Debug.Log("trying to dig");
+        //Debug.Log("trying to dig");
         
         //if (toolMode == ToolMode.Single)// ? Input.GetMouseButtonDown(1) : Input.GetMouseButton(1))
         //{
@@ -130,51 +139,58 @@ public class TerrainInteractor : MonoBehaviour
 
     bool GetBlockCoordAtRay(out Vector3 ChunkPos, out Vector3 blockPos)
     {
-        if (Physics.Raycast(new Ray(transform.position, transform.forward), out var hitInfo))
+        if (Physics.Raycast(new Ray(current_dig_point.position, current_dig_point.forward), out var hitInfo))
         {
-            if (hitInfo.collider.transform.GetComponent<Chunk>() != null)
+            if (hitInfo.distance <= range)
             {
-                ChunkPos = hitInfo.collider.transform.GetComponent<Chunk>().chunkPosition;
-                blockPos = math.floor(hitInfo.point - ChunkPos);
-                if (hitInfo.normal.x != 0)
+                if (hitInfo.collider.transform.GetComponent<Chunk>() != null)
                 {
-                    blockPos.x = math.round(blockPos.x);
-                }
-                else
-                {
-                    blockPos.x = math.floor(blockPos.x);
-                }
-                if (hitInfo.normal.y != 0)
-                {
-                    blockPos.y = math.round(blockPos.y);
-                }
-                else
-                {
-                    blockPos.y = math.floor(blockPos.y);
-                }
-                if (hitInfo.normal.z != 0)
-                {
-                    blockPos.z = math.round(blockPos.z);
-                }
-                else
-                {
-                    blockPos.z = math.floor(blockPos.z);
-                }
+                    ChunkPos = hitInfo.collider.transform.GetComponent<Chunk>().chunkPosition;
+                    blockPos = math.floor(hitInfo.point - ChunkPos);
+                    if (hitInfo.normal.x != 0)
+                    {
+                        blockPos.x = math.round(blockPos.x);
+                    }
+                    else
+                    {
+                        blockPos.x = math.floor(blockPos.x);
+                    }
 
-                if (ReplaceBlockInPlace)
-                {
-                    if (hitInfo.normal.x > 0 || hitInfo.normal.y > 0 || hitInfo.normal.z > 0)
-                        blockPos -= hitInfo.normal;
-                }
-                else
-                {
+                    if (hitInfo.normal.y != 0)
+                    {
+                        blockPos.y = math.round(blockPos.y);
+                    }
+                    else
+                    {
+                        blockPos.y = math.floor(blockPos.y);
+                    }
 
-                    if (hitInfo.normal.x < 0 || hitInfo.normal.y < 0 || hitInfo.normal.z < 0)
-                        blockPos += hitInfo.normal;
+                    if (hitInfo.normal.z != 0)
+                    {
+                        blockPos.z = math.round(blockPos.z);
+                    }
+                    else
+                    {
+                        blockPos.z = math.floor(blockPos.z);
+                    }
+
+                    if (ReplaceBlockInPlace)
+                    {
+                        if (hitInfo.normal.x > 0 || hitInfo.normal.y > 0 || hitInfo.normal.z > 0)
+                            blockPos -= hitInfo.normal;
+                    }
+                    else
+                    {
+
+                        if (hitInfo.normal.x < 0 || hitInfo.normal.y < 0 || hitInfo.normal.z < 0)
+                            blockPos += hitInfo.normal;
+                    }
+
+                    return true;
                 }
-                return true;
             }
         }
+
         ChunkPos = Vector3.zero;
         blockPos = Vector3.zero;
         return false;

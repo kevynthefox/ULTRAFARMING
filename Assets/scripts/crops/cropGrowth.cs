@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class cropGrowth : MonoBehaviour
@@ -17,6 +18,7 @@ public class cropGrowth : MonoBehaviour
     public GameObject bottom_section;
     public GameObject middle_section;
     public GameObject top_section;
+    
 
     [Header("segments")]
     public List<GameObject> segments;
@@ -24,12 +26,34 @@ public class cropGrowth : MonoBehaviour
     public List<cropSegment> segments_data;
     public float current_dist_percentage;
     public float future_dist_percentage;
+    public GameObject harvested_part;
+    public int number_of_harvestable_parts;
+    public int number_of_harvestable_parts_per_segment;
 
     [Header("points")]
     public GameObject next_point;
     public GameObject previous_point;
     public Quaternion procedural_rotation;
-
+    
+    [Header("collider")]
+    public BoxCollider collider;
+    public float max_x;
+    public float min_x;
+    public float max_y;
+    public float min_y;
+    public float max_z;
+    public float min_z;
+    
+    public List<float> x_list;
+    public List<float> y_list;
+    public List<float> z_list;
+    
+    public float average_x;
+    public float average_y;
+    public float average_z;
+    public Vector3 average_distance_between_segments;
+    
+    
     public void Start()
     {
         
@@ -131,6 +155,7 @@ public class cropGrowth : MonoBehaviour
                 //Debug.Log("finished growing, removing from list");
                 //growthIncrementer.current.crops.Remove(this);
                 this.tag = "finished_crop"; 
+                //adjust_collider_size();
             }
             else
             {
@@ -158,9 +183,9 @@ public class cropGrowth : MonoBehaviour
                 }
                 segments_data[current_segment + 1]._next_point = segments_data[current_segment]._next_point_obj.transform.position;
 
-                
-                
-                current_segment++;  //after current segment has finished growing, tick the next segment
+
+
+                check_off_segment(); //after current segment has finished growing, tick the next segment
             }
             
         }
@@ -199,13 +224,14 @@ public class cropGrowth : MonoBehaviour
                     //Debug.Log("finished growing, removing from list");
                     //growthIncrementer.current.crops.Remove(this);
                     this.tag = "finished_crop";
+                    //adjust_collider_size();
                 }
                 else
                 {
                     
 
                     segments_data[current_segment + 1]._next_point = segments_data[current_segment]._next_point_obj.transform.position;
-                    current_segment++; //after current segment has finished growing, tick the next segment
+                    check_off_segment(); //after current segment has finished growing, tick the next segment
                 }
 
             }
@@ -243,13 +269,14 @@ public class cropGrowth : MonoBehaviour
                     //Debug.Log("finished growing, removing from list");
                     //growthIncrementer.current.crops.Remove(this);
                     this.tag = "finished_crop";
+                    //adjust_collider_size();
                 }
                 else
                 {
                     
 
                     segments_data[current_segment + 1]._next_point = segments_data[current_segment]._next_point_obj.transform.position;
-                    current_segment++; //after current segment has finished growing, tick the next segment
+                    check_off_segment(); //after current segment has finished growing, tick the next segment
                 }
 
             }
@@ -267,6 +294,94 @@ public class cropGrowth : MonoBehaviour
         segments_data[i]._previous_point = previous_point;
         //segments_data[i].dist_percentage = 0;
         segments_data[i].calculate_distance();
+    }
+    
+    public void check_off_segment()
+    {
+        
+        
+        current_segment++; //its not current segment +1 below because the first segment has no crop on itZz
+        number_of_harvestable_parts = (current_segment) * number_of_harvestable_parts_per_segment;
+        
+        //adjust_collider_size();
+    }
+
+    /*public void adjust_collider_size()
+    {
+        x_list.Clear();
+        y_list.Clear();
+        z_list.Clear();
+        foreach (GameObject segment in segments)
+        {
+            x_list.Add(segment.transform.position.x);
+            y_list.Add(segment.transform.position.y);
+            z_list.Add(segment.transform.position.z);
+        }
+        
+        /*if (this.CompareTag("finished_crop"))
+        {
+            //Vector3 bet = Vector3.Distance(segments[0].transform.position, segments.Last().transform.position);
+            average_distance_between_segments.x = x_list[1] - x_list[0];
+            
+            
+            average_distance_between_segments.y = y_list[1] - y_list[0];
+            
+            
+            average_distance_between_segments.z = z_list[1] - z_list[0];
+
+            float temp_x = x_list.Last();
+            x_list.Add(temp_x + average_distance_between_segments.x);
+            
+            float temp_y = y_list.Last();
+            y_list.Add(temp_y + average_distance_between_segments.y);
+            Debug.Log("temp y: " + temp_y);
+            Debug.Log("average distance between segments: " + average_distance_between_segments.y);
+            
+            float temp_z = z_list.Last();
+            z_list.Add(temp_z + average_distance_between_segments.z);
+        }//
+
+        max_x = Mathf.Max(x_list.ToArray());
+        max_y = Mathf.Max(y_list.ToArray());
+        max_z = Mathf.Max(z_list.ToArray());
+        
+        min_x = Mathf.Min(x_list.ToArray());
+        min_y = Mathf.Min(y_list.ToArray());
+        min_z = Mathf.Min(z_list.ToArray());
+        
+        
+        
+        average_x = (max_x - min_x)/2;
+        average_y = (max_y - min_y)/2;
+        average_z = (max_z - min_z)/2;
+        
+        
+        
+        collider.center = new Vector3(average_x, average_y, average_z);
+        
+        if (max_x - min_x <= 1)
+        {
+            average_x = 0.5f;
+        }
+        if (max_y - min_y <= 1)
+        {
+            average_y = 0.5f;
+        }
+        if (max_z - min_z <= 1)
+        {
+            average_z = 0.5f;
+        }
+        //collider.size = new Vector3(average_x * 2, average_y * 2, average_z * 2);
+
+        Vector3 min = new Vector3(min_x, min_y, min_z);
+        Vector3 max = new Vector3(max_x, max_y, max_z);
+        
+        collider.bounds.SetMinMax(min,max);
+    }*/
+
+    private void OnDestroy()
+    {
+        growthIncrementer.current.crops.Remove(this);
     }
 }
 
@@ -310,4 +425,8 @@ public class cropSegment
         
     }
 
+    
+
 }
+
+

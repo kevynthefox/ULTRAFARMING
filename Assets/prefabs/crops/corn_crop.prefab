@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7493254420843092441}
   - component: {fileID: 5696965248677557264}
+  - component: {fileID: 664797725078444074}
   m_Layer: 0
   m_Name: corn_crop
   m_TagString: growing_crop
@@ -44,18 +45,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45db38c81e9c77b6b8d485eede6f886b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::cropGrowth
-  maxGrowth: 100
+  maxGrowth: 10
   growth_rate: 0.1
   excess_growth: 0
   excess_segments: 0
   bottom_section: {fileID: 919132149155446097, guid: a556e5ed55d69966e8b80d664ba011c8, type: 3}
   middle_section: {fileID: 919132149155446097, guid: a48e54d0a74cb26ba9ccd0cb49066f5b, type: 3}
   top_section: {fileID: 919132149155446097, guid: 8d9c3d79c47c33f7cadb88da9ca9c7ba, type: 3}
+  collider: {fileID: 664797725078444074}
   segments: []
   current_segment: 0
   segments_data: []
   current_dist_percentage: 0
   future_dist_percentage: 0
+  harvested_part: {fileID: 5268746344995437077, guid: bd594034cdcbfac39a225b83836987be, type: 3}
+  number_of_harvestable_parts: 0
+  number_of_harvestable_parts_per_segment: 1
   next_point: {fileID: 0}
   previous_point: {fileID: 0}
   procedural_rotation: {x: 0, y: 0, z: 0, w: 0}
+--- !u!65 &664797725078444074
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5049357435254349526}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}

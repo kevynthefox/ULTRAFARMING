@@ -150,11 +150,11 @@ void FillArray(uint3 i : SV_DispatchThreadID)
     if (density <= 0 || (id.y <= 1 && forceFloor))
         voxelId = ida;
     
-
-    if (id.y < (int) oceanHeight - 1 && voxelId == 0)
+    //we dont need this since we dont plan on having oceans
+    /*if (id.y < (int) oceanHeight - 1 && voxelId == 0)
     {
         voxelId = 240;
-    }
+    }*/
     
     
     for (int iX = 0; iX < 4; iX++)

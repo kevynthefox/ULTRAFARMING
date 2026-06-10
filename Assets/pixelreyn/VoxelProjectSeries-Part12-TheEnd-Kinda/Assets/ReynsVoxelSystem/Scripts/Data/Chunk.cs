@@ -30,6 +30,7 @@ public class Chunk : MonoBehaviour
         ConfigureComponents();
         meshRenderer.sharedMaterials = mats;
         chunkPosition = position;
+        this.gameObject.layer = 7;
     }
 
     public void ClearData()
