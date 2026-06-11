@@ -6,8 +6,7 @@ TagManager:
   tags:
   - growing_crop
   - finished_crop
-  - pathing_turn_right
-  - pathing_turn_left
+  - employee
   layers:
   - Default
   - TransparentFX

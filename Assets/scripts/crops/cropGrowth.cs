@@ -131,7 +131,7 @@ public class cropGrowth : MonoBehaviour
 
     public void step_growth()
     {
-        Debug.Log("step_growth");
+        //Debug.Log("step_growth");
         if (current_segment <= segments.Count && current_segment >= 1)
         {
             if (segments[current_segment].activeSelf == false)
@@ -197,7 +197,7 @@ public class cropGrowth : MonoBehaviour
     {
         for (int i = 0; i < excess_segments; i++)
         {
-            Debug.Log("step_segments " + excess_segments);
+            //Debug.Log("step_segments " + excess_segments);
             if (current_segment <= segments.Count && current_segment >= 1)
             {
                 if (segments[current_segment].activeSelf == false)

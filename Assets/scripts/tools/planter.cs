@@ -16,7 +16,8 @@ public class planter : MonoBehaviour
     public int plants_left;
     public TerrainInteractor un_digger;
 
-    public nav_pathfinding holder; 
+    public nav_pathfinding holder;
+    public task_assigner work_site;
 
     private void Start()
     {
@@ -60,7 +61,12 @@ public class planter : MonoBehaviour
         Vector3 plant_pos = hitInfo.point; 
         
         un_digger.dig_pulse();
-        Instantiate(plant,plant_pos, transform.rotation);
+        var new_plant =  Instantiate(plant,plant_pos, transform.rotation);
+        if (work_site != null)
+        {
+            new_plant.transform.SetParent(work_site.transform);
+            work_site.crops.Add(this.transform);
+        }
         
     }
     

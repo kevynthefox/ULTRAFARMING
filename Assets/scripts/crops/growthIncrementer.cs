@@ -41,7 +41,7 @@ public class growthIncrementer : MonoBehaviour
             yield return new WaitForSeconds(wait_time); //this one is here so that it doesnt grow at light speed if there's just 1 crop
             foreach (cropGrowth crop in crops)
             {
-                Debug.Log("do crop");
+                //Debug.Log("do crop");
                 crop.step_growth();
                 current_crop++;
                 yield return new WaitForSeconds(wait_time);
@@ -81,7 +81,7 @@ public class growthIncrementer : MonoBehaviour
                 if (current_crop >= crops.Count)
                 {
                     StopAllCoroutines();//this is mainly to shut up the 'collection was modified, may not execute' error. cant check a list that's been modified if you arent working ;p
-                    Debug.Log("reached the end of the list, beginning restart process");
+                    //Debug.Log("reached the end of the list, beginning restart process");
                     cycle_crop_list();
                     current_crop = 0;
                     StartCoroutine(growthIncrement());

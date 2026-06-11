@@ -113,7 +113,7 @@ public static class GenerationManager
             }
             else
             {
-                Debug.Log("Generated mesh for inactive chunk at: " + chunkPos);
+                //Debug.Log("Generated mesh for inactive chunk at: " + chunkPos);
                 RequeueBuffer(genBuffer);
             }
 

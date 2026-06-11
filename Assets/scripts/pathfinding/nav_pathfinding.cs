@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -26,32 +28,42 @@ public class nav_pathfinding : MonoBehaviour
     //when watering is added, add a behaviour here.
     public harvester harvester;
     public Transform refiller;
-    
+
+    public task_assigner current_work_site;
+
+    private void Start()
+    {
+        StartCoroutine(time_keeper());
+    }
+
     [ContextMenu("set_to_destination")]
-    void move_towardsDestination()
+    public void move_towardsDestination()
     {
        agent.SetDestination(destination.position);
     }
-
-    float time
+    public void move_towards_first_Destination()
     {
-        get
+        agent.SetDestination(destinations[0].position);
+    }
+
+    public IEnumerator time_keeper()
+    {
+        while(this.enabled == true)
         {
-            return Time_manager.current.time;
-        }
-        set
-        {
-            time = value;
+            //Debug.Log("the time shish is working");
             if (agent.remainingDistance <= agent.stoppingDistance)
             {
                 do_purpose();
             }
+
+            yield return new WaitForSeconds(1f);
         }
     }
     
 
     void do_purpose()
     {
+        Debug.Log("trying to do purpose");
         if (destination_type == 1)
         {
             digger.dig_pulse();
@@ -59,21 +71,32 @@ public class nav_pathfinding : MonoBehaviour
             if (destination_number == destinations.Count)
             {
                 destination_type = 0;
+                destination = current_work_site.site_exit;
             }
-            destination = destinations[destination_number];
+            else
+            {
+
+                destination = destinations[destination_number];
+            }
         }
 
         if (destination_type == 2)
         {
             if (planter.plants_left > 0)
             {
+                planter.work_site = current_work_site;
                 planter.plant_crop();
                 destination_number++;
                 if (destination_number == destinations.Count)
                 {
                     destination_type = 0;
+                    destination = current_work_site.site_exit;
                 }
-                destination = destinations[destination_number];
+                else
+                {
+
+                    destination = destinations[destination_number];
+                }
             }
             else
             {
@@ -93,8 +116,13 @@ public class nav_pathfinding : MonoBehaviour
             if (destination_number == destinations.Count)
             {
                 destination_type = 0;
+                destination = current_work_site.site_exit;
             }
-            destination = destinations[destination_number];
+            else
+            {
+
+                destination = destinations[destination_number];
+            }
         }
 
         if (destination_type == 5) //depositer for harvester

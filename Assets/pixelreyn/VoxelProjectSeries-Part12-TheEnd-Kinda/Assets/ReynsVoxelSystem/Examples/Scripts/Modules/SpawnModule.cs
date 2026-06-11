@@ -9,7 +9,7 @@ public class SpawnModule : WorldModule
 
     public override void OnGenerationComplete()
     {
-        Debug.Log("Generation Complete, spawn player!");
+        //Debug.Log("Generation Complete, spawn player!");
         World.onGenerationComplete -= OnGenerationComplete;
     }
 

@@ -17,7 +17,7 @@ public class TimerModule : WorldModule
     public override void OnGenerationComplete()
     {
         timer.Stop();
-        UnityEngine.Debug.Log($"Elapsed Generation Time: {timer.ElapsedMilliseconds}ms");
+        //UnityEngine.Debug.Log($"Elapsed Generation Time: {timer.ElapsedMilliseconds}ms");
     }
 
     public override void Register()
