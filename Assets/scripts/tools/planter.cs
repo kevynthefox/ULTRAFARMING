@@ -16,6 +16,8 @@ public class planter : MonoBehaviour
     public int plants_left;
     public TerrainInteractor un_digger;
 
+    public nav_pathfinding holder; 
+
     private void Start()
     {
         StartCoroutine(plant_loop());
@@ -35,7 +37,10 @@ public class planter : MonoBehaviour
                         plant_crop();
                         plants_left -= 1;
                     }
-                    
+                    else
+                    {
+                        holder.destination = holder.refiller;
+                    }
                 }
 
             }

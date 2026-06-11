@@ -6,6 +6,8 @@ TagManager:
   tags:
   - growing_crop
   - finished_crop
+  - pathing_turn_right
+  - pathing_turn_left
   layers:
   - Default
   - TransparentFX
@@ -16,7 +18,7 @@ TagManager:
   - Player Invisible
   - ground
   - crop_harv_part
-  - 
+  - pathfinding_layer
   - 
   - 
   - 
