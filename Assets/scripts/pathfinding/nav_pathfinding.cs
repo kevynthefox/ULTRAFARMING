@@ -78,6 +78,7 @@ public class nav_pathfinding : MonoBehaviour
 
                 destination = destinations[destination_number];
             }
+            move_towardsDestination();
         }
 
         if (destination_type == 2)
@@ -97,6 +98,7 @@ public class nav_pathfinding : MonoBehaviour
 
                     destination = destinations[destination_number];
                 }
+                move_towardsDestination();
             }
             else
             {
@@ -123,6 +125,7 @@ public class nav_pathfinding : MonoBehaviour
 
                 destination = destinations[destination_number];
             }
+            move_towardsDestination();
         }
 
         if (destination_type == 5) //depositer for harvester
