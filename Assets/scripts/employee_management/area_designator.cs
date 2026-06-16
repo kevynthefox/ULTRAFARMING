@@ -25,14 +25,20 @@ public class area_designator : MonoBehaviour
     public float divider; //this is for if you feel there is too many points.
 
     public task_assigner taskAssigner;
+
+    [ContextMenu("do_all")]
+    private void do_all()
+    {
+        calculate_area_between_cubes();
+        clear_points();
+        place_points_between_corners();
+    }
     
-    [ContextMenu("calculate_area_between_cubes")]
-    void calculate_area_between_cubes()
+    
+    public void calculate_area_between_cubes()
     {
         x_between = Mathf.FloorToInt((corner_2.transform.position.x - corner_1.transform.position.x)/divider);
         z_between = Mathf.FloorToInt((corner_2.transform.position.z - corner_1.transform.position.z)/divider);
-        clear_points();
-        place_points_between_corners();
     }
 
     void place_points_between_corners()
