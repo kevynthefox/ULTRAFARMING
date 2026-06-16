@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using TMPro;
 using UnityEngine;
 
 public class area_designator : MonoBehaviour
@@ -9,6 +10,9 @@ public class area_designator : MonoBehaviour
     public GameObject corner_2;
     public GameObject point_prefab;
     public GameObject interact_point;//this is for things like depositing into an area? though you could potentially just check collision boxes instead.
+
+    public TextMeshProUGUI corner_1_text;
+    public TextMeshProUGUI corner_2_text;
     
     public List<GameObject> points;
     public GameObject points_holder;
@@ -27,13 +31,21 @@ public class area_designator : MonoBehaviour
     public task_assigner taskAssigner;
 
     [ContextMenu("do_all")]
-    private void do_all()
+    public void do_all()
     {
         calculate_area_between_cubes();
         clear_points();
         place_points_between_corners();
     }
-    
+
+
+    public void display_distance()
+    {
+        calculate_area_between_cubes();
+        corner_1_text.text = "x: " +  x_between.ToString() + "<br>z: " +  z_between.ToString();
+        corner_2_text.text = "x: " +  x_between.ToString() + "<br>z: " +  z_between.ToString();
+        
+    }
     
     public void calculate_area_between_cubes()
     {
@@ -144,14 +156,19 @@ public class area_designator : MonoBehaviour
 
         points_holder.transform.parent = null;
         points_holder.transform.localPosition = new Vector3(points.Last().transform.position.x / 2, 0, points.Last().transform.position.z / 2);
-
+        
 
         foreach (var point in points)
         {
             point.transform.parent = points_holder.transform;
+            point.transform.localPosition = new Vector3(point.transform.localPosition.x * divider, 0, point.transform.localPosition.z * divider);
         }
         
-        points_holder.transform.parent = this.transform.parent;
+        
+        
+        //points_holder.transform.localScale = new Vector3(divider, divider, divider);
+        
+        points_holder.transform.parent = this.transform;
 
     }
 }
