@@ -8,6 +8,8 @@ TagManager:
   - finished_crop
   - employee
   - employee_management
+  - button_world
+  - site_destination
   layers:
   - Default
   - TransparentFX

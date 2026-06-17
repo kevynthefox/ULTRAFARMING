@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
+using Button = UnityEngine.UI.Button;
 using MouseButton = UnityEngine.UIElements.MouseButton;
 
 public class Pickup : MonoBehaviour//, IPointerClickHandler,IScrollHandler
@@ -72,5 +73,31 @@ public class Pickup : MonoBehaviour//, IPointerClickHandler,IScrollHandler
         cursor.transform.localPosition = new Vector3(0,0, cursor_dist);
     }
     
+    
+    public void button_press ()//PointerEventData eventData)
+    {
+        
+        
+        Physics.Raycast(viewer.transform.position,viewer.transform.forward, out RaycastHit hit,cursor_dist+pickup_margin,5);//ui is layer 5
+
+        if (hit.transform != null)
+        {
+            if (hit.distance <= cursor_dist + pickup_margin)
+            {
+                Debug.Log("press");
+                //Debug.Log(hit.transform.gameObject.name);
+                if (hit.transform.CompareTag("button_world"))
+                {
+
+                    if (hit.transform.gameObject.TryGetComponent(out button_translator button))
+                    {
+                        button.clicked_on();
+                    }
+
+
+                }
+            }
+        }
+    }
 }
 

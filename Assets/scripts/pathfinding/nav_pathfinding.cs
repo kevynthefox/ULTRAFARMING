@@ -13,6 +13,10 @@ public class nav_pathfinding : MonoBehaviour
 
     public Transform paused_destination; //this is used to go back to where you were when being interrupted by break or having to refill stuff.
     public int paused_destination_type;
+
+    public List<Transform> site_destinations;
+    public int site_destination_number;
+    public List<Transform> dest_sit_temp;
     
     public Transform break_area;
     public float break_time;
@@ -28,12 +32,22 @@ public class nav_pathfinding : MonoBehaviour
     //when watering is added, add a behaviour here.
     public harvester harvester;
     public Transform refiller;
+    public List<GameObject> purpose_objects;
 
     public task_assigner current_work_site;
 
     private void Start()
     {
+        site_destination_number = 0;
+        foreach (GameObject dest in GameObject.FindGameObjectsWithTag("site_destination"))
+        {
+            site_destinations.Add(dest.transform);
+        }
+
+        purpose_objects[duty_type - 1].SetActive(true);
+        
         StartCoroutine(time_keeper());
+        move_towards_first_Site_Destination();
     }
 
     [ContextMenu("set_to_destination")]
@@ -44,6 +58,10 @@ public class nav_pathfinding : MonoBehaviour
     public void move_towards_first_Destination()
     {
         agent.SetDestination(destinations[0].position);
+    }
+    public void move_towards_first_Site_Destination()
+    {
+        agent.SetDestination(site_destinations[0].position);
     }
 
     public IEnumerator time_keeper()
@@ -70,7 +88,7 @@ public class nav_pathfinding : MonoBehaviour
             destination_number++;
             if (destination_number == destinations.Count)
             {
-                destination_type = 0;
+                destination_type = 7;
                 destination = current_work_site.site_exit;
             }
             else
@@ -90,7 +108,7 @@ public class nav_pathfinding : MonoBehaviour
                 destination_number++;
                 if (destination_number == destinations.Count)
                 {
-                    destination_type = 0;
+                    destination_type = 7;
                     destination = current_work_site.site_exit;
                 }
                 else
@@ -117,7 +135,7 @@ public class nav_pathfinding : MonoBehaviour
             destination_number++;
             if (destination_number == destinations.Count)
             {
-                destination_type = 0;
+                destination_type = 7;
                 destination = current_work_site.site_exit;
             }
             else
@@ -142,6 +160,19 @@ public class nav_pathfinding : MonoBehaviour
             
             destination = paused_destination;
             destination_type = paused_destination_type;
+        }
+
+        if (destination_type == 7)
+        {
+            site_destination_number++;
+            if (site_destination_number + 1 > site_destinations.Count)
+            {
+                this.gameObject.SetActive(false);
+            }
+            else
+            {
+                destination = site_destinations[site_destination_number];
+            }
         }
         
     }
