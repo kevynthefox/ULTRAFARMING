@@ -36,7 +36,6 @@ public class planter : MonoBehaviour
                     if (plants_left - 1 >= 0)
                     {
                         plant_crop();
-                        plants_left -= 1;
                     }
                     else
                     {
@@ -58,16 +57,23 @@ public class planter : MonoBehaviour
     public void plant_crop()
     {
         Physics.Raycast(new Ray(current_plant_point.position, current_plant_point.forward), out var hitInfo);
-        Vector3 plant_pos = hitInfo.point; 
-        
-        un_digger.dig_pulse();
-        var new_plant =  Instantiate(plant,plant_pos, transform.rotation);
-        if (work_site != null)
+
+        if (hitInfo.distance <= range)
         {
-            new_plant.transform.SetParent(work_site.transform);
-            work_site.crops.Add(this.transform);
+
+            Vector3 plant_pos = hitInfo.point;
+
+            plants_left -= 1;
+
+            un_digger.dig_pulse();
+            var new_plant = Instantiate(plant, plant_pos, transform.rotation);
+            if (work_site != null)
+            {
+                new_plant.transform.SetParent(work_site.transform);
+                work_site.crops.Add(new_plant.transform);
+            }
+
         }
-        
     }
-    
+
 }

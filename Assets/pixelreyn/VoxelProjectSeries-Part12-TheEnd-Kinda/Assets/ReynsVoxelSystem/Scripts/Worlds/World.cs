@@ -123,7 +123,7 @@ public abstract class World : MonoBehaviour
         }
         else
         {
-            Debug.Log("New MeshData");
+            //Debug.Log("New MeshData");
             return GenerateMeshData(false);
         }
     }

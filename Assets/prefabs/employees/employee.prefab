@@ -302,7 +302,7 @@ Transform:
   m_GameObject: {fileID: 5905862483629658169}
   serializedVersion: 2
   m_LocalRotation: {x: 0.70710695, y: -0, z: -0.000000029802319, w: 0.70710677}
-  m_LocalPosition: {x: 5.8801293, y: 5, z: 0}
+  m_LocalPosition: {x: 6, y: 5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -504,7 +504,7 @@ MonoBehaviour:
   break_area: {fileID: 0}
   break_time: 0
   carry_capacity: 10
-  duty_type: 1
+  duty_type: 2
   agent: {fileID: 3920056586254214920}
   digger: {fileID: 4870878622328297405}
   planter: {fileID: 5740419117790310899}
@@ -513,6 +513,7 @@ MonoBehaviour:
   purpose_objects:
   - {fileID: 7637106673697707432}
   - {fileID: 7787130910702112285}
+  - {fileID: 0}
   - {fileID: 3269291081040821603}
   current_work_site: {fileID: 0}
 --- !u!1 &6690759004300485393
@@ -827,11 +828,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1935172744385655465, guid: ca8d32c18aba44054966c6a8f7dfa2b2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1935172744385655465, guid: ca8d32c18aba44054966c6a8f7dfa2b2, type: 3}
       propertyPath: m_LocalPosition.y
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1935172744385655465, guid: ca8d32c18aba44054966c6a8f7dfa2b2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1935172744385655465, guid: ca8d32c18aba44054966c6a8f7dfa2b2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -856,6 +861,10 @@ PrefabInstance:
     - target: {fileID: 2413341806992603850, guid: ca8d32c18aba44054966c6a8f7dfa2b2, type: 3}
       propertyPath: m_Layer
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2676146177180647236, guid: ca8d32c18aba44054966c6a8f7dfa2b2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 2751949836141704703, guid: ca8d32c18aba44054966c6a8f7dfa2b2, type: 3}
       propertyPath: m_Name
@@ -931,7 +940,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3530661838627194039, guid: ca8d32c18aba44054966c6a8f7dfa2b2, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4211007724684838782, guid: ca8d32c18aba44054966c6a8f7dfa2b2, type: 3}
       propertyPath: m_Layer
@@ -985,7 +994,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::harvester
   parts: []
-  harvesting: 1
+  harvesting: 0
   output_point: {fileID: 3336514101902768088}
   _outputting: 0
   holder: {fileID: 6511248537758048581}
@@ -1004,13 +1013,49 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1393505018895338665, guid: 0e4b3aaae8778f375a671be2ae81d320, type: 3}
+      propertyPath: toolType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1393505018895338665, guid: 0e4b3aaae8778f375a671be2ae81d320, type: 3}
+      propertyPath: radiusToAffect
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1393505018895338665, guid: 0e4b3aaae8778f375a671be2ae81d320, type: 3}
+      propertyPath: ReplaceBlockInPlace
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1393505018895338665, guid: 0e4b3aaae8778f375a671be2ae81d320, type: 3}
       propertyPath: dig_points.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4972091978313132969, guid: 0e4b3aaae8778f375a671be2ae81d320, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4972091978313132969, guid: 0e4b3aaae8778f375a671be2ae81d320, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4972091978313132969, guid: 0e4b3aaae8778f375a671be2ae81d320, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6507973417755841297, guid: 0e4b3aaae8778f375a671be2ae81d320, type: 3}
       propertyPath: holder
       value: 
       objectReference: {fileID: 6511248537758048581}
+    - target: {fileID: 6507973417755841297, guid: 0e4b3aaae8778f375a671be2ae81d320, type: 3}
+      propertyPath: plant_state
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6507973417755841297, guid: 0e4b3aaae8778f375a671be2ae81d320, type: 3}
+      propertyPath: plants_left
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6507973417755841297, guid: 0e4b3aaae8778f375a671be2ae81d320, type: 3}
+      propertyPath: current_plant_point
+      value: 
+      objectReference: {fileID: 5835131153013098827}
     - target: {fileID: 6507973417755841297, guid: 0e4b3aaae8778f375a671be2ae81d320, type: 3}
       propertyPath: plant_points.Array.size
       value: 1
@@ -1110,6 +1155,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ae0d56f60f6c1e18912e674c214cb90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::planter
+--- !u!4 &5835131153013098827 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4972091978313132969, guid: 0e4b3aaae8778f375a671be2ae81d320, type: 3}
+  m_PrefabInstance: {fileID: 1583832831963243234}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7447444028534903975 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8259678076983080517, guid: 0e4b3aaae8778f375a671be2ae81d320, type: 3}

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
@@ -29,6 +30,11 @@ public class area_designator : MonoBehaviour
     public float divider; //this is for if you feel there is too many points.
 
     public task_assigner taskAssigner;
+
+    private void Start()
+    {
+        do_all();
+    }
 
     [ContextMenu("do_all")]
     public void do_all()

@@ -66,7 +66,7 @@ public class Pickup : MonoBehaviour//, IPointerClickHandler,IScrollHandler
     {
         var cachedInput = context.ReadValue<Vector2>();
         float y_plus = cachedInput.y;
-        Debug.Log ("scrolling mouse");
+        //Debug.Log ("scrolling mouse");
         cursor_dist += y_plus;// Input.mouseScrollDelta.y;
         if (cursor_dist > max_dist) cursor_dist = max_dist;
         if (cursor_dist < min_dist) cursor_dist = min_dist;
@@ -84,7 +84,7 @@ public class Pickup : MonoBehaviour//, IPointerClickHandler,IScrollHandler
         {
             if (hit.distance <= cursor_dist + pickup_margin)
             {
-                Debug.Log("press");
+                //Debug.Log("press");
                 //Debug.Log(hit.transform.gameObject.name);
                 if (hit.transform.CompareTag("button_world"))
                 {

@@ -8,6 +8,7 @@ public class task_assigner : MonoBehaviour
     public List<Transform> dig_points;
     public List<Transform> crops;
     public Transform site_exit;
+    public Transform waiting_area;
     
     public void OnTriggerEnter(Collider other)
     {
@@ -16,7 +17,7 @@ public class task_assigner : MonoBehaviour
         {
             if (other.TryGetComponent( out nav_pathfinding nav))
             {
-                Debug.Log("collided with an employee");
+                //Debug.Log("collided with an employee");
                 nav.current_work_site = this;
                 if (nav.duty_type == 1)
                 {
@@ -34,16 +35,38 @@ public class task_assigner : MonoBehaviour
                 
                 if (nav.duty_type == 3)
                 {
-                    nav.destinations = crops;
-                    nav.destination_type = 3;
-                    nav.move_towards_first_Destination();
+                    if (crops.Count > 0)
+                    {
+                        nav.destinations = crops;
+                        nav.destination_type = 3;
+                        nav.move_towards_first_Destination();
+                    }
+                    else
+                    {
+                        nav.destination = waiting_area;
+                        nav.destination_type = 9;
+                        nav.move_towardsDestination();
+                    }
+                    
                 }
                 
                 if (nav.duty_type == 4)
                 {
-                    nav.destinations = crops;
-                    nav.destination_type = 4;
-                    nav.move_towards_first_Destination();
+                    if (crops.Count > 0)
+                    {
+                        nav.destinations = crops;
+                        nav.destination_type = 4;
+                        nav.move_towards_first_Destination();
+                    }
+                    else
+                    {
+                        nav.destination = waiting_area;
+                        nav.destination_type = 9;
+                        nav.move_towardsDestination();
+                    }
+
+                    
+                    
                 }
             }
         }

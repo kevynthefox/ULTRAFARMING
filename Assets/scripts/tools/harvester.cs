@@ -10,14 +10,12 @@ public class harvester : MonoBehaviour
     public bool harvesting;
 
     public Transform output_point;
-    [SerializeField]
-    private bool _outputting;
 
     public nav_pathfinding holder;
     public bool holder_is_person;
-    public int carry;
+    
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (harvesting == true)
         {
@@ -33,38 +31,19 @@ public class harvester : MonoBehaviour
                 {
                     foreach (harvestable_part part in parts)
                     {
-                        carry += part.number_of_harvestable_parts;
+                        holder.carry += part.number_of_harvestable_parts;
                     }
 
-                    if (carry >= holder.carry_capacity)
-                    {
-                        holder.paused_destination = holder.destination;
-                        holder.paused_destination_type = holder.destination_type;
-                        holder.destination = holder.refiller;
-                        holder.destination_type = 5;
-                        this.gameObject.SetActive(false);
-                    }
-                    this.gameObject.SetActive(false);
+                    
+                    harvesting = false;
+                    Debug.Log("harvesting disabled");
                 }
             }
         }
     }
 
     
-    public bool outputting
-    {
-        get
-        {
-            return _outputting;
-        }
-
-        set
-        {
-            _outputting = value;
-            
-            output();
-        }
-    }
+    
 
     [ContextMenu("output")]
     public void output()
@@ -79,7 +58,8 @@ public class harvester : MonoBehaviour
         parts.Clear();
         if (holder_is_person == true)
         {
-            this.gameObject.SetActive(false);
+            holder.carry = 0;
+            harvesting = false;
         }
     }
 }
