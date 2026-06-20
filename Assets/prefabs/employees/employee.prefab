@@ -492,20 +492,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bfffa432402ab298a9bcde8fe67ef9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::nav_pathfinding
+  time_waiting: 0
+  multiple_points: 0
   destination: {fileID: 0}
   destination_type: 0
   destinations: []
   destination_number: 0
-  paused_destination: {fileID: 0}
-  paused_destination_type: 0
   site_destinations: []
   site_destination_number: 0
   dest_sit_temp: []
   break_area: {fileID: 0}
   break_time: 0
+  carry: 0
   carry_capacity: 10
-  duty_type: 2
+  duty_type: 1
   agent: {fileID: 3920056586254214920}
+  current_work_site: {fileID: 0}
   digger: {fileID: 4870878622328297405}
   planter: {fileID: 5740419117790310899}
   harvester: {fileID: 1298871779060327589}
@@ -515,7 +517,6 @@ MonoBehaviour:
   - {fileID: 7787130910702112285}
   - {fileID: 0}
   - {fileID: 3269291081040821603}
-  current_work_site: {fileID: 0}
 --- !u!1 &6690759004300485393
 GameObject:
   m_ObjectHideFlags: 0
@@ -996,10 +997,8 @@ MonoBehaviour:
   parts: []
   harvesting: 0
   output_point: {fileID: 3336514101902768088}
-  _outputting: 0
   holder: {fileID: 6511248537758048581}
   holder_is_person: 1
-  carry: 0
 --- !u!1001 &1583832831963243234
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1050,7 +1049,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6507973417755841297, guid: 0e4b3aaae8778f375a671be2ae81d320, type: 3}
       propertyPath: plants_left
-      value: 100
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6507973417755841297, guid: 0e4b3aaae8778f375a671be2ae81d320, type: 3}
       propertyPath: current_plant_point
