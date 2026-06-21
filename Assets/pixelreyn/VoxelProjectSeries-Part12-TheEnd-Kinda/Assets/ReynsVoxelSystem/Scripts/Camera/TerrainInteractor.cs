@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
 public class TerrainInteractor : MonoBehaviour
@@ -228,12 +229,15 @@ public class TerrainInteractor : MonoBehaviour
         Gizmos.DrawRay(transform.position, transform.forward);
     }
 
-    public void play_shovel_dig()
+    public void play_shovel_dig(InputAction.CallbackContext context)
     {
         if (this.gameObject.activeSelf == true)
         {
-            animator.Play("dig_trowel");
-            sound_shovel_dig();
+            if (context.started)
+            {
+                animator.Play("dig_trowel");
+                sound_shovel_dig();
+            }
         }
     }
 

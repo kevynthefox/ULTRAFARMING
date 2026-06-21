@@ -2910,7 +2910,7 @@ MonoBehaviour:
       - m_Target: {fileID: 678386095}
         m_TargetAssemblyTypeName: TerrainInteractor, Assembly-CSharp
         m_MethodName: play_shovel_dig
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3272,6 +3272,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6428842717865058974, guid: e3ee30caf07d64891b0d195532db6986, type: 3}
+      propertyPath: harvested_part
+      value: 
+      objectReference: {fileID: 868990336414349300, guid: e3ee30caf07d64891b0d195532db6986, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

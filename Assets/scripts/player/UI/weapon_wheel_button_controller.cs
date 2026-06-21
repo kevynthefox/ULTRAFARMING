@@ -16,18 +16,12 @@ public class weapon_wheel_script : MonoBehaviour
     public AudioSource audio_source;
     public AudioClip audio_clip;
     
-    void Update()
-    {
-        if (selected) //should probably change this to not use update later
-        {
-            //selectedItem.sprite = icon;
-            itemText.text = itemName;
-        }
-    }
+   
 
     public void Selected()
     {
         selected = true;
+        itemText.text = itemName;
     }
     public void Deselected()
     {

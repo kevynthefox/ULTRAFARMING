@@ -40,14 +40,6 @@ public class weapon_wheel_controller : MonoBehaviour
             if (weapons.IndexOf(weapon) != selected_weapon) weapon.SetActive(false);
         }
 
-        if (weapons[selected_weapon] == null)
-        {
-            foreach (GameObject weapon in weapons)
-            {
-                if (weapons.IndexOf(weapon) != selected_weapon) weapon.SetActive(false);
-            }
-        }
-        
         if (!weapons[selected_weapon].activeSelf)
         {
             weapons[selected_weapon].SetActive(true);

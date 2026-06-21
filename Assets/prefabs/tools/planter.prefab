@@ -385,7 +385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ae0d56f60f6c1e18912e674c214cb90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::planter
-  plant: {fileID: 5049357435254349526, guid: 2ee7dcf087a5f86dc9bf493c9169a081, type: 3}
+  plant: {fileID: 868990336414349300, guid: e3ee30caf07d64891b0d195532db6986, type: 3}
   plant_state: 1
   range: 10
   plant_points:
@@ -401,6 +401,7 @@ MonoBehaviour:
   plants_left: 1000
   un_digger: {fileID: 1393505018895338665}
   holder: {fileID: 0}
+  work_site: {fileID: 0}
 --- !u!114 &1393505018895338665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,3 +428,6 @@ MonoBehaviour:
   - {fileID: 3333484065517477878}
   current_dig_point: {fileID: 0}
   delay_between_actions: 0
+  animator: {fileID: 0}
+  audioSource: {fileID: 0}
+  clips: []
