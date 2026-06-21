@@ -16,6 +16,8 @@ public class Pickup : MonoBehaviour//, IPointerClickHandler,IScrollHandler
     public float max_dist,min_dist;
     public float pickup_margin; //the margin of error for if the object can be picked up
     public LayerMask acceptable_layers;
+
+    public bool had_gravity;
     
     public void click ()//PointerEventData eventData)
     {
@@ -28,7 +30,16 @@ public class Pickup : MonoBehaviour//, IPointerClickHandler,IScrollHandler
             //Debug.Log(hit.transform.gameObject.name);
             if (hit.distance <= cursor_dist + pickup_margin)
             {
+                
+                if (hit.transform.TryGetComponent(out Rigidbody rb))
+                {
+                    if (rb.useGravity == true) had_gravity = true; //doing it like this and not hadgravity = rb.usegravity, because that second part can change
 
+                    if (had_gravity == true)
+                    {
+                        rb.useGravity = false;
+                    }
+                }
                 StartCoroutine(mover(hit.transform.gameObject));
 
                 
@@ -57,6 +68,8 @@ public class Pickup : MonoBehaviour//, IPointerClickHandler,IScrollHandler
             }
             else
             {
+                if (had_gravity == true) obj.GetComponent<Rigidbody>().useGravity = true;
+                had_gravity = false;
                 yield break;
             }
         }

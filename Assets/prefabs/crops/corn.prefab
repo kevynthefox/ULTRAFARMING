@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5268746344995437077
+--- !u!1 &868990336414349300
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,48 +8,49 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1029591401258714099}
-  - component: {fileID: 2067159527791218866}
-  - component: {fileID: 2646178588961263383}
-  - component: {fileID: -7409667764547902439}
-  - component: {fileID: 4576175514905261879}
+  - component: {fileID: 2272519611308737645}
+  - component: {fileID: 2838182340804835842}
+  - component: {fileID: 7263133721753496763}
+  - component: {fileID: 6873876256780009101}
+  - component: {fileID: 8755452360743671031}
+  - component: {fileID: 6428842717865058974}
   m_Layer: 8
-  m_Name: corn_harv
-  m_TagString: Untagged
+  m_Name: corn
+  m_TagString: growing_crop
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1029591401258714099
+--- !u!4 &2272519611308737645
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5268746344995437077}
+  m_GameObject: {fileID: 868990336414349300}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.39999998, y: 0.39999998, z: 1}
+  m_LocalPosition: {x: -6.54063, y: 25.233, z: 1.87}
+  m_LocalScale: {x: 0.39999998, y: 0.4000001, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &2067159527791218866
+--- !u!33 &2838182340804835842
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5268746344995437077}
+  m_GameObject: {fileID: 868990336414349300}
   m_Mesh: {fileID: 1765351100830630377, guid: 8d9c3d79c47c33f7cadb88da9ca9c7ba, type: 3}
---- !u!23 &2646178588961263383
+--- !u!23 &7263133721753496763
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5268746344995437077}
+  m_GameObject: {fileID: 868990336414349300}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -92,13 +93,13 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &-7409667764547902439
+--- !u!65 &6873876256780009101
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5268746344995437077}
+  m_GameObject: {fileID: 868990336414349300}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -113,13 +114,13 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2, y: 2.0000005, z: 2.0000005}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &4576175514905261879
+--- !u!54 &8755452360743671031
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5268746344995437077}
+  m_GameObject: {fileID: 868990336414349300}
   serializedVersion: 5
   m_Mass: 1
   m_LinearDamping: 0
@@ -140,3 +141,35 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6428842717865058974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 868990336414349300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45db38c81e9c77b6b8d485eede6f886b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::cropGrowth
+  maxGrowth: 10
+  growth_rate: 0.1
+  excess_growth: 0
+  excess_segments: 0
+  started_growth: 0
+  offset: {x: 0, y: -2.5, z: 0}
+  bottom_section: {fileID: 919132149155446097, guid: a556e5ed55d69966e8b80d664ba011c8, type: 3}
+  middle_section: {fileID: 919132149155446097, guid: a48e54d0a74cb26ba9ccd0cb49066f5b, type: 3}
+  top_section: {fileID: 919132149155446097, guid: 8d9c3d79c47c33f7cadb88da9ca9c7ba, type: 3}
+  segments: []
+  current_segment: 0
+  segments_data: []
+  current_dist_percentage: 0
+  future_dist_percentage: 0
+  harvested_part: {fileID: 5268746344995437077, guid: bd594034cdcbfac39a225b83836987be, type: 3}
+  number_of_harvestable_parts: 0
+  number_of_harvestable_parts_per_segment: 1
+  next_point: {fileID: 0}
+  previous_point: {fileID: 0}
+  procedural_rotation: {x: 0, y: 0, z: 0, w: 0}

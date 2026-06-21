@@ -13,6 +13,8 @@ public class weapon_wheel_script : MonoBehaviour
     //public Sprite icon;
 
     public weapon_wheel_controller controller;
+    public AudioSource audio_source;
+    public AudioClip audio_clip;
     
     void Update()
     {
@@ -36,6 +38,7 @@ public class weapon_wheel_script : MonoBehaviour
     {
         itemText.text = itemName;
         controller.selected_weapon = id;
+        audio_source.PlayOneShot(audio_clip);
     }
     
     public void HoverExit()

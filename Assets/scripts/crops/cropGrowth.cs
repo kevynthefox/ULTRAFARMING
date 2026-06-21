@@ -13,8 +13,10 @@ public class cropGrowth : MonoBehaviour
     public float growth_rate;
     public float excess_growth;
     public int excess_segments;
+    public bool started_growth;
     
     [Header("sections")]
+    public Vector3 offset; //this is so that the bottom segment isnt floating
     public GameObject bottom_section;
     public GameObject middle_section;
     public GameObject top_section;
@@ -54,14 +56,14 @@ public class cropGrowth : MonoBehaviour
     public Vector3 average_distance_between_segments;*/
     
     
-    public void Start()
+    public void Start_growing()
     {
-        
+        started_growth = true;
         for (int i = 0; i < maxGrowth; i++)
         {
             if (i == 0)
             {
-                var bottom = Instantiate(bottom_section, transform.position, transform.rotation);
+                var bottom = Instantiate(bottom_section, transform.position + offset, transform.rotation);
                 next_point = bottom.transform.Find("next_point").gameObject;
                 
                 bottom.transform.Rotate(90,0,0);// = new quaternion(90,0,0,0);
@@ -159,6 +161,8 @@ public class cropGrowth : MonoBehaviour
             }
             else
             {
+                
+                
                 if (current_dist_percentage > 1)
                 {
                     excess_growth = current_dist_percentage - 1;
@@ -384,6 +388,30 @@ public class cropGrowth : MonoBehaviour
         growthIncrementer.current.crops.Remove(this);
         growthIncrementer.current.StopCoroutine(growthIncrementer.current.growthIncrement());
         growthIncrementer.current.StartCoroutine(growthIncrementer.current.growthIncrement());
+    }
+
+    public void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.layer == 7) //7 is the layer for ground
+        {
+            if (TryGetComponent(out Rigidbody rb))
+            {
+                Destroy(rb);
+            }
+
+            if (TryGetComponent(out MeshRenderer mr))
+            {
+                mr.enabled = false;
+            }
+
+            if (started_growth == false)
+            {
+                //Physics.Raycast(this.transform.position,Vector3.down,out RaycastHit hit);
+                transform.rotation = quaternion.identity;// = Quaternion.LookRotation(hit.transform.up);
+                //honestly.. like.. why would it ever need to be sideways? this is a perfectly flat plane
+                Start_growing();
+            }
+        }
     }
 }
 

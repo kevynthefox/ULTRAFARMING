@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class TerrainInteractor : MonoBehaviour
 {
@@ -18,6 +19,10 @@ public class TerrainInteractor : MonoBehaviour
     public Transform current_dig_point;
     public float delay_between_actions;
 
+
+    public Animator animator;
+    public AudioSource  audioSource;
+    public AudioClip[] clips;
 
     private void Start()
     {
@@ -221,5 +226,37 @@ public class TerrainInteractor : MonoBehaviour
     public void OnDrawGizmos()
     {
         Gizmos.DrawRay(transform.position, transform.forward);
+    }
+
+    public void play_shovel_dig()
+    {
+        if (this.gameObject.activeSelf == true)
+        {
+            animator.Play("dig_trowel");
+            sound_shovel_dig();
+        }
+    }
+
+    public void sound_shovel_dig()
+    {
+        PlayRandomClip(audioSource,clips);
+    }
+    
+    //this code was copied from the FirstPersonAudio script
+    public void PlayRandomClip(AudioSource audio, AudioClip[] clips)
+    {
+        if (!audio || clips.Length <= 0)
+            return;
+
+        // Get a random clip. If possible, make sure that it's not the same as the clip that is already on the audiosource.
+        AudioClip clip = clips[Random.Range(0, clips.Length)];
+        if (clips.Length > 1)
+            while (clip == audio.clip)
+                clip = clips[Random.Range(0, clips.Length)];
+
+        // Play the clip.
+        audio.clip = clip;
+        audio.Play();
+        Debug.Log(clip.name);
     }
 }
