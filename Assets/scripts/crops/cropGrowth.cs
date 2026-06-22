@@ -29,6 +29,7 @@ public class cropGrowth : MonoBehaviour
     public float current_dist_percentage;
     public float future_dist_percentage;
     public GameObject harvested_part;
+    public string harvested_part_name;
     public int number_of_harvestable_parts;
     public int number_of_harvestable_parts_per_segment;
 
@@ -36,26 +37,16 @@ public class cropGrowth : MonoBehaviour
     public GameObject next_point;
     public GameObject previous_point;
     public Quaternion procedural_rotation;
-    
-    /*[Header("collider")]
-    public BoxCollider collider;
-    public float max_x;
-    public float min_x;
-    public float max_y;
-    public float min_y;
-    public float max_z;
-    public float min_z;
-    
-    public List<float> x_list;
-    public List<float> y_list;
-    public List<float> z_list;
-    
-    public float average_x;
-    public float average_y;
-    public float average_z;
-    public Vector3 average_distance_between_segments;*/
-    
-    
+
+    void Awake()
+    {
+        Debug.Log(harvested_part.name);
+        Debug.Log("Assets/prefabs/crops/" + harvested_part.name +".prefab");
+        var go = Resources.Load("prefabs/crops/corn"); //this makes the object reference the prefab instead of itself
+        harvested_part = go.GameObject();
+        Debug.Log(harvested_part);
+    }
+
     public void Start_growing()
     {
         started_growth = true;
@@ -409,6 +400,7 @@ public class cropGrowth : MonoBehaviour
                 //Physics.Raycast(this.transform.position,Vector3.down,out RaycastHit hit);
                 transform.rotation = quaternion.identity;// = Quaternion.LookRotation(hit.transform.up);
                 //honestly.. like.. why would it ever need to be sideways? this is a perfectly flat plane
+                tag = "growing_crop";
                 Start_growing();
             }
         }

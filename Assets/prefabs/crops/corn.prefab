@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6428842717865058974}
   m_Layer: 8
   m_Name: corn
-  m_TagString: growing_crop
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -167,7 +167,7 @@ MonoBehaviour:
   segments_data: []
   current_dist_percentage: 0
   future_dist_percentage: 0
-  harvested_part: {fileID: 5268746344995437077, guid: bd594034cdcbfac39a225b83836987be, type: 3}
+  harvested_part: {fileID: 868990336414349300}
   number_of_harvestable_parts: 0
   number_of_harvestable_parts_per_segment: 1
   next_point: {fileID: 0}

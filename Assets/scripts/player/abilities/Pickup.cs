@@ -64,6 +64,20 @@ public class Pickup : MonoBehaviour//, IPointerClickHandler,IScrollHandler
                     }
                 }
                 
+                if (obj.CompareTag("growing_crop"))
+                {
+                    //Debug.Log("picking up a growing crop");
+                    if (obj.TryGetComponent(out cropGrowth cropgrowth))
+                    {
+                        //Debug.Log("it had crop growth");
+                        if (cropgrowth.started_growth == true)
+                        {
+                            //Debug.Log("it was growing");
+                            obj.tag = "finished_crop";
+                        }
+                    }
+                }
+                
                 yield return new WaitForEndOfFrame();
             }
             else
@@ -111,6 +125,7 @@ public class Pickup : MonoBehaviour//, IPointerClickHandler,IScrollHandler
                 }
             }
         }
+        
     }
 }
 
