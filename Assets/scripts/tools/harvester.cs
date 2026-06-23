@@ -52,7 +52,9 @@ public class harvester : MonoBehaviour
         {
             for (int i = 0; i < part.number_of_harvestable_parts; i++)
             {
-                Instantiate(part.part, output_point.position, Quaternion.identity);
+                float fail = growthIncrementer.current.crop_fail_rate;
+                var crop = Instantiate(part.part, output_point.position, Quaternion.identity);
+                crop.transform.localScale = new Vector3(crop.transform.localScale.x * fail,crop.transform.localScale.y * fail,crop.transform.localScale.z * fail);
             }
         }
         parts.Clear();

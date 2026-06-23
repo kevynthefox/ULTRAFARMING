@@ -29,7 +29,7 @@ public class cropGrowth : MonoBehaviour
     public float current_dist_percentage;
     public float future_dist_percentage;
     public GameObject harvested_part;
-    public string harvested_part_name;
+    public crop_data cropData;
     public int number_of_harvestable_parts;
     public int number_of_harvestable_parts_per_segment;
 
@@ -40,16 +40,15 @@ public class cropGrowth : MonoBehaviour
 
     void Awake()
     {
-        Debug.Log(harvested_part.name);
-        Debug.Log("Assets/prefabs/crops/" + harvested_part.name +".prefab");
-        var go = Resources.Load("prefabs/crops/corn"); //this makes the object reference the prefab instead of itself
-        harvested_part = go.GameObject();
-        Debug.Log(harvested_part);
+        harvested_part = cropData.cropPrefab;
     }
 
     public void Start_growing()
     {
         started_growth = true;
+
+        growth_rate *= growthIncrementer.current.growth_rate_world_extra;
+        maxGrowth = Mathf.RoundToInt(maxGrowth * growthIncrementer.current.max_growth_world_extra);
         for (int i = 0; i < maxGrowth; i++)
         {
             if (i == 0)
@@ -73,7 +72,7 @@ public class cropGrowth : MonoBehaviour
                     segments.Add(top);
                     
                     top.transform.parent = previous_point.transform;//this makes it so all segments above the previous one move up at once, so that the whole plant can actually grow instead of collecting in one spot
-                    top.transform.Rotate(90f, transform.rotation.y + (i * 90f),0);
+                    //top.transform.Rotate(90f, transform.rotation.y + (i * 90f),0);
                     
                     add_segment_to_crop_segments(i,top);
                     next_point = null;
@@ -84,12 +83,16 @@ public class cropGrowth : MonoBehaviour
                 {
                     procedural_rotation = new Quaternion(90f , transform.rotation.y + (i * 90f),
                         transform.rotation.z , transform.rotation.w);
-            
-                    var middle = Instantiate(middle_section,previous_point.transform.position,transform.rotation ); //the i * 90 is to make it turn more each segment
+
+                    var middle = Instantiate(middle_section, previous_point.transform.position, quaternion.identity);//transform.rotation ); //the i * 90 is to make it turn more each segment
                     next_point = middle.transform.Find("next_point").gameObject;
                     
+                    
                     middle.transform.parent = previous_point.transform;//this makes it so all segments above the previous one move up at once, so that the whole plant can actually grow instead of collecting in one spot
-                    middle.transform.Rotate(90,transform.rotation.y + (i*90),0);
+                    //middle.transform.Rotate(90,0,0 + (i*90));
+                    Debug.Log("rotation of " + i.ToString() + ": " + middle.transform.localEulerAngles);
+                    
+                    
                     
                     add_segment_to_crop_segments(i,middle);
                     previous_point = middle;
@@ -122,6 +125,7 @@ public class cropGrowth : MonoBehaviour
         }
     }
 
+    //public quaternion rotaty;
     public void step_growth()
     {
         //Debug.Log("step_growth");
@@ -132,6 +136,13 @@ public class cropGrowth : MonoBehaviour
                 segments[current_segment].SetActive(true);
                 segments[current_segment].transform.localPosition = new Vector3(0, 0, -4);
                 segments[current_segment].transform.localScale = new Vector3(1, 1, 1);
+                segments[current_segment].transform.localRotation  = /*rotaty;*/ new quaternion(0, 0,1,1);
+                if (current_segment == 1) segments[current_segment].transform.localRotation = new Quaternion(1,1,0,0);// rotaty;
+                if (current_segment == segments.Count-1)
+                {
+                    Debug.Log("on the last segment");
+                    segments[current_segment].transform.localRotation = new Quaternion(1,1,0,0);
+                } 
                 segments[current_segment].name = ("segment: " + current_segment);
             }
         }
@@ -200,6 +211,13 @@ public class cropGrowth : MonoBehaviour
                     segments[current_segment].SetActive(true);
                     segments[current_segment].transform.localPosition = new Vector3(0, 0, -4);
                     segments[current_segment].transform.localScale = new Vector3(1, 1, 1);
+                    segments[current_segment].transform.localRotation  = /*rotaty;*/ new quaternion(0, 0,1,1);
+                    if (current_segment == 1) segments[current_segment].transform.localRotation = new Quaternion(1,1,0,0);
+                    if (current_segment == segments.Count-1)
+                    {
+                        Debug.Log("on the last segment");
+                        segments[current_segment].transform.localRotation = new Quaternion(1,1,0,0);
+                    } 
                     segments[current_segment].name = ("segment: " + current_segment);
                 }
             }
@@ -245,6 +263,13 @@ public class cropGrowth : MonoBehaviour
                     segments[current_segment].SetActive(true);
                     segments[current_segment].transform.localPosition = new Vector3(0, 0, -4);
                     segments[current_segment].transform.localScale = new Vector3(1, 1, 1);
+                    segments[current_segment].transform.localRotation  = /*rotaty;*/ new quaternion(0, 0,1,1);
+                    if (current_segment == 1) segments[current_segment].transform.localRotation = new Quaternion(1,1,0,0);
+                    if (current_segment == segments.Count-1)
+                    {
+                        Debug.Log("on the last segment");
+                        segments[current_segment].transform.localRotation = new Quaternion(1,1,0,0);
+                    } 
                     segments[current_segment].name = ("segment: " + current_segment);
                 }
             }
@@ -385,27 +410,34 @@ public class cropGrowth : MonoBehaviour
     {
         if (other.gameObject.layer == 7) //7 is the layer for ground
         {
+
             if (TryGetComponent(out Rigidbody rb))
             {
-                Destroy(rb);
-            }
+                if (rb.useGravity == true) // this part is here so you cant plant while holding
+                {
+                    Destroy(rb);
 
-            if (TryGetComponent(out MeshRenderer mr))
-            {
-                mr.enabled = false;
-            }
 
-            if (started_growth == false)
-            {
-                //Physics.Raycast(this.transform.position,Vector3.down,out RaycastHit hit);
-                transform.rotation = quaternion.identity;// = Quaternion.LookRotation(hit.transform.up);
-                //honestly.. like.. why would it ever need to be sideways? this is a perfectly flat plane
-                tag = "growing_crop";
-                Start_growing();
+                    if (TryGetComponent(out MeshRenderer mr))
+                    {
+                        mr.enabled = false;
+                    }
+
+                    if (started_growth == false)
+                    {
+
+                        //Physics.Raycast(this.transform.position,Vector3.down,out RaycastHit hit);
+                        transform.rotation = quaternion.identity; // = Quaternion.LookRotation(hit.transform.up);
+                        //honestly.. like.. why would it ever need to be sideways? this is a perfectly flat plane
+                        tag = "growing_crop";
+                        Start_growing();
+                    }
+                }
             }
         }
     }
 }
+
 
 
 [Serializable]

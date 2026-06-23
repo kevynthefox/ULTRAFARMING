@@ -168,6 +168,7 @@ MonoBehaviour:
   current_dist_percentage: 0
   future_dist_percentage: 0
   harvested_part: {fileID: 868990336414349300}
+  cropData: {fileID: 11400000, guid: df9f0d814095af7519efce75b3740f55, type: 2}
   number_of_harvestable_parts: 0
   number_of_harvestable_parts_per_segment: 1
   next_point: {fileID: 0}
