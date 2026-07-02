@@ -473,9 +473,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 48102b6e69f84de33af7f23117e63a9b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4249366808452697762}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 48102b6e69f84de33af7f23117e63a9b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 9218351306238356411}
     - targetCorrespondingSourceObject: {fileID: -7345683089604981735, guid: 48102b6e69f84de33af7f23117e63a9b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 687526840689069875}
@@ -529,22 +526,6 @@ MonoBehaviour:
   output_point: {fileID: 2676146177180647236}
   holder: {fileID: 0}
   holder_is_person: 0
---- !u!138 &9218351306238356411
-FixedJoint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2751949836141704703}
-  serializedVersion: 1
-  m_ConnectedBody: {fileID: 0}
-  m_ConnectedArticulationBody: {fileID: 0}
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_EnableCollision: 0
-  m_EnablePreprocessing: 1
-  m_MassScale: 1
-  m_ConnectedMassScale: 1
 --- !u!4 &3277269672329473861 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 48102b6e69f84de33af7f23117e63a9b, type: 3}

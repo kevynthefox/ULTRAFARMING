@@ -10,6 +10,8 @@ TagManager:
   - employee_management
   - button_world
   - site_destination
+  - rhythm_game_beat
+  - sellable
   layers:
   - Default
   - TransparentFX
@@ -21,7 +23,7 @@ TagManager:
   - ground
   - crop_harv_part
   - pathfinding_layer
-  - 
+  - rhythm_game
   - 
   - 
   - 

@@ -24,7 +24,7 @@ public class harvester : MonoBehaviour
                 parts.Add(new harvestable_part());
                 parts.Last().part = other.gameObject.GetComponent<cropGrowth>().harvested_part;
                 parts.Last().number_of_harvestable_parts = other.gameObject.GetComponent<cropGrowth>().number_of_harvestable_parts;
-                
+                parts.Last().local_sizeMultiplier = other.gameObject.GetComponent<cropGrowth>().local_sizeMultiplier;
                 Destroy(other.gameObject);
 
                 if (holder_is_person == true)
@@ -52,9 +52,10 @@ public class harvester : MonoBehaviour
         {
             for (int i = 0; i < part.number_of_harvestable_parts; i++)
             {
-                float fail = growthIncrementer.current.crop_fail_rate;
+                float sizeMultiplier = growthIncrementer.current.crop_size_multiplier + part.local_sizeMultiplier;
                 var crop = Instantiate(part.part, output_point.position, Quaternion.identity);
-                crop.transform.localScale = new Vector3(crop.transform.localScale.x * fail,crop.transform.localScale.y * fail,crop.transform.localScale.z * fail);
+                crop.transform.localScale = new Vector3(crop.transform.localScale.x * sizeMultiplier,crop.transform.localScale.y * sizeMultiplier,crop.transform.localScale.z * sizeMultiplier);
+                crop.GetComponent<cropGrowth>().local_sizeMultiplier = sizeMultiplier;
             }
         }
         parts.Clear();
@@ -71,4 +72,5 @@ public class harvestable_part
 {
     public GameObject part;
     public int number_of_harvestable_parts;
+    public float local_sizeMultiplier;
 }

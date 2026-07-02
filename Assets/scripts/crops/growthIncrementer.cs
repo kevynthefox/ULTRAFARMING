@@ -13,7 +13,7 @@ public class growthIncrementer : MonoBehaviour
 
     public float wait_time;
 
-    public float crop_fail_rate; //the fraction that crops are multiplied by on the output of the harvester. instead of every 6 of 10 crops dying, all crops are outputted at 6/10 of the size they should be.
+    public float crop_size_multiplier; //the fraction that crops are multiplied by on the output of the harvester. instead of every 6 of 10 crops dying, all crops are outputted at 6/10 of the size they should be.
     public float growth_rate_world_extra; // for controlling how much EVERY crop grows extra in speed(multiply the crop speed by this number). this is for if you wanna like.. code fertilizer to be deployed everwhere at once or something.
     public float max_growth_world_extra; //same as the above one, but for the amount of extra plant per plant i guess.
     

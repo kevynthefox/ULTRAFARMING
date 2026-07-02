@@ -15,6 +15,8 @@ public class cropGrowth : MonoBehaviour
     public int excess_segments;
     public bool started_growth;
     
+    public bool ground_type; //this is so it only checks if the crop is in the ground if the crop is supposed to go in the ground. ie: not a vine
+    
     [Header("sections")]
     public Vector3 offset; //this is so that the bottom segment isnt floating
     public GameObject bottom_section;
@@ -38,6 +40,10 @@ public class cropGrowth : MonoBehaviour
     public GameObject previous_point;
     public Quaternion procedural_rotation;
 
+    [Header("value")]
+    public float local_sizeMultiplier;
+    public float base_price;
+    
     void Awake()
     {
         harvested_part = cropData.cropPrefab;
@@ -49,6 +55,19 @@ public class cropGrowth : MonoBehaviour
 
         growth_rate *= growthIncrementer.current.growth_rate_world_extra;
         maxGrowth = Mathf.RoundToInt(maxGrowth * growthIncrementer.current.max_growth_world_extra);
+
+        if (ground_type == true)
+        {
+            if (transform.position.y <= 24.5)
+            {
+                local_sizeMultiplier = -0.1f;
+            }
+            else
+            {
+                local_sizeMultiplier = -0.2f;
+            }
+        }
+        
         for (int i = 0; i < maxGrowth; i++)
         {
             if (i == 0)
@@ -137,12 +156,12 @@ public class cropGrowth : MonoBehaviour
                 segments[current_segment].transform.localPosition = new Vector3(0, 0, -4);
                 segments[current_segment].transform.localScale = new Vector3(1, 1, 1);
                 segments[current_segment].transform.localRotation  = /*rotaty;*/ new quaternion(0, 0,1,1);
-                if (current_segment == 1) segments[current_segment].transform.localRotation = new Quaternion(1,1,0,0);// rotaty;
-                if (current_segment == segments.Count-1)
+                //if (current_segment == 80) segments[current_segment].transform.localRotation = /*new Quaternion(1,1,0,0);*/ rotaty;
+                /*if (current_segment == segments.Count-1)
                 {
                     Debug.Log("on the last segment");
                     segments[current_segment].transform.localRotation = new Quaternion(1,1,0,0);
-                } 
+                } */
                 segments[current_segment].name = ("segment: " + current_segment);
             }
         }
@@ -212,12 +231,12 @@ public class cropGrowth : MonoBehaviour
                     segments[current_segment].transform.localPosition = new Vector3(0, 0, -4);
                     segments[current_segment].transform.localScale = new Vector3(1, 1, 1);
                     segments[current_segment].transform.localRotation  = /*rotaty;*/ new quaternion(0, 0,1,1);
-                    if (current_segment == 1) segments[current_segment].transform.localRotation = new Quaternion(1,1,0,0);
-                    if (current_segment == segments.Count-1)
+                    //if (current_segment == 80) segments[current_segment].transform.localRotation = /*new Quaternion(1,1,0,0);*/ rotaty;
+                    /*if (current_segment == segments.Count-1)
                     {
                         Debug.Log("on the last segment");
                         segments[current_segment].transform.localRotation = new Quaternion(1,1,0,0);
-                    } 
+                    } */
                     segments[current_segment].name = ("segment: " + current_segment);
                 }
             }
@@ -264,12 +283,12 @@ public class cropGrowth : MonoBehaviour
                     segments[current_segment].transform.localPosition = new Vector3(0, 0, -4);
                     segments[current_segment].transform.localScale = new Vector3(1, 1, 1);
                     segments[current_segment].transform.localRotation  = /*rotaty;*/ new quaternion(0, 0,1,1);
-                    if (current_segment == 1) segments[current_segment].transform.localRotation = new Quaternion(1,1,0,0);
-                    if (current_segment == segments.Count-1)
+                    //if (current_segment == 80) segments[current_segment].transform.localRotation = /*new Quaternion(1,1,0,0);*/ rotaty;
+                    /*if (current_segment == segments.Count-1)
                     {
                         Debug.Log("on the last segment");
                         segments[current_segment].transform.localRotation = new Quaternion(1,1,0,0);
-                    } 
+                    } */
                     segments[current_segment].name = ("segment: " + current_segment);
                 }
             }
