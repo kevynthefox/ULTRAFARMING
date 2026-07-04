@@ -15,20 +15,25 @@ public class rhythm_button : MonoBehaviour
         {
             if (context.started)
             {
-                if (objects_in_bounds.Count > 0)
-                {
-                    rhythm_controller.score +=
-                        10 * (1 / Vector3.Distance(objects_in_bounds[0].transform.position, this.transform.position));
-                    objects_in_bounds.RemoveAt(0);
-                }
-                else
-                {
-                    rhythm_controller.score -= 10;
-                }
-
-                rhythm_controller.score_text.text = "Score: " + rhythm_controller.score;
+                pressed_action();
             }
         }
+    }
+
+    public void pressed_action()
+    {
+        if (objects_in_bounds.Count > 0)
+        {
+            rhythm_controller.score +=
+                10 * (1 / Vector3.Distance(objects_in_bounds[0].transform.position, this.transform.position));
+            objects_in_bounds.RemoveAt(0);
+        }
+        else
+        {
+            rhythm_controller.score -= 10;
+        }
+
+        rhythm_controller.score_text.text = "Score: " + rhythm_controller.score;
     }
 
     public void OnTriggerEnter(Collider other)
@@ -36,6 +41,11 @@ public class rhythm_button : MonoBehaviour
         if (other.CompareTag("rhythm_game_beat"))
         {
             objects_in_bounds.Add(other.gameObject);
+
+            if (rhythm_controller.auto_play == true)
+            {
+                pressed_action();
+            }
         }
     }
 

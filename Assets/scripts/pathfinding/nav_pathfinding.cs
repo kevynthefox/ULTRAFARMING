@@ -17,6 +17,7 @@ public class nav_pathfinding : MonoBehaviour
     public int destination_type;
     public List<Transform> destinations;
     public int destination_number;//as in, where we are on the destination list
+    public string destination_tag_to_look_for;
 
     //public Transform paused_destination; //this is used to go back to where you were when being interrupted by break or having to refill stuff.
     //public int paused_destination_type;
@@ -48,7 +49,7 @@ public class nav_pathfinding : MonoBehaviour
     private void Start()
     {
         site_destination_number = 0;
-        foreach (GameObject dest in GameObject.FindGameObjectsWithTag("site_destination"))
+        foreach (GameObject dest in GameObject.FindGameObjectsWithTag(destination_tag_to_look_for))
         {
             site_destinations.Add(dest.transform);
         }
@@ -80,7 +81,7 @@ public class nav_pathfinding : MonoBehaviour
             //Debug.Log("the time shish is working");
             if (agent.remainingDistance <= agent.stoppingDistance)
             {
-                do_purpose();
+                StartCoroutine(do_purpose());
             }
 
             if (time_waiting == 0) time_waiting = 1;
@@ -89,7 +90,7 @@ public class nav_pathfinding : MonoBehaviour
     }
     
 
-    void do_purpose()
+    IEnumerator do_purpose()
     {
         Debug.Log("trying to do purpose");
         if (destination_type == 1)
@@ -116,7 +117,7 @@ public class nav_pathfinding : MonoBehaviour
                 destination = destinations[destination_number];
             }
             move_towardsDestination();
-            return;
+            yield break;
         }
 
         if (destination_type == 2)
@@ -158,12 +159,12 @@ public class nav_pathfinding : MonoBehaviour
                 destination_type = 6;
                 move_towardsDestination();
             }
-            return;
+            yield break;
         }
 
         if (destination_type == 3) //do watering stuff
         {
-            return;
+            yield break;
         }
 
         if (destination_type == 4)
@@ -208,7 +209,7 @@ public class nav_pathfinding : MonoBehaviour
                 move_towardsDestination();
             }
             
-            return;
+            yield break;
         }
 
         
@@ -228,7 +229,7 @@ public class nav_pathfinding : MonoBehaviour
                 destination = destinations[destination_number];
             }
             move_towardsDestination();
-            return;
+            yield break;
         }
 
         if (destination_type == 6) //refill point for seeds and water
@@ -249,7 +250,7 @@ public class nav_pathfinding : MonoBehaviour
                 destination = destinations[destination_number];
             }
             move_towardsDestination();
-            return;
+            yield break;
         }
         
         if (destination_type == 7) //refill point for seeds and water
@@ -268,7 +269,7 @@ public class nav_pathfinding : MonoBehaviour
                 destination_type = 3;
                 destination = destinations[destination_number];
             }
-            return;
+            yield break;
         }
 
         if (destination_type == 8)
@@ -286,7 +287,7 @@ public class nav_pathfinding : MonoBehaviour
                 if (destination == site_destinations.Last()) destination_type = 8; //this is to cause it to step 1 forward and thus trigger the above check for if its greater than the amount of destinations
                 move_towardsDestination();
             }
-            return;
+            yield break;
         }
 
         if (destination_type == 9)
@@ -295,8 +296,58 @@ public class nav_pathfinding : MonoBehaviour
             destination = site_destinations[site_destination_number];
             move_towardsDestination();
             destination_type = 0;
-            return;
+            yield break;
         }
+
+        if (destination_type == 10)
+        {
+            yield return new WaitForSeconds(1);
+            if (destination.TryGetComponent(out stall_data_holder dataHolder))
+            {
+                while (dataHolder.game_active == true)
+                {
+                    yield return new WaitForSeconds(time_waiting);
+                    
+                    
+                }
+                
+            }
+            destination_number++;
+                    
+            if (destination_number == destinations.Count)
+            {
+                destination_type = 8;
+                destination = current_work_site.site_exit;
+            }
+            else
+            {
+
+                destination = destinations[destination_number];
+            }
+            move_towardsDestination();
+            yield break;
+        }
+        
+        if (destination_type == 11)
+        {
+            yield return new WaitForSeconds(1);
+            
+            destination_number++;
+                    
+            if (destination_number == destinations.Count)
+            {
+                destination_type = 8;
+                destination = current_work_site.site_exit;
+            }
+            else
+            {
+
+                destination = destinations[destination_number];
+            }
+            move_towardsDestination();
+            yield break;
+        }
+
         
     }
     

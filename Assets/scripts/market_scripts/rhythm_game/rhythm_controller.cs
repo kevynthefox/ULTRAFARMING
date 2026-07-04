@@ -26,7 +26,9 @@ public class rhythm_controller : MonoBehaviour
     public sell seller;
 
     public GameObject assigned_shopkeeper;
+    public bool auto_play;
     public Transform lock_point;
+    public stall_data_holder holder;
 
     public void start_game()
     {
@@ -47,6 +49,7 @@ public class rhythm_controller : MonoBehaviour
     public IEnumerator spawn_beats()
     {
         is_game_running = true;
+        holder.game_active = true;
         while (is_game_running == true)
         {
             if (number_of_beats > 0)
@@ -62,6 +65,7 @@ public class rhythm_controller : MonoBehaviour
             else
             {
                 is_game_running = false;
+                holder.game_active = false;
                 if (assigned_shopkeeper.name == "Player")
                 {
                     assigned_shopkeeper.GetComponent<FirstPersonMovement>().enabled = true;

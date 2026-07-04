@@ -498,6 +498,7 @@ MonoBehaviour:
   destination_type: 0
   destinations: []
   destination_number: 0
+  destination_tag_to_look_for: site_destination
   site_destinations: []
   site_destination_number: 0
   dest_sit_temp: []
@@ -946,6 +947,10 @@ PrefabInstance:
     - target: {fileID: 4211007724684838782, guid: ca8d32c18aba44054966c6a8f7dfa2b2, type: 3}
       propertyPath: m_Layer
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4835134269188954913, guid: ca8d32c18aba44054966c6a8f7dfa2b2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5919974686656153790, guid: ca8d32c18aba44054966c6a8f7dfa2b2, type: 3}
       propertyPath: m_Layer

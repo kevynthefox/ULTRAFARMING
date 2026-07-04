@@ -12,6 +12,7 @@ TagManager:
   - site_destination
   - rhythm_game_beat
   - sellable
+  - shop_destination
   layers:
   - Default
   - TransparentFX

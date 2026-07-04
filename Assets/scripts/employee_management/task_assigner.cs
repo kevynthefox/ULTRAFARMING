@@ -9,6 +9,9 @@ public class task_assigner : MonoBehaviour
     public List<Transform> crops;
     public Transform site_exit;
     public Transform waiting_area;
+
+    public int place_in_shop_chance; //every 3 out of 100 people go to our shop. so, instead of randomizing it, the first 3 people go and then when we reach person 100 we start over
+    public int shop_chance; 
     
     public void OnTriggerEnter(Collider other)
     {
@@ -67,6 +70,28 @@ public class task_assigner : MonoBehaviour
 
                     
                     
+                }
+
+                if (nav.duty_type == 5) //shopping duty type
+                {
+                    Debug.Log("collided with type 5 (shopper)");
+                    //if (place_in_shop_chance <= shop_chance)
+                    //{
+                        nav.destinations = dig_points; //list of shops including ours.
+                        nav.destination_type = 10;
+                        nav.move_towards_first_Destination();
+                    //}
+                    //else
+                    //{
+                        //nav.destinations = crops; //list of shops not including ours
+                        //nav.destination_type = 11;
+                        //nav.move_towards_first_Destination();
+                    //}
+                    place_in_shop_chance++;
+                    if (place_in_shop_chance > 100)
+                    {
+                        place_in_shop_chance = 0;
+                    }
                 }
             }
         }
