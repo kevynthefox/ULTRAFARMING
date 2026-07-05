@@ -109,7 +109,7 @@ public class cropGrowth : MonoBehaviour
                     
                     middle.transform.parent = previous_point.transform;//this makes it so all segments above the previous one move up at once, so that the whole plant can actually grow instead of collecting in one spot
                     //middle.transform.Rotate(90,0,0 + (i*90));
-                    Debug.Log("rotation of " + i.ToString() + ": " + middle.transform.localEulerAngles);
+                    //Debug.Log("rotation of " + i.ToString() + ": " + middle.transform.localEulerAngles);
                     
                     
                     
@@ -420,9 +420,12 @@ public class cropGrowth : MonoBehaviour
 
     private void OnDestroy()
     {
-        growthIncrementer.current.crops.Remove(this);
-        growthIncrementer.current.StopCoroutine(growthIncrementer.current.growthIncrement());
-        growthIncrementer.current.StartCoroutine(growthIncrementer.current.growthIncrement());
+        if (growthIncrementer.current != null) // this is to make it not have an error every time the game is paused in the inspector
+        {
+            growthIncrementer.current.crops.Remove(this);
+            growthIncrementer.current.StopCoroutine(growthIncrementer.current.growthIncrement());
+            growthIncrementer.current.StartCoroutine(growthIncrementer.current.growthIncrement());
+        }
     }
 
     public void OnCollisionEnter(Collision other)

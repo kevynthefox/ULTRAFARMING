@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = System.Random;
 
 public class task_assigner : MonoBehaviour
 {
@@ -11,11 +12,16 @@ public class task_assigner : MonoBehaviour
     public Transform waiting_area;
 
     public int place_in_shop_chance; //every 3 out of 100 people go to our shop. so, instead of randomizing it, the first 3 people go and then when we reach person 100 we start over
-    public int shop_chance; 
+    public int shop_chance;
+    public GameObject shopper_prefab;
+    public Transform shopper_spawn_point;
+    public GameObject your_shopper; //this is here to help make sure that you dont get several shoppers at once.
+    public int shop_priority;
+    public int times_to_clone; //amount of new shoppers spawned per one destroyed
     
-    public void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other) 
     {
-        Debug.Log("collided with something");
+        //Debug.Log("collided with something");
         if (other.CompareTag("employee"))
         {
             if (other.TryGetComponent( out nav_pathfinding nav))
@@ -74,26 +80,73 @@ public class task_assigner : MonoBehaviour
 
                 if (nav.duty_type == 5) //shopping duty type
                 {
-                    Debug.Log("collided with type 5 (shopper)");
-                    //if (place_in_shop_chance <= shop_chance)
-                    //{
-                        nav.destinations = dig_points; //list of shops including ours.
-                        nav.destination_type = 10;
-                        nav.move_towards_first_Destination();
-                    //}
-                    //else
-                    //{
-                        //nav.destinations = crops; //list of shops not including ours
-                        //nav.destination_type = 11;
-                        //nav.move_towards_first_Destination();
-                    //}
-                    place_in_shop_chance++;
-                    if (place_in_shop_chance > 100)
+                    if (dig_points[0].transform.parent.TryGetComponent(out sell seller))
                     {
-                        place_in_shop_chance = 0;
+                        if (seller.products.Count > 0)
+                        {
+                            if (your_shopper == null)
+                            {
+                                //Debug.Log("collided with type 5 (shopper)");
+                                if (place_in_shop_chance <= shop_chance)
+                                {
+                                    nav.destinations = dig_points; //list of shops including ours.
+                                    nav.destination_type = 10;
+                                    nav.move_towards_first_Destination();
+                                    your_shopper = nav.gameObject;
+                                }
+                                else
+                                {
+                                    nav.destinations.Add(crops[UnityEngine.Random.Range(0,crops.Count)]); //list of shops not including ours
+                                    nav.destinations.Add(crops[UnityEngine.Random.Range(0,crops.Count)]);
+                                    nav.destinations.Add(crops[UnityEngine.Random.Range(0,crops.Count)]);
+                                    nav.destination_type = 11;
+                                    nav.move_towards_first_Destination();
+                                }
+
+                                place_in_shop_chance++;
+                                if (place_in_shop_chance > 100)
+                                {
+                                    place_in_shop_chance = 1;
+                                }
+                            }
+                            else
+                            {
+                                nav.destinations.Add(crops[UnityEngine.Random.Range(0,crops.Count)]); //list of shops not including ours
+                                nav.destinations.Add(crops[UnityEngine.Random.Range(0,crops.Count)]);
+                                nav.destinations.Add(crops[UnityEngine.Random.Range(0,crops.Count)]);
+                                nav.destination_type = 11;
+                                nav.move_towards_first_Destination();
+                            }
+                        }
+                        else
+                        {
+                            nav.destinations.Add(crops[UnityEngine.Random.Range(0,crops.Count)]); //list of shops not including ours
+                            nav.destinations.Add(crops[UnityEngine.Random.Range(0,crops.Count)]);
+                            nav.destinations.Add(crops[UnityEngine.Random.Range(0,crops.Count)]);
+                            nav.destination_type = 11;
+                            nav.move_towards_first_Destination();
+                        }
+
+                        nav.agent.avoidancePriority = shop_priority;
+                        shop_priority++;
                     }
                 }
             }
+        }
+    }
+
+    public void shopper_cycler(GameObject shopper)
+    {
+        Destroy(shopper);
+        for (int i = 0; i < times_to_clone; i++)
+        {
+            Instantiate(shopper_prefab, shopper_spawn_point.position, Quaternion.identity);
+        }
+
+        if (shop_priority >= 80)
+        {
+            shop_priority = 0;
+            times_to_clone--;
         }
     }
 }

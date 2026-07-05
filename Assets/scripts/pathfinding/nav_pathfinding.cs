@@ -46,6 +46,9 @@ public class nav_pathfinding : MonoBehaviour
     public Transform refiller;
     public List<GameObject> purpose_objects;
     
+    
+    //note, need a rigidbody on the object to collide with, for the collisions to actually be detected by that
+    
     private void Start()
     {
         site_destination_number = 0;
@@ -92,7 +95,8 @@ public class nav_pathfinding : MonoBehaviour
 
     IEnumerator do_purpose()
     {
-        Debug.Log("trying to do purpose");
+        
+        //Debug.Log("trying to do purpose");
         if (destination_type == 1)
         {
             digger.dig_pulse();
@@ -274,20 +278,35 @@ public class nav_pathfinding : MonoBehaviour
 
         if (destination_type == 8)
         {
-            site_destination_number++;
-            if (site_destination_number + 1 > site_destinations.Count)
+            yield return new WaitForSeconds(time_waiting); //this and the code directly below it, are to make sure that it is actually at the destination so that it doesn't trigger when it is at its current destination (or in other words, not moved), so that it doesn't just disappear
+            if (agent.remainingDistance <= agent.stoppingDistance)
             {
-                this.gameObject.SetActive(false);
+                site_destination_number++;
+                if (site_destination_number + 1 > site_destinations.Count)
+                {
+                    if (duty_type == 5)
+                    {
+                        
+                        current_work_site.shopper_cycler(this.gameObject);
+                    }
+                    else
+                    {
+                        this.gameObject.SetActive(false);
+                    }
+                }
+                else
+                {
+                    destination = site_destinations[site_destination_number];
+                    destination_type = 0;
+                    destination_number = 0;
+                    if (destination == site_destinations.Last())
+                        destination_type =
+                            8; //this is to cause it to step 1 forward and thus trigger the above check for if its greater than the amount of destinations
+                    move_towardsDestination();
+                }
+
+                yield break;
             }
-            else
-            {
-                destination = site_destinations[site_destination_number];
-                destination_type = 0;
-                destination_number = 0;
-                if (destination == site_destinations.Last()) destination_type = 8; //this is to cause it to step 1 forward and thus trigger the above check for if its greater than the amount of destinations
-                move_towardsDestination();
-            }
-            yield break;
         }
 
         if (destination_type == 9)
@@ -302,7 +321,7 @@ public class nav_pathfinding : MonoBehaviour
         if (destination_type == 10)
         {
             yield return new WaitForSeconds(1);
-            if (destination.TryGetComponent(out stall_data_holder dataHolder))
+            if (destinations[0].TryGetComponent(out stall_data_holder dataHolder))
             {
                 while (dataHolder.game_active == true)
                 {
@@ -310,18 +329,21 @@ public class nav_pathfinding : MonoBehaviour
                     
                     
                 }
-                
+                if (current_work_site.your_shopper == this.gameObject)
+                {
+                    current_work_site.your_shopper = null;
+                }
             }
-            destination_number++;
+            destination_number++; Debug.Log("destination increaese 10");
                     
-            if (destination_number == destinations.Count)
+            if (destination_number >= destinations.Count)
             {
                 destination_type = 8;
                 destination = current_work_site.site_exit;
             }
             else
             {
-
+                
                 destination = destinations[destination_number];
             }
             move_towardsDestination();
@@ -330,11 +352,11 @@ public class nav_pathfinding : MonoBehaviour
         
         if (destination_type == 11)
         {
-            yield return new WaitForSeconds(1);
+            //yield return new WaitForSeconds(1);
             
-            destination_number++;
+            destination_number++; //Debug.Log("triggered destination increase type 11");
                     
-            if (destination_number == destinations.Count)
+            if (destination_number >= destinations.Count)
             {
                 destination_type = 8;
                 destination = current_work_site.site_exit;
@@ -347,7 +369,6 @@ public class nav_pathfinding : MonoBehaviour
             move_towardsDestination();
             yield break;
         }
-
         
     }
     

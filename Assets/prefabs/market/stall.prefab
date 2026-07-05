@@ -1230,6 +1230,7 @@ MonoBehaviour:
   number_of_beats: 0
   base_number_of_beats: 20
   random_time: 0
+  max_random_time: 0.1
   spawn_points:
   - {fileID: 2146039028612723680}
   - {fileID: 5658109641088746103}
@@ -1240,8 +1241,9 @@ MonoBehaviour:
   beats_text: {fileID: 1053075266697188684}
   seller: {fileID: 6832392755746938571}
   assigned_shopkeeper: {fileID: 0}
+  auto_play: 1
   lock_point: {fileID: 4892309089198051058}
-  holder: {fileID: 0}
+  holder: {fileID: 3985428987552508043}
 --- !u!114 &6832392755746938571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1255,6 +1257,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::sell
   products: []
+  products_to_remove: []
   quantity: 0
   sell_price: 0
   rhythm_game: {fileID: 3463572675133510107}
@@ -1396,6 +1399,7 @@ GameObject:
   - component: {fileID: 5789035496115211385}
   - component: {fileID: 3985428987552508043}
   - component: {fileID: 2749504161137707746}
+  - component: {fileID: 4884366733794081173}
   m_Layer: 0
   m_Name: shop_activate_point
   m_TagString: Untagged
@@ -1488,6 +1492,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::stall_data_holder
   controller_rhythm: {fileID: 3463572675133510107}
+  seller: {fileID: 6832392755746938571}
   game_active: 0
 --- !u!65 &2749504161137707746
 BoxCollider:
@@ -1510,6 +1515,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &4884366733794081173
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4229596851491329009}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &5188475299537279610
 GameObject:
   m_ObjectHideFlags: 0

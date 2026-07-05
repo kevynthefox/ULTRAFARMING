@@ -261,6 +261,6 @@ public class TerrainInteractor : MonoBehaviour
         // Play the clip.
         audio.clip = clip;
         audio.Play();
-        Debug.Log(clip.name);
+        //Debug.Log(clip.name);
     }
 }

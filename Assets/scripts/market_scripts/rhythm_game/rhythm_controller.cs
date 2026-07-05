@@ -16,6 +16,7 @@ public class rhythm_controller : MonoBehaviour
     public int base_number_of_beats;
 
     public float random_time;
+    public float max_random_time;
 
     public List<Transform> spawn_points;
     public GameObject beat_prefab;
@@ -59,7 +60,7 @@ public class rhythm_controller : MonoBehaviour
 
                 number_of_beats--;
                 beats_text.text = "beats: " + number_of_beats.ToString();
-                random_time = UnityEngine.Random.Range(0, 5f);
+                random_time = UnityEngine.Random.Range(0, max_random_time);
                 yield return new WaitForSeconds(0.1f + random_time);
             }
             else
