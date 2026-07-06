@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = System.Random;
@@ -9,6 +10,8 @@ public class task_assigner : MonoBehaviour
     public List<Transform> dig_points;
     public List<Transform> crops;
     public Transform site_exit;
+    public Transform site_exit_backup;
+    public int exit_decider;
     public Transform waiting_area;
 
     public int place_in_shop_chance; //every 3 out of 100 people go to our shop. so, instead of randomizing it, the first 3 people go and then when we reach person 100 we start over
@@ -148,5 +151,12 @@ public class task_assigner : MonoBehaviour
             shop_priority = 0;
             times_to_clone--;
         }
+    }
+
+    public void assign_exit()
+    {
+        exit_decider = UnityEngine.Random.Range(0, 2);
+        Debug.Log(exit_decider);
+        //yield return exit_decider;
     }
 }

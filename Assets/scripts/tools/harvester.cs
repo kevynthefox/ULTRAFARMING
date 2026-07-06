@@ -56,6 +56,7 @@ public class harvester : MonoBehaviour
                 var crop = Instantiate(part.part, output_point.position, Quaternion.identity);
                 crop.transform.localScale = new Vector3(crop.transform.localScale.x * sizeMultiplier,crop.transform.localScale.y * sizeMultiplier,crop.transform.localScale.z * sizeMultiplier);
                 crop.GetComponent<cropGrowth>().local_sizeMultiplier = sizeMultiplier;
+                crop.GetComponent<product_data_holder>().local_value_multiplier = sizeMultiplier;
             }
         }
         parts.Clear();

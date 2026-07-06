@@ -10,13 +10,25 @@ public class sell : MonoBehaviour
     
     public int quantity;
     public float sell_price;
+    public List<int> max_products_per_type;
+    public List<int> product_num_per_type;
     
     public rhythm_controller rhythm_game;
 
     public money_holder money_counter;
+    public TextMeshProUGUI item_list;
+    public string item_list_text;
+
+    public int customers_served;
+    
+    
+    public bool commit;
+    public GameObject button_object;
     
     public void sell_product()
     {
+        customers_served++;
+        
         sell_price = 0;
         quantity = 0;
         
@@ -24,9 +36,9 @@ public class sell : MonoBehaviour
 
         for (int i = 0; i < quantity; i++)
         {
-            if (products[i].TryGetComponent(out cropGrowth crop))
+            if (products[i].TryGetComponent(out product_data_holder prod))
             {
-                sell_price += (crop.base_price * crop.local_sizeMultiplier);
+                sell_price += (prod.base_value * prod.local_value_multiplier);
             }
             
             products_to_remove.Add(products[i]);
@@ -35,6 +47,7 @@ public class sell : MonoBehaviour
 
         foreach (GameObject g in products_to_remove)
         {
+            product_num_per_type[g.GetComponent<product_data_holder>().product_id]--;
             products.Remove(g);
             Destroy(g);
         }
@@ -43,13 +56,74 @@ public class sell : MonoBehaviour
         sell_price *= rhythm_game.score;
         Debug.Log("sell price: " + sell_price);
         money_counter.money_update(sell_price);
+
+        item_list_text = null;
+        for (int i = 0; i < max_products_per_type.Count; i++)
+        {
+            item_list_text += i + ": " + product_num_per_type[i] + "/" +  max_products_per_type[i] + "<br>";
+        }
+        item_list.text = item_list_text;
     }
 
-    public void OnTriggerEnter(Collider other)
+    public void OnTriggerStay(Collider other)
+    {
+        if (commit == true)
+        {
+
+            if (other.CompareTag("sellable"))
+            {
+                if (!products.Contains(other.gameObject))
+                {
+                    if (other.TryGetComponent(out product_data_holder prod))
+                    {
+                        if (product_num_per_type[prod.product_id] < max_products_per_type[prod.product_id])
+                        {
+                            products.Add(other.gameObject);
+                            product_num_per_type[prod.product_id]++;
+
+                            item_list_text = null;
+                            for (int i = 0; i < max_products_per_type.Count; i++)
+                            {
+                                item_list_text += i + ": " + product_num_per_type[i] + "/" +  max_products_per_type[i] + "<br>";
+                            }
+                            item_list.text = item_list_text;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("sellable"))
         {
-            if (!products.Contains(other.gameObject)) products.Add(other.gameObject);
-        }
+            if (products.Contains(other.gameObject))
+            {
+                if (other.TryGetComponent(out product_data_holder prod))
+                {
+                
+                
+                    products.Remove(other.gameObject);
+                    product_num_per_type[prod.product_id]--;
+                    
+                    item_list_text = null;
+                    for (int i = 0; i < max_products_per_type.Count; i++)
+                    {
+                        item_list_text += i + ": " + product_num_per_type[i] + "/" +  max_products_per_type[i] + "<br>";
+                    }
+                    item_list.text = item_list_text;
+                
+                }
+            }
+        } 
+        
+    }
+
+    public void toggle_commit()
+    {
+        commit = !commit;
+        if (commit == true) button_object.transform.rotation = Quaternion.Euler(-45,0,0);
+        if (commit == false) button_object.transform.rotation = Quaternion.Euler(0,0,0);
     }
 }

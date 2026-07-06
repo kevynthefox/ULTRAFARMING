@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = System.Random;
 
 public class nav_pathfinding : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class nav_pathfinding : MonoBehaviour
     public List<Transform> destinations;
     public int destination_number;//as in, where we are on the destination list
     public string destination_tag_to_look_for;
+
+    public int time_alive;
 
     //public Transform paused_destination; //this is used to go back to where you were when being interrupted by break or having to refill stuff.
     //public int paused_destination_type;
@@ -60,6 +63,7 @@ public class nav_pathfinding : MonoBehaviour
         purpose_objects[duty_type - 1].SetActive(true);
         
         StartCoroutine(time_keeper());
+        StartCoroutine(time_keep_failsafe());
         move_towards_first_Site_Destination();
     }
 
@@ -84,17 +88,53 @@ public class nav_pathfinding : MonoBehaviour
             //Debug.Log("the time shish is working");
             if (agent.remainingDistance <= agent.stoppingDistance)
             {
-                StartCoroutine(do_purpose());
+                yield return new WaitForSeconds(time_waiting / 2);
+                if (agent.remainingDistance <= agent.stoppingDistance) //this second check is absolutely necessary for the shoppers at least, to avoid false positives
+                {
+                    Debug.Log("destination reached");
+                    StartCoroutine(do_purpose());
+                }
+            }
+            else
+            {
+                yield return new WaitForSeconds(time_waiting / 2);
+                Debug.Log("destination NOT reached");
+                //StopCoroutine(do_purpose());
             }
 
             if (time_waiting == 0) time_waiting = 1;
-            yield return new WaitForSeconds(time_waiting);
+            //Debug.Log("timekeeper active");
+            yield return new WaitForSeconds(time_waiting / 2);
+        }
+    }
+
+    public IEnumerator time_keep_failsafe()
+    {
+        while (this.enabled == true)
+        {
+            time_alive++;
+
+            if (time_alive > 100)
+            {
+                if (duty_type == 5)
+                {
+                    agent.radius = 0.1f;
+                    agent.obstacleAvoidanceType = 0;
+                    Debug.Log("engaging failsafe, exit here i come");
+                }
+            }
+            yield return new WaitForSeconds(1f);
         }
     }
     
 
     IEnumerator do_purpose()
     {
+
+        /*if (destination_type == 0)
+        {
+            yield break;
+        }*/
         
         //Debug.Log("trying to do purpose");
         if (destination_type == 1)
@@ -278,7 +318,7 @@ public class nav_pathfinding : MonoBehaviour
 
         if (destination_type == 8)
         {
-            yield return new WaitForSeconds(time_waiting); //this and the code directly below it, are to make sure that it is actually at the destination so that it doesn't trigger when it is at its current destination (or in other words, not moved), so that it doesn't just disappear
+            //yield return new WaitForSeconds(time_waiting); //this and the code directly below it, are to make sure that it is actually at the destination so that it doesn't trigger when it is at its current destination (or in other words, not moved), so that it doesn't just disappear
             if (agent.remainingDistance <= agent.stoppingDistance)
             {
                 site_destination_number++;
@@ -320,26 +360,46 @@ public class nav_pathfinding : MonoBehaviour
 
         if (destination_type == 10)
         {
-            yield return new WaitForSeconds(1);
+            Debug.Log("destination type 10 reached");
+            //yield return new WaitForSeconds(1);
+            //Debug.Log("waited");
             if (destinations[0].TryGetComponent(out stall_data_holder dataHolder))
             {
+                Debug.Log("my destination 0 has a stall data holder");
                 while (dataHolder.game_active == true)
                 {
                     yield return new WaitForSeconds(time_waiting);
                     
-                    
+                    Debug.Log("waiting for rhythm game to finish");
                 }
+                Debug.Log("finished, moving on");
                 if (current_work_site.your_shopper == this.gameObject)
                 {
                     current_work_site.your_shopper = null;
+                    destination_number++; //Debug.Log("destination increaese 10");
                 }
+                
             }
-            destination_number++; Debug.Log("destination increaese 10");
+            else
+            {
+                Debug.Log("for some reason, the shopper's first destination of YOUR SHOP doesnt HAVE YOUR SHOP AS DATA");
+            }
+            
                     
             if (destination_number >= destinations.Count)
             {
                 destination_type = 8;
-                destination = current_work_site.site_exit;
+                current_work_site.assign_exit();
+                if (current_work_site.exit_decider == 0)
+                {
+                    destination = current_work_site.site_exit;
+                }
+                else
+                {
+                    destination = current_work_site.site_exit_backup;
+                }
+                
+                
             }
             else
             {
@@ -359,7 +419,16 @@ public class nav_pathfinding : MonoBehaviour
             if (destination_number >= destinations.Count)
             {
                 destination_type = 8;
-                destination = current_work_site.site_exit;
+                current_work_site.assign_exit();
+                if (current_work_site.exit_decider == 0)
+                {
+                    destination = current_work_site.site_exit;
+                }
+                else
+                {
+                    destination = current_work_site.site_exit_backup;
+                }
+
             }
             else
             {

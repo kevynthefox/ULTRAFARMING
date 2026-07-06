@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6873876256780009101}
   - component: {fileID: 8755452360743671031}
   - component: {fileID: 6428842717865058974}
+  - component: {fileID: 8655806127194593519}
   m_Layer: 8
   m_Name: corn
   m_TagString: sellable
@@ -177,3 +178,18 @@ MonoBehaviour:
   procedural_rotation: {x: 0, y: 0, z: 0, w: 0}
   local_sizeMultiplier: 1
   base_price: 2
+--- !u!114 &8655806127194593519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 868990336414349300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b96ecb59cde7a5e8084b9365b46bb178, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::product_data_holder
+  product_id: 0
+  base_value: 2
+  local_value_multiplier: 1

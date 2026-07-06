@@ -93,7 +93,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 15113735208767807, guid: 24201fc88f9bfbedf8c85e79d953b921, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 16.94
+      value: 28.19
       objectReference: {fileID: 0}
     - target: {fileID: 15113735208767807, guid: 24201fc88f9bfbedf8c85e79d953b921, type: 3}
       propertyPath: m_LocalPosition.y
@@ -101,7 +101,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 15113735208767807, guid: 24201fc88f9bfbedf8c85e79d953b921, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.81
+      value: 12.28
       objectReference: {fileID: 0}
     - target: {fileID: 15113735208767807, guid: 24201fc88f9bfbedf8c85e79d953b921, type: 3}
       propertyPath: m_LocalRotation.w
@@ -133,7 +133,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3920056586254214920, guid: 24201fc88f9bfbedf8c85e79d953b921, type: 3}
       propertyPath: m_Radius
-      value: 0.1
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3920056586254214920, guid: 24201fc88f9bfbedf8c85e79d953b921, type: 3}
+      propertyPath: m_ObstacleAvoidanceType
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4233951435203573004, guid: 24201fc88f9bfbedf8c85e79d953b921, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -161,7 +165,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6511248537758048581, guid: 24201fc88f9bfbedf8c85e79d953b921, type: 3}
       propertyPath: time_waiting
-      value: 0.001
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 6511248537758048581, guid: 24201fc88f9bfbedf8c85e79d953b921, type: 3}
       propertyPath: purpose_objects.Array.size
