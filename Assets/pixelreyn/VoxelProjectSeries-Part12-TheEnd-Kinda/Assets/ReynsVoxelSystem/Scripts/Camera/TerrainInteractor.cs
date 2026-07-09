@@ -24,7 +24,8 @@ public class TerrainInteractor : MonoBehaviour
     public Animator animator;
     public AudioSource  audioSource;
     public AudioClip[] clips;
-
+    public AudioClip[] clips_loop;
+    
     private void Start()
     {
         StartCoroutine(dig_loop());
@@ -80,9 +81,16 @@ public class TerrainInteractor : MonoBehaviour
         }*/
     }
 
-    
-    
 
+    public void dig_state_true()
+    {
+        dig_state = true;
+        StartCoroutine(dig_loop()); //without this, after the digging stops it cannot start again
+    }
+    public void dig_state_false()
+    {
+        dig_state = false;
+    }
     public IEnumerator dig_loop()
     {
         while (this.enabled == true)
@@ -226,7 +234,7 @@ public class TerrainInteractor : MonoBehaviour
 
     public void OnDrawGizmos()
     {
-        Gizmos.DrawRay(transform.position, transform.forward);
+        Gizmos.DrawRay(current_dig_point.transform.position, current_dig_point.transform.forward);
     }
 
     public void play_shovel_dig(InputAction.CallbackContext context)
@@ -236,16 +244,40 @@ public class TerrainInteractor : MonoBehaviour
             if (context.started)
             {
                 animator.Play("dig_trowel");
-                sound_shovel_dig();
+                PlayRandomClip(audioSource,clips);
+            }
+        }
+    }
+    
+    public void play_hoe_dig(InputAction.CallbackContext context)
+    {
+        if (this.gameObject.activeSelf == true)
+        {
+            if (context.started)
+            {
+                animator.Play("dig_hoe");
+                animator.SetBool("hoe_dig_down", true);
+                PlayRandomClip(audioSource,clips);
+            }
+
+            if (context.canceled)
+            {
+                animator.SetBool("hoe_dig_down", false);
             }
         }
     }
 
-    public void sound_shovel_dig()
+
+
+
+    public void play_clip_() //this exists to be called during animations
     {
         PlayRandomClip(audioSource,clips);
     }
-    
+    public void play_clip_loops() //this exists to be called during animations
+    {
+        PlayRandomClip(audioSource,clips_loop);
+    }
     //this code was copied from the FirstPersonAudio script
     public void PlayRandomClip(AudioSource audio, AudioClip[] clips)
     {
@@ -262,5 +294,10 @@ public class TerrainInteractor : MonoBehaviour
         audio.clip = clip;
         audio.Play();
         //Debug.Log(clip.name);
+    }
+
+    public void EndClip()
+    {
+        audioSource.Stop();
     }
 }
