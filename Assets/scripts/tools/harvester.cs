@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class harvester : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class harvester : MonoBehaviour
 
     public nav_pathfinding holder;
     public bool holder_is_person;
+
+    public bool is_scythe;
+    public Animator animator;
     
 
     private void OnTriggerStay(Collider other)
@@ -38,6 +42,11 @@ public class harvester : MonoBehaviour
                     harvesting = false;
                     Debug.Log("harvesting disabled");
                 }
+
+                if (is_scythe == true)
+                {
+                    output();
+                }
             }
         }
     }
@@ -57,6 +66,7 @@ public class harvester : MonoBehaviour
                 crop.transform.localScale = new Vector3(crop.transform.localScale.x * sizeMultiplier,crop.transform.localScale.y * sizeMultiplier,crop.transform.localScale.z * sizeMultiplier);
                 crop.GetComponent<cropGrowth>().local_sizeMultiplier = sizeMultiplier;
                 crop.GetComponent<product_data_holder>().local_value_multiplier = sizeMultiplier;
+                if (is_scythe == true) crop.GetComponent<Rigidbody>().useGravity = false;
             }
         }
         parts.Clear();
@@ -66,7 +76,36 @@ public class harvester : MonoBehaviour
             harvesting = false;
         }
     }
+    
+    
+    public void play_scythe_swing(InputAction.CallbackContext context)
+    {
+        if (this.gameObject.activeSelf == true)
+        {
+            if (context.started)
+            {
+                animator.Play("scythe_down");
+                //PlayRandomClip(audioSource,clips);
+                //animator.SetBool("scythe_down", true);
+                animator.SetBool("actively_doing_animation", true);
+            }
+
+            if (context.canceled)
+            {
+                animator.SetBool("actively_doing_animation", false);
+                animator.SetBool("scythe_down", false);
+                harvesting = false;
+            }
+        }
+    }
+
+    public void _scythe_down_true()
+    {
+        animator.SetBool("scythe_down", true);
+        harvesting = true;
+    }
 }
+
 
 [System.Serializable]
 public class harvestable_part

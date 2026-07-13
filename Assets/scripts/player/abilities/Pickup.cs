@@ -82,8 +82,8 @@ public class Pickup : MonoBehaviour//, IPointerClickHandler,IScrollHandler
             }
             else
             {
-                if (had_gravity == true) obj.GetComponent<Rigidbody>().useGravity = true;
-                had_gravity = false;
+                if (had_gravity == true || obj.TryGetComponent(out cropGrowth growth)) obj.GetComponent<Rigidbody>().useGravity = true;
+                had_gravity = false; // this part above is to add an exception so that crops harvested by a scythe which float in the air to give the player a chance to collect them, will fall down if you let go of them. meaning they can be replanted
                 yield break;
             }
         }
