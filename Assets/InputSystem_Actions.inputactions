@@ -158,6 +158,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "drop_bag",
+                    "type": "Button",
+                    "id": "ff43e0c5-5e1f-44bf-9eee-1e316f3781c9",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -675,6 +684,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "rhythm_game_right_button",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d1f3b55a-50c6-4f21-bd6e-5273a000ac9f",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "drop_bag",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

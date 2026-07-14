@@ -37,7 +37,20 @@ public class weapon_wheel_controller : MonoBehaviour
 
         foreach (GameObject weapon in weapons)
         {
-            if (weapons.IndexOf(weapon) != selected_weapon) weapon.SetActive(false);
+            if (weapons.IndexOf(weapon) != selected_weapon)
+            {
+                if (weapon.TryGetComponent(out seed_bag_logic bag_logic))
+                {
+                    if (bag_logic.placed == false)
+                    {
+                        weapon.SetActive(false);
+                    } //this is so that the seed bag isn't turned off when placed on the ground and you switch weapons
+                }
+                else
+                {
+                    weapon.SetActive(false);   
+                }
+            }
         }
 
         if (!weapons[selected_weapon].activeSelf)

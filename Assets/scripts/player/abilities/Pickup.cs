@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -40,6 +41,9 @@ public class Pickup : MonoBehaviour//, IPointerClickHandler,IScrollHandler
                         rb.useGravity = false;
                     }
                 }
+
+                
+                
                 StartCoroutine(mover(hit.transform.gameObject));
 
                 
@@ -82,7 +86,14 @@ public class Pickup : MonoBehaviour//, IPointerClickHandler,IScrollHandler
             }
             else
             {
-                if (had_gravity == true || obj.TryGetComponent(out cropGrowth growth)) obj.GetComponent<Rigidbody>().useGravity = true;
+                if (had_gravity == true || obj.TryGetComponent(out cropGrowth growth))
+                {
+                    if (obj.TryGetComponent(out Rigidbody rb))
+                    {
+                        rb.useGravity = true;
+                    }
+                }
+
                 had_gravity = false; // this part above is to add an exception so that crops harvested by a scythe which float in the air to give the player a chance to collect them, will fall down if you let go of them. meaning they can be replanted
                 yield break;
             }
