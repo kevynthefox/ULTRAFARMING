@@ -12,7 +12,7 @@ public class weapon_wheel_script : MonoBehaviour
     private bool selected = false;
     //public Sprite icon;
 
-    public weapon_wheel_controller controller;
+    //public weapon_wheel_controller controller;
     public AudioSource audio_source;
     public AudioClip audio_clip;
     
@@ -31,7 +31,7 @@ public class weapon_wheel_script : MonoBehaviour
     public void HoverEnter()
     {
         itemText.text = itemName;
-        controller.selected_weapon = id;
+        weapon_wheel_controller.current.selected_weapon = id;
         audio_source.PlayOneShot(audio_clip);
     }
     

@@ -91,14 +91,14 @@ public class nav_pathfinding : MonoBehaviour
                 yield return new WaitForSeconds(time_waiting / 2);
                 if (agent.remainingDistance <= agent.stoppingDistance) //this second check is absolutely necessary for the shoppers at least, to avoid false positives
                 {
-                    Debug.Log("destination reached");
+                    //Debug.Log("destination reached");
                     StartCoroutine(do_purpose());
                 }
             }
             else
             {
                 yield return new WaitForSeconds(time_waiting / 2);
-                Debug.Log("destination NOT reached");
+                //Debug.Log("destination NOT reached");
                 //StopCoroutine(do_purpose());
             }
 

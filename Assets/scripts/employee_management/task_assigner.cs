@@ -156,7 +156,7 @@ public class task_assigner : MonoBehaviour
     public void assign_exit()
     {
         exit_decider = UnityEngine.Random.Range(0, 2);
-        Debug.Log(exit_decider);
+        //Debug.Log(exit_decider);
         //yield return exit_decider;
     }
 }

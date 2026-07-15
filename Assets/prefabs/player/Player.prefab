@@ -2436,7 +2436,7 @@ Transform:
   m_GameObject: {fileID: 3179065370357907669}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.541, y: 1.1829987, z: 0.047}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -5149,7 +5149,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   seeds: []
   throw_speed: 0
-  throw_spacing: 0
+  throw_spacing: 10
   max_seed_count: 10
   throw_points: []
   throw_point_prefab: {fileID: 5936270443107967750, guid: 8e2a629a1f076d4d29a473a6a3ec6b82, type: 3}
@@ -5157,7 +5157,6 @@ MonoBehaviour:
   throw_point_origin: {fileID: 2333110891934212185}
   placed: 0
   placing_picking: 0
-  test_seed_amount: 0
 --- !u!65 &7404370295511069765
 BoxCollider:
   m_ObjectHideFlags: 0

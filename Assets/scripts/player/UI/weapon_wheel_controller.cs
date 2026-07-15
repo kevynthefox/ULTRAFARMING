@@ -5,13 +5,19 @@ using UnityEngine.InputSystem;
 
 public class weapon_wheel_controller : MonoBehaviour
 {
+    public static weapon_wheel_controller current;
     public GameObject wheel;
     public bool wheel_open;
     public FirstPersonLook look;
     public List<GameObject> weapons;
 
     public int selected_weapon;
-    
+
+    private void Awake()
+    {
+        current = this;
+    }
+
     public void toggle_wheel(InputAction.CallbackContext context)
     {
         if (context.ReadValue<float>() == 1)
@@ -41,8 +47,9 @@ public class weapon_wheel_controller : MonoBehaviour
             {
                 if (weapon.TryGetComponent(out seed_bag_logic bag_logic))
                 {
-                    if (bag_logic.placed == false)
+                    if (bag_logic.placed_forWeaponWheel == false)
                     {
+                        //Debug.Log("bag was held,switching off");
                         weapon.SetActive(false);
                     } //this is so that the seed bag isn't turned off when placed on the ground and you switch weapons
                 }

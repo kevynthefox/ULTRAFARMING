@@ -42,6 +42,16 @@ public class Pickup : MonoBehaviour//, IPointerClickHandler,IScrollHandler
                     }
                 }
 
+                if (hit.transform.TryGetComponent(out product_data_holder product))
+                {
+                    if (product.transform.parent != null)
+                    {
+                        if (product.transform.parent.TryGetComponent(out seed_bag_logic bag_log))
+                        {
+                            bag_log.bag_remove(hit.transform.gameObject);
+                        }
+                    }
+                }
                 
                 
                 StartCoroutine(mover(hit.transform.gameObject));
