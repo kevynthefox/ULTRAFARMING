@@ -109,24 +109,31 @@ public class seed_bag_logic : MonoBehaviour
         {
             if (other.CompareTag("sellable"))
             {
-                if (seeds.Count < max_seed_count)
+                if (other.TryGetComponent(out product_data_holder prod_data))
                 {
-                    if (!seeds.Contains(other.gameObject))
+                    if (prod_data.being_held == false)
                     {
-                        seeds.Add(other.gameObject);
-                        other.transform.localScale *= 0.1f;
-                        other.transform.parent = this.transform;
-                        float randomx = UnityEngine.Random.Range(-randomizer_bounds, randomizer_bounds);
-                        float randomy = UnityEngine.Random.Range(-randomizer_bounds, randomizer_bounds);
-                        float randomz = UnityEngine.Random.Range(-randomizer_bounds, randomizer_bounds);
-
-                        other.transform.localPosition = new Vector3(randomx,randomy,randomz);
-                        if (other.TryGetComponent(out Rigidbody rb))
+                        if (seeds.Count < max_seed_count)
                         {
-                            Destroy(rb); //if you set the bodies to kinematic, you float around like you're using thors hammer
+                            if (!seeds.Contains(other.gameObject))
+                            {
+                                seeds.Add(other.gameObject);
+                                other.transform.localScale *= 0.1f;
+                                other.transform.parent = this.transform;
+                                float randomx = UnityEngine.Random.Range(-randomizer_bounds, randomizer_bounds);
+                                float randomy = UnityEngine.Random.Range(-randomizer_bounds, randomizer_bounds);
+                                float randomz = UnityEngine.Random.Range(-randomizer_bounds, randomizer_bounds);
+
+                                other.transform.localPosition = new Vector3(randomx,randomy,randomz);
+                                if (other.TryGetComponent(out Rigidbody rb))
+                                {
+                                    Destroy(rb); //if you set the bodies to kinematic, you float around like you're using thors hammer
+                                }
+                            }
                         }
                     }
                 }
+                
             }
 
             if (other.CompareTag("Player"))
@@ -141,22 +148,26 @@ public class seed_bag_logic : MonoBehaviour
         update_texts();
     }
 
+    
+
     public void bag_remove(GameObject other)
     {
         
         if (placed == true)
         {
-            //Debug.Log("bag exited");
+            Debug.Log("bag remove");
             //Debug.Log(other.tag);
         
         
             //Debug.Log("it was sellable");
             if (seeds.Contains(other.gameObject))
             {
+                Debug.Log("removed object");
                 //Debug.Log("it was in the list");
                 seeds.Remove(other.gameObject);
+                Debug.Log("removed");
                 other.transform.localScale /= 0.1f;
-                other.transform.parent = null;
+                //other.transform.parent = null;
                 other.AddComponent<Rigidbody>().useGravity = true;
             }
         
