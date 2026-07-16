@@ -24,6 +24,8 @@ public class Pickup : MonoBehaviour//, IPointerClickHandler,IScrollHandler
 
     public GameObject obj;
     public Transform previous_parent;
+
+    public int rotation_state;
     
    /* public void click ()//PointerEventData eventData)
     {
@@ -200,6 +202,10 @@ public class Pickup : MonoBehaviour//, IPointerClickHandler,IScrollHandler
                         bag_logic.bag_remove(obj);
                         previous_parent = null;
                     }
+                    if (obj.transform.parent.TryGetComponent(out cart_logic cart_log))
+                    {
+                        previous_parent = null;
+                    }
                 }
                 else
                 {
@@ -286,7 +292,19 @@ public class Pickup : MonoBehaviour//, IPointerClickHandler,IScrollHandler
         var cachedInput = context.ReadValue<Vector2>();
         float y_plus = cachedInput.y;
         //Debug.Log ("scrolling mouse");
-        cursor_dist += y_plus;// Input.mouseScrollDelta.y;
+
+        if (Input.GetKey(KeyCode.Alpha1)) rotation_state = 1;
+        if (Input.GetKey(KeyCode.Alpha2)) rotation_state = 2;
+        if (Input.GetKey(KeyCode.Alpha3)) rotation_state = 3;
+        if (Input.GetKey(KeyCode.Alpha4)) rotation_state = 0;//would use keyDOWN but they already have to be scrolling so that makes this tricky to time
+        if (Input.GetKey(KeyCode.Alpha5)) cursor.transform.localEulerAngles = Vector3.zero;
+        
+        
+        if (rotation_state == 0 ) cursor_dist += y_plus;// Input.mouseScrollDelta.y;
+        if (rotation_state == 1) cursor.transform.localEulerAngles = new Vector3(cursor.transform.localEulerAngles.x + y_plus, cursor.transform.localEulerAngles.y, cursor.transform.localEulerAngles.z);
+        if (rotation_state == 2) cursor.transform.localEulerAngles = new Vector3(cursor.transform.localEulerAngles.x, cursor.transform.localEulerAngles.y + y_plus, cursor.transform.localEulerAngles.z);
+        if (rotation_state == 3) cursor.transform.localEulerAngles = new Vector3(cursor.transform.localEulerAngles.x, cursor.transform.localEulerAngles.y, cursor.transform.localEulerAngles.z + y_plus);
+        
         if (cursor_dist > max_dist) cursor_dist = max_dist;
         if (cursor_dist < min_dist) cursor_dist = min_dist;
         cursor.transform.localPosition = new Vector3(0,0, cursor_dist);

@@ -811,6 +811,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7ed3e970daab80f03a5a4668d5ba760d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 699579414}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7ed3e970daab80f03a5a4668d5ba760d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 699579416}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7ed3e970daab80f03a5a4668d5ba760d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 699579417}
   m_SourcePrefab: {fileID: 100100000, guid: 7ed3e970daab80f03a5a4668d5ba760d, type: 3}
 --- !u!1 &699579413 stripped
 GameObject:
@@ -836,8 +842,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 10, y: 10, z: 10}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 10, y: 5, z: 10}
+  m_Center: {x: 0, y: -2.2, z: 0}
 --- !u!54 &699579415
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -865,6 +871,39 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &699579416
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 699579413}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 10, y: 1, z: 10}
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &699579417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 699579413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27915bb4dc5ce199796a875e9ca58755, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::cart_logic
 --- !u!114 &726014066 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4835134269188954913, guid: ca8d32c18aba44054966c6a8f7dfa2b2, type: 3}
