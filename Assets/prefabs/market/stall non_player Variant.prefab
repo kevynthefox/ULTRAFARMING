@@ -56,9 +56,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: stall non_player Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 3700582162008273208, guid: 33baba78813eaed9ebe391e9d7455a2c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3700582162008273208, guid: 33baba78813eaed9ebe391e9d7455a2c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4229596851491329009, guid: 33baba78813eaed9ebe391e9d7455a2c, type: 3}
       propertyPath: m_TagString
       value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 7963292557338381104, guid: 33baba78813eaed9ebe391e9d7455a2c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7963292557338381104, guid: 33baba78813eaed9ebe391e9d7455a2c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2749504161137707746, guid: 33baba78813eaed9ebe391e9d7455a2c, type: 3}
