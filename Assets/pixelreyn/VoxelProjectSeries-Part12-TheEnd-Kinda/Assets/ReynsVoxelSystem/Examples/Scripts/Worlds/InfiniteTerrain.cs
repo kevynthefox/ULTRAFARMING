@@ -217,7 +217,7 @@ public class InfiniteTerrain : World
     }
     #endregion
 
-    private void OnApplicationQuit()
+    public void OnApplicationQuit()
     {
         killThreads = true;
         checkActiveChunks?.Abort();
@@ -303,7 +303,7 @@ public class InfiniteTerrain : World
         GenerationManager.voxelData.Dispatch(1, xThreads, yThreads, xThreads);
     }
 
-    private void ShutDown()
+    public void ShutDown()
     {
         biomesArray?.Dispose();
         World.onShutdown -= ShutDown;

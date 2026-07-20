@@ -55,7 +55,18 @@ public class weapon_wheel_controller : MonoBehaviour
                 }
                 else
                 {
-                    weapon.SetActive(false);   
+                    if (weapon.TryGetComponent(out watering_can can_logic))
+                    {
+                        if (can_logic.placed_forWeaponWheel == false)
+                        {
+                            //Debug.Log("bag was held,switching off");
+                            weapon.SetActive(false);
+                        } //this is so that the seed bag isn't turned off when placed on the ground and you switch weapons
+                    }
+                    else
+                    {
+                        weapon.SetActive(false);   
+                    }   
                 }
             }
         }
