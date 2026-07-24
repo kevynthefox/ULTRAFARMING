@@ -176,6 +176,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "open_perk_menu",
+                    "type": "Button",
+                    "id": "4c0fb702-2f3d-4056-9417-790710d28ffb",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -715,6 +724,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "right_click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5dffaf20-6392-443b-be92-ddd2c837356f",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "open_perk_menu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -9,11 +9,11 @@ namespace statusEffects
 
 
 //[CreateAssetMenu(fileName = "StatusEffectTemplate", menuName = "status effect template")] //note, this may only let you add copies of this script via scriptable objects.. so you might just have to copy and paste this script a lot instead.
-    public class StatusEffectTemplate : MonoBehaviour
+    public class Speed_buff : MonoBehaviour
     {
-        public float time_remaining, time_max; //if time max is 0 then the effect lasts until some other condition is met. like having a speed boost until you jump?
+        public float time_remaining, time_max = 60; //if time max is 0 then the effect lasts until some other condition is met. like having a speed boost until you jump?
 
-        public int stack_count, max_stack_count;
+        public int stack_count, max_stack_count = 10;
 
         public Canvas effect_display_area;
         public GameObject effect_display;
@@ -21,34 +21,36 @@ namespace statusEffects
         public TextMeshProUGUI effect_display_text_time;
         public TextMeshProUGUI effect_display_text_stack;
 
-        public int apply_type; //1 means applies on start, 2 means applies over time, 3 means applies when the effect ends(ie a burst of damage when the effect ends)
+        public int apply_type = 1; //1 means applies on start, 2 means applies over time, 3 means applies when the effect ends(ie a burst of damage when the effect ends)
 
         public float effect_repetition_time;
 
         public bool moved_version; //this bool exists as a way to check if this is the script that has been created by the script moving to the parent object.
 
+        public float speed_multiplier = 5;
+        
         public void Start()
         {
             if (moved_version == false)
             {
-                if (this.transform.parent.TryGetComponent(out StatusEffectTemplate this_script)) //change statuseffecttemplate out for the name of the script.
+                if (this.transform.parent.TryGetComponent(out Speed_buff this_script)) //change statuseffecttemplate out for the name of the script.
                 {
                     this_script.add();
                 }
                 else
                 {
-                    transform.parent.AddComponent<StatusEffectTemplate>().moved_version = true;
+                    transform.parent.AddComponent<Speed_buff>().moved_version = true;
                 }
 
                 Destroy(this.gameObject);
             }
             else
             {
-
+                
                 stack_count = 1;
                 time_remaining = time_max;
                 
-                effect_display_prefab = StatusEffectAdder.current.statusEffect_displays[0];//replace with whatever number is associated with this effect
+                effect_display_prefab = StatusEffectAdder.current.statusEffect_displays[0];
                 
                 effect_display_area = GetComponentInChildren<Canvas>();
                 effect_display = Instantiate(effect_display_prefab);
@@ -57,7 +59,7 @@ namespace statusEffects
                 effect_display_text_stack = effect_display.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
                 
                 effect_display_text_stack.text = "x"+stack_count;
-                
+
                 //set the state of the variables for the script upon instantiation on the parent object, here.(as in what the base states of the variables should be.)
 
                 //keep in mind that anything to consolodate the effects must happen before the start in this object, so before the effect is added.
@@ -71,6 +73,13 @@ namespace statusEffects
             if (apply_type == 1)
             {
                 //apply 1 time, at the start.
+                if (this.TryGetComponent(out FirstPersonMovement movement))
+                {
+                    for (int i = 0; i < stack_count; i++)
+                    {
+                        movement.speed *= speed_multiplier;
+                    }
+                }
             }
 
             if (apply_type == 2)
@@ -108,8 +117,14 @@ namespace statusEffects
         {
             if (stack_count < max_stack_count)
             {
+                if (this.TryGetComponent(out FirstPersonMovement movement))
+                {
+                    for (int i = 0; i < stack_count; i++)
+                    {
+                        movement.speed /= speed_multiplier;
+                    }
+                }
                 //add logic here to undo the effect.
-                
                 stack_count += 1;
                 StartCoroutine(apply_effect());
                 time_remaining = time_max;
@@ -126,6 +141,15 @@ namespace statusEffects
             }
             else
             {
+                
+                if (this.TryGetComponent(out FirstPersonMovement movement))
+                {
+                    for (int i = 0; i < stack_count; i++)
+                    {
+                        movement.speed /= speed_multiplier;
+                    }
+                }
+                
                 //add logic here to undo what has been done.
             }
             

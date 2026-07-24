@@ -8,7 +8,7 @@ public class FirstPersonMovement : MonoBehaviour
     [Header("Running")]
     public bool canRun = true;
     public bool IsRunning { get; private set; }
-    public float runSpeed = 9;
+    public float runSpeed_multiplier = 9;
     public KeyCode runningKey = KeyCode.LeftShift;
 
     Rigidbody rigidbody;
@@ -29,7 +29,7 @@ public class FirstPersonMovement : MonoBehaviour
         IsRunning = canRun && Input.GetKey(runningKey);
 
         // Get targetMovingSpeed.
-        float targetMovingSpeed = IsRunning ? runSpeed : speed;
+        float targetMovingSpeed = IsRunning ? (speed*runSpeed_multiplier) : speed;
         if (speedOverrides.Count > 0)
         {
             targetMovingSpeed = speedOverrides[speedOverrides.Count - 1]();

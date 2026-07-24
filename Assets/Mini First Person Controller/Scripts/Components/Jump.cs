@@ -29,6 +29,7 @@ public class Jump : MonoBehaviour
         {
             rigidbody.AddForce(Vector3.up * 100 * jumpStrength);
             Jumped?.Invoke();
+            perk_logic.current.perk1_logic();
         }
     }
 }
