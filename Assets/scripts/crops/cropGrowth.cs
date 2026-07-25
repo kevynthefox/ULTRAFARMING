@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using statusEffects;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -16,6 +17,8 @@ public class cropGrowth : MonoBehaviour
     public bool started_growth;
     
     public bool ground_type; //this is so it only checks if the crop is in the ground if the crop is supposed to go in the ground. ie: not a vine
+
+    public bool manual_or_thrown;
     
     [Header("sections")]
     public Vector3 offset; //this is so that the bottom segment isnt floating
@@ -430,9 +433,34 @@ public class cropGrowth : MonoBehaviour
 
     public void OnCollisionEnter(Collision other)
     {
+        
+
         if (other.gameObject.layer == 7) //7 is the layer for ground
         {
 
+            if (manual_or_thrown)
+            {
+                if (perk_logic.current.seed_bag_customization == 0 || perk_logic.current.seed_bag_customization == 2)
+                {
+
+
+                }
+                else
+                {
+                    if (perk_logic.current.seed_bag_customization == 1)
+                    {
+                        var water_ball = Instantiate(perk_logic.current.water_ball_prefab, transform.position, transform.rotation);
+
+                        if (StatusEffectAdder.current.player.TryGetComponent(out wet_buff wet))
+                        {
+                            water_ball.transform.localScale = Vector3.one * math.pow(wet.water_element_multiplier,  wet.stack_count);
+                        }
+                    
+                        Destroy(this.gameObject);
+                    }
+                }
+            }
+            
             if (TryGetComponent(out Rigidbody rb))
             {
                 if (rb.useGravity == true) // this part is here so you cant plant while holding
@@ -457,6 +485,8 @@ public class cropGrowth : MonoBehaviour
                 }
             }
         }
+        
+        
     }
 }
 

@@ -62,6 +62,10 @@ public class watering_can : MonoBehaviour
                     water_count -= water_drain_amount;
                     update_texts();
                 }
+                else
+                {
+                    perk_logic.current.perk1_logic();
+                }
             }
 
             yield return new WaitForSeconds(water_drain_rate);

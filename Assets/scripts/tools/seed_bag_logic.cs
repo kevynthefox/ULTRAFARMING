@@ -244,6 +244,8 @@ public class seed_bag_logic : MonoBehaviour
             rb.linearVelocity = throw_points.First().forward * throw_speed;
         }
 
+        seeds.First().GetComponent<cropGrowth>().manual_or_thrown = true;
+        
         seeds.Remove(seeds.First());
 
         update_texts();
@@ -264,8 +266,12 @@ public class seed_bag_logic : MonoBehaviour
             if (seeds[i].TryGetComponent(out Rigidbody rb))
             {
                 rb.linearVelocity = throw_points[i].forward * throw_speed;
+                
             }
+            seeds[i].GetComponent<cropGrowth>().manual_or_thrown = true;
         }
+        
+        
 
         seeds.Clear();
         
@@ -324,6 +330,8 @@ public class seed_bag_logic : MonoBehaviour
     {
         re_scale_seed(seeds.First());
         throw_single_seed();
+        
+        
     }
 
     public void in_all_throw_trigger() //i could just use throw all seeds but im putting this here for consistency

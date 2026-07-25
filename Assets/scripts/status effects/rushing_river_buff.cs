@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using TMPro;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -9,11 +10,11 @@ namespace statusEffects
 
 
 //[CreateAssetMenu(fileName = "StatusEffectTemplate", menuName = "status effect template")] //note, this may only let you add copies of this script via scriptable objects.. so you might just have to copy and paste this script a lot instead.
-    public class Speed_buff : MonoBehaviour
+    public class rushing_river_buff : MonoBehaviour
     {
         public float time_remaining, time_max = 60; //if time max is 0 then the effect lasts until some other condition is met. like having a speed boost until you jump?
 
-        public int stack_count, max_stack_count = 10;
+        public int stack_count, max_stack_count = 2;
 
         public Canvas effect_display_area;
         public GameObject effect_display;
@@ -23,7 +24,7 @@ namespace statusEffects
 
         public int apply_type = 1; //1 means applies on start, 2 means applies over time, 3 means applies when the effect ends(ie a burst of damage when the effect ends)
 
-        public float effect_repetition_time;
+        public float effect_repetition_time = 0.5f;
 
         public bool moved_version; //this bool exists as a way to check if this is the script that has been created by the script moving to the parent object.
 
@@ -33,13 +34,13 @@ namespace statusEffects
         {
             if (moved_version == false)
             {
-                if (this.transform.parent.TryGetComponent(out Speed_buff this_script)) //change statuseffecttemplate out for the name of the script.
+                if (this.transform.parent.TryGetComponent(out rushing_river_buff this_script)) //change statuseffecttemplate out for the name of the script.
                 {
                     this_script.add();
                 }
                 else
                 {
-                    transform.parent.AddComponent<Speed_buff>().moved_version = true;
+                    transform.parent.AddComponent<rushing_river_buff>().moved_version = true;
                 }
 
                 Destroy(this.gameObject);
@@ -77,19 +78,27 @@ namespace statusEffects
                 {
                     for (int i = 0; i < stack_count; i++)
                     {
-                        movement.speed *= speed_multiplier;
+                        if (StatusEffectAdder.current.player.TryGetComponent(out wet_buff wet))
+                        {
+                            movement.speed *= (speed_multiplier * math.pow(wet.water_element_multiplier, wet.stack_count));
+                        }
+                        else
+                        {
+                            movement.speed *= speed_multiplier;
+                        }
                     }
                 }
             }
 
-            if (apply_type == 2)
-            {
+            //if (apply_type == 2)
+            //{ with this specific buff it applies at start AND does a thing every once in a while.
                 while (time_remaining > 0)
                 {
-                    //add what will happen here
+                    Vector3 below_feet = new Vector3(transform.position.x, transform.position.y - 1, transform.position.z);
+                    var water_ball = Instantiate(perk_logic.current.water_ball_prefab, below_feet, transform.rotation);
                     yield return new WaitForSeconds(effect_repetition_time);
                 }
-            }
+            //}
 
         }
 

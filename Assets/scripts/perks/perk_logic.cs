@@ -7,7 +7,10 @@ public class perk_logic : MonoBehaviour
 
     public static perk_logic current;
     public bool perk1;
+    public int seed_bag_customization;
 
+    public GameObject water_ball_prefab;
+    
     public void Awake()
     {
         current = this;
@@ -24,5 +27,10 @@ public class perk_logic : MonoBehaviour
         {
             StatusEffectAdder.current.addStatusEffect(this.gameObject, 0);
         }
+    }
+
+    public void seed_bag_customization_choser(int i)
+    {
+        seed_bag_customization = i;
     }
 }
