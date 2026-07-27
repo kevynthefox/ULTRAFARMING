@@ -13,7 +13,7 @@ namespace statusEffects
     {
         public float time_remaining, time_max = 60; //if time max is 0 then the effect lasts until some other condition is met. like having a speed boost until you jump?
 
-        public int stack_count, max_stack_count = 30;
+        public int stack_count, max_stack_count = 10;
 
         public Canvas effect_display_area;
         public GameObject effect_display;
@@ -70,9 +70,14 @@ namespace statusEffects
 
         public IEnumerator apply_effect()
         {
+            
+            if (perk_logic.current.perk2)
+            {
+                perk_logic.current.perk2_logic();
+            }
             if (apply_type == 1)
             {
-                //apply 1 time, at the start.
+                
             }
 
             if (apply_type == 2)

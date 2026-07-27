@@ -13,9 +13,13 @@ public class water_ball : MonoBehaviour
 
         if (other.gameObject.TryGetComponent(out watering_can watering_can_logic))
         {
-            watering_can_logic.water_count = watering_can_logic.max_water_count;
+            if (watering_can_logic.placed)
+            {
+                Debug.Log("water refilled");
+                watering_can_logic.water_count = 2;// watering_can_logic.max_water_count;
+            }
         }
-        
+
         if (other.gameObject.CompareTag("growing_crop"))
         {
             if (other.gameObject.TryGetComponent(out cropGrowth growth))

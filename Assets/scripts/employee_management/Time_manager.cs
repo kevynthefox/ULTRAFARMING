@@ -11,6 +11,8 @@ public class Time_manager : MonoBehaviour
 
     public float time_incrementer;
     public float time_wait; //how long is waited for the next thing of time to be ticked up(like how games have different time scales than irl)
+
+    public bool time_flowing;
     
     private void Awake()
     {

@@ -23,12 +23,12 @@ public class watering_can : MonoBehaviour
     public bool placing_picking;
     public GameObject place_origin;
     public Transform return_point;
-
-    private void Start()
+    
+    public void OnEnable()
     {
         StartCoroutine(water_tracker());
     }
-
+    
     public void water(InputAction.CallbackContext context)
     {
         if (weapon_wheel_controller.current.selected_weapon == 5)
@@ -37,12 +37,14 @@ public class watering_can : MonoBehaviour
             {
                 if (water_count > 0)
                 {
+                    //Debug.Log("water start");
                     animator.Play("can_down");
                 }
             }
             
             if (context.canceled)
             {
+                //Debug.Log("water cancel");
                 watering = false;
                 animator.SetBool("can_down", false);
                 audio_source.Stop();
@@ -51,15 +53,20 @@ public class watering_can : MonoBehaviour
         }
     }
 
+    
+
     public IEnumerator water_tracker()
     {
-        while (Time_manager.current.gameObject.activeSelf == true)
+        while (Time_manager.current.time_flowing)
         {
             if (watering)
             {
+                Debug.Log("watering is true");
                 if (water_count > 0)
                 {
+                    Debug.Log("draining water");
                     water_count -= water_drain_amount;
+                    Debug.Log("water drained");
                     update_texts();
                 }
                 else
@@ -126,7 +133,7 @@ public class watering_can : MonoBehaviour
     
     public void place_can()
     {
-        Debug.Log("bag placed");
+        //Debug.Log("bag placed");
         transform.parent = null;
         
         Physics.Raycast(place_origin.transform.position, -place_origin.transform.up, out RaycastHit hit,
@@ -184,7 +191,7 @@ public class watering_can : MonoBehaviour
         {
             if (other.CompareTag("water"))
             {
-                water_count = max_water_count;
+                water_count = 1;
             }
             
             if (other.CompareTag("Player"))
