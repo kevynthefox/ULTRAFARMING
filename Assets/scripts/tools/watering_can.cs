@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
+using statusEffects;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -91,6 +93,21 @@ public class watering_can : MonoBehaviour
                     if (water_count > 0)
                     {
                         growth.growth_rate *= speed_multiplier;
+                    }
+                }
+            }
+            
+            if (other.gameObject.CompareTag("sellable"))
+            {
+                if (other.gameObject.TryGetComponent(out cropGrowth growth))
+                {
+                    if (perk_logic.current.perk5)
+                    {
+                        Debug.Log("sped up plant");
+                        
+                        growth.growth_rate *= speed_multiplier;
+                        
+                        growth.hydrate(Mathf.RoundToInt(speed_multiplier));
                     }
                 }
             }

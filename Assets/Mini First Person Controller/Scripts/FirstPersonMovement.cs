@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using statusEffects;
 using UnityEngine;
 
 public class FirstPersonMovement : MonoBehaviour
@@ -39,6 +40,14 @@ public class FirstPersonMovement : MonoBehaviour
         Vector2 targetVelocity =new Vector2( Input.GetAxis("Horizontal") * targetMovingSpeed, Input.GetAxis("Vertical") * targetMovingSpeed);
 
         // Apply movement.
-        rigidbody.linearVelocity = transform.rotation * new Vector3(targetVelocity.x, rigidbody.linearVelocity.y, targetVelocity.y);
+        
+        if (perk_logic.current.perk3 && this.TryGetComponent(out wet_buff wet_log))
+        {
+            rigidbody.linearVelocity += transform.rotation * new Vector3(targetVelocity.x, /*rigidbody.linearVelocity.y*/ 0, targetVelocity.y);
+        }
+        else
+        {
+            rigidbody.linearVelocity = transform.rotation * new Vector3(targetVelocity.x, rigidbody.linearVelocity.y, targetVelocity.y);
+        }
     }
 }

@@ -19,6 +19,11 @@ public class perk_logic : MonoBehaviour
     public Animator scythe_animator;
     public Animator seed_bag_animator;
     public Animator watering_can_animator;
+
+    public bool perk3;
+    
+    public bool perk4;//dehydration
+    public bool perk5;//overhydration
     
     public void Awake()
     {
@@ -78,5 +83,18 @@ public class perk_logic : MonoBehaviour
             seed_bag_animator.speed = 1;
             watering_can_animator.speed = 1;
         }
+    }
+    
+    public void perk3_toggle()
+    {
+        perk3 = !perk3;
+    }
+    
+    public void perk4_toggle()
+    {
+        perk4 = !perk4;
+    }public void perk5_toggle()
+    {
+        perk5 = !perk5;
     }
 }

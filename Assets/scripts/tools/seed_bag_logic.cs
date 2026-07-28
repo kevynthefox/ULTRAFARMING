@@ -20,7 +20,7 @@ public class seed_bag_logic : MonoBehaviour
     public List<GameObject> seeds;
     public float throw_speed;
     public float throw_spacing;
-    public int max_seed_count;
+    public float max_seed_count,current_seed_count;
     public List<Transform> throw_points;
     public GameObject throw_point_prefab;
 
@@ -113,11 +113,19 @@ public class seed_bag_logic : MonoBehaviour
                 {
                     if (prod_data.being_held == false)
                     {
-                        if (seeds.Count < max_seed_count)
+                        if (current_seed_count < max_seed_count)
                         {
                             if (!seeds.Contains(other.gameObject))
                             {
                                 seeds.Add(other.gameObject);
+                                if (other.TryGetComponent(out cropGrowth growth))
+                                {
+                                    current_seed_count += growth.hydration_scale;
+                                }
+                                else
+                                {
+                                    current_seed_count += 1;
+                                }
                                 other.transform.localScale *= 0.1f;
                                 other.transform.parent = this.transform;
                                 float randomx = UnityEngine.Random.Range(-randomizer_bounds, randomizer_bounds);
@@ -164,6 +172,14 @@ public class seed_bag_logic : MonoBehaviour
             {
                 Debug.Log("removed object");
                 //Debug.Log("it was in the list");
+                if (other.gameObject.TryGetComponent(out cropGrowth growth))
+                {
+                    current_seed_count -= growth.hydration_scale;
+                }
+                else
+                {
+                    current_seed_count -= 1;
+                }
                 seeds.Remove(other.gameObject);
                 Debug.Log("removed");
                 other.transform.localScale /= 0.1f;
@@ -246,7 +262,16 @@ public class seed_bag_logic : MonoBehaviour
 
         seeds.First().GetComponent<cropGrowth>().manual_or_thrown = true;
         
+        if (seeds.First().TryGetComponent(out cropGrowth growth))
+        {
+            current_seed_count -= growth.hydration_scale;
+        }
+        else
+        {
+            current_seed_count -= 1;
+        }
         seeds.Remove(seeds.First());
+        
 
         update_texts();
     }
@@ -346,14 +371,14 @@ public class seed_bag_logic : MonoBehaviour
             canvas_overlay.enabled = true;
             canvas_world.enabled = false;
             
-            display_overlay.text = "seeds left: " + seeds.Count + "/" + max_seed_count;
+            display_overlay.text = "seeds left: " + current_seed_count + "/" + max_seed_count;
         }
         else
         {
             canvas_overlay.enabled = false;
             canvas_world.enabled = true;
             
-            display_world.text = "seeds left: " + seeds.Count + "/" + max_seed_count;
+            display_world.text = "seeds left: " + current_seed_count + "/" + max_seed_count;
         }
     }
 }

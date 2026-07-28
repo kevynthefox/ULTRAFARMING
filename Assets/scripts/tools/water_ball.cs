@@ -36,6 +36,27 @@ public class water_ball : MonoBehaviour
             }
         }
 
+        if (other.gameObject.CompareTag("sellable"))
+        {
+            if (other.gameObject.TryGetComponent(out cropGrowth growth))
+            {
+                if (perk_logic.current.perk5)
+                {
+                    Debug.Log("sped up plant");
+                    if (StatusEffectAdder.current.player.TryGetComponent(out wet_buff wet))
+                    {
+                        growth.growth_rate *=
+                            (speed_multiplier * math.pow(wet.water_element_multiplier, wet.stack_count));
+                    }
+                    else
+                    {
+                        growth.growth_rate *= speed_multiplier;
+                    }
+                    growth.hydrate(Mathf.RoundToInt(1 * transform.localScale.x));
+                }
+            }
+        }
+
         if (other.gameObject.CompareTag("Player"))
         {
             StatusEffectAdder.current.addStatusEffect(StatusEffectAdder.current.player,1);

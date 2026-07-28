@@ -17,8 +17,6 @@ public class cropGrowth : MonoBehaviour
     public bool started_growth;
     
     public bool ground_type; //this is so it only checks if the crop is in the ground if the crop is supposed to go in the ground. ie: not a vine
-
-    public bool manual_or_thrown;
     
     [Header("sections")]
     public Vector3 offset; //this is so that the bottom segment isnt floating
@@ -46,6 +44,14 @@ public class cropGrowth : MonoBehaviour
     [Header("value")]
     public float local_sizeMultiplier;
     public float base_price;
+    
+    [Header("perk related info")]
+    public bool manual_or_thrown;
+    public int hydration_count;
+    public Material crop_material;
+    public int defaultR, defaultG, defaultB, defaultA;
+    //public Color default_color;
+    public float hydration_scale;
     
     void Awake()
     {
@@ -487,6 +493,14 @@ public class cropGrowth : MonoBehaviour
         }
         
         
+    }
+
+    public void hydrate(int hydration_change)//use negative numbers to rehydrate
+    {
+        hydration_count += hydration_change;
+        hydration_scale = Mathf.Pow(2, hydration_count);
+        Color new_color = new Vector4(defaultR * hydration_scale,defaultG * hydration_scale, defaultB * hydration_scale, defaultA * hydration_scale);
+        crop_material.SetColor("new color",new_color);
     }
 }
 
