@@ -45,6 +45,14 @@ public class harvester : MonoBehaviour
 
                 if (is_scythe == true)
                 {
+                    if (perk_logic.current.scythe_customization == 1)
+                    {
+                        output_point = perk_logic.current.seed_bag_animator.GetComponent<seed_bag_logic>().crop_tp_point.transform;
+                    }
+                    else
+                    {
+                        output_point = transform.GetChild(4);
+                    }
                     output();
                 }
             }

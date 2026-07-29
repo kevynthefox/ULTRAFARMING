@@ -97,12 +97,50 @@ public class TerrainInteractor : MonoBehaviour
         {
             if (dig_state == true)
             {
+                
+                if (perk_logic.current.hoe_customization == 1)
+                {
+                
+                    if (perk_logic.current.watering_can_animator.TryGetComponent(out watering_can can_logic))
+                    {
+                        if (can_logic.water_count > 0)
+                        {
+                            can_logic.watering = true;
+                            can_logic.water_drain_amount = 1;
+                            range = 40;
+                        }
+                        else
+                        {
+                            can_logic.watering = false;
+                            can_logic.water_drain_amount = 0.1f;
+                            range = 4;
+                        }
+                        can_logic.update_texts();
+                    }
+                
+                }
+                else
+                {
+                    range = 4;
+                }
+                
+                
+                
                 foreach( Transform digpoint in dig_points)
                 {
                     current_dig_point = digpoint;
                     dig();
                 }
 
+            }
+            else
+            {
+                if (perk_logic.current.watering_can_animator.TryGetComponent(out watering_can can_logic))
+                {
+                    can_logic.watering = false;
+                    can_logic.water_drain_amount = 0.1f;
+                    range = 4;
+                }
             }
 
             yield return new WaitForSeconds(delay_between_actions);

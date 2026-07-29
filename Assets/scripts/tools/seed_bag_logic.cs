@@ -34,6 +34,8 @@ public class seed_bag_logic : MonoBehaviour
 
     public float randomizer_bounds;
 
+    public GameObject crop_tp_point;
+
     public void drop_bag(InputAction.CallbackContext context)
     {
         if (this.gameObject.activeSelf == true)
@@ -105,7 +107,7 @@ public class seed_bag_logic : MonoBehaviour
 
     public void OnTriggerStay(Collider other)
     {
-        if (placed == true)
+        if (placed == true || perk_logic.current.scythe_customization == 1)
         {
             if (other.CompareTag("sellable"))
             {
@@ -120,7 +122,14 @@ public class seed_bag_logic : MonoBehaviour
                                 seeds.Add(other.gameObject);
                                 if (other.TryGetComponent(out cropGrowth growth))
                                 {
-                                    current_seed_count += growth.hydration_scale;
+                                    if (growth.hydration_scale != 0)
+                                    {
+                                        current_seed_count += growth.hydration_scale;
+                                    }
+                                    else
+                                    {
+                                        current_seed_count += 1;
+                                    }
                                 }
                                 else
                                 {
@@ -132,7 +141,15 @@ public class seed_bag_logic : MonoBehaviour
                                 float randomy = UnityEngine.Random.Range(-randomizer_bounds, randomizer_bounds);
                                 float randomz = UnityEngine.Random.Range(-randomizer_bounds, randomizer_bounds);
 
-                                other.transform.localPosition = new Vector3(randomx,randomy,randomz);
+                                if (placed == false && perk_logic.current.scythe_customization == 1)
+                                {
+                                    other.transform.localPosition = new Vector3(randomx,randomy,randomz+2);
+                                }
+                                else
+                                {
+                                    other.transform.localPosition = new Vector3(randomx,randomy,randomz);
+                                }
+                                
                                 if (other.TryGetComponent(out Rigidbody rb))
                                 {
                                     Destroy(rb); //if you set the bodies to kinematic, you float around like you're using thors hammer
@@ -144,7 +161,7 @@ public class seed_bag_logic : MonoBehaviour
                 
             }
 
-            if (other.CompareTag("Player"))
+            if (other.CompareTag("Player") && placed == true)
             {
                 if (placing_picking == true)
                 {
@@ -172,9 +189,16 @@ public class seed_bag_logic : MonoBehaviour
             {
                 Debug.Log("removed object");
                 //Debug.Log("it was in the list");
-                if (other.gameObject.TryGetComponent(out cropGrowth growth))
+                if (other.TryGetComponent(out cropGrowth growth))
                 {
-                    current_seed_count -= growth.hydration_scale;
+                    if (growth.hydration_scale != 0)
+                    {
+                        current_seed_count -= growth.hydration_scale;
+                    }
+                    else
+                    {
+                        current_seed_count -= 1;
+                    }
                 }
                 else
                 {
@@ -264,7 +288,14 @@ public class seed_bag_logic : MonoBehaviour
         
         if (seeds.First().TryGetComponent(out cropGrowth growth))
         {
-            current_seed_count -= growth.hydration_scale;
+            if (growth.hydration_scale != 0)
+            {
+                current_seed_count -= growth.hydration_scale;
+            }
+            else
+            {
+                current_seed_count -= 1;
+            }
         }
         else
         {

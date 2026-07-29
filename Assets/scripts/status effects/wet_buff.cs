@@ -75,6 +75,11 @@ namespace statusEffects
             {
                 perk_logic.current.perk2_logic();
             }
+
+            if (perk_logic.current.watering_can_customization == 1)
+            {
+                perk_logic.current.watering_can_customization_logic();
+            }
             if (apply_type == 1)
             {
                 

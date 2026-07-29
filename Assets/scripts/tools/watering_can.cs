@@ -25,6 +25,8 @@ public class watering_can : MonoBehaviour
     public bool placing_picking;
     public GameObject place_origin;
     public Transform return_point;
+
+    public BoxCollider water_collider;
     
     public void OnEnable()
     {
@@ -77,6 +79,7 @@ public class watering_can : MonoBehaviour
                 }
             }
 
+            
             yield return new WaitForSeconds(water_drain_rate);
         }
         
@@ -132,7 +135,7 @@ public class watering_can : MonoBehaviour
     
     public void can_drop (InputAction.CallbackContext context)
     {
-        if (weapon_wheel_controller.current.selected_weapon == 5)
+        if (this.gameObject.activeSelf == true)
         {
             if (context.started)
             {

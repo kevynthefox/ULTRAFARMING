@@ -56,6 +56,8 @@ public class cropGrowth : MonoBehaviour
     void Awake()
     {
         harvested_part = cropData.cropPrefab;
+        crop_material = new Material(crop_material);//this makes you able to dehydrate only 1 crop at a time, by making each one have a 'seperate material' :3  
+        this.GetComponent<Renderer>().material = crop_material;
     }
 
     public void Start_growing()
@@ -500,7 +502,8 @@ public class cropGrowth : MonoBehaviour
         hydration_count += hydration_change;
         hydration_scale = Mathf.Pow(2, hydration_count);
         Color new_color = new Vector4(defaultR * hydration_scale,defaultG * hydration_scale, defaultB * hydration_scale, defaultA * hydration_scale);
-        crop_material.SetColor("new color",new_color);
+        crop_material.SetColor("_BaseColor",new_color);
+        growth_rate *= hydration_scale;
     }
 }
 

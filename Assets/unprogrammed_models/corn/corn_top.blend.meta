@@ -1,14 +1,30 @@
 fileFormatVersion: 2
 guid: 8d9c3d79c47c33f7cadb88da9ca9c7ba
 ModelImporter:
-  serializedVersion: 24200
+  serializedVersion: 24501
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.010
+    second: {fileID: 2100000, guid: 87265a4c441cc9d978d90ab1bef63224, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.012
+    second: {fileID: 2100000, guid: c6c65fb75ee32fe708ee88213f870287, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.015
+    second: {fileID: 2100000, guid: ae5ff7efeab6e86d08d54ad5f6079c68, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
     materialSearch: 1
     materialLocation: 1
+    searchTexturesGlobally: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -59,6 +75,8 @@ ModelImporter:
     generateMeshLods: 0
     meshLodGenerationFlags: 0
     maximumMeshLod: -1
+    importUVs: -1
+    importVertexColors: 1
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
@@ -78,6 +96,7 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
+    calculateBlendshapeNormalsDeltaFromImportedNormals: 1
   referencedClips: []
   importAnimation: 1
   humanDescription:

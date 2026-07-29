@@ -70,7 +70,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 880774007180850119, guid: 8d9c3d79c47c33f7cadb88da9ca9c7ba, type: 3}
+  - {fileID: 2100000, guid: c6c65fb75ee32fe708ee88213f870287, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45db38c81e9c77b6b8d485eede6f886b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::cropGrowth
-  maxGrowth: 10
+  maxGrowth: 1000
   growth_rate: 0.1
   excess_growth: 0
   excess_segments: 0
@@ -178,6 +178,14 @@ MonoBehaviour:
   procedural_rotation: {x: 0, y: 0, z: 0, w: 0}
   local_sizeMultiplier: 1
   base_price: 2
+  manual_or_thrown: 0
+  hydration_count: 0
+  crop_material: {fileID: 2100000, guid: c6c65fb75ee32fe708ee88213f870287, type: 2}
+  defaultR: 128
+  defaultG: 128
+  defaultB: 0
+  defaultA: 0
+  hydration_scale: 0
 --- !u!114 &8655806127194593519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,3 +201,4 @@ MonoBehaviour:
   product_id: 0
   base_value: 2
   local_value_multiplier: 1
+  being_held: 0
