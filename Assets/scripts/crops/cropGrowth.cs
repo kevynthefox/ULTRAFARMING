@@ -52,6 +52,7 @@ public class cropGrowth : MonoBehaviour
     public int defaultR, defaultG, defaultB, defaultA;
     //public Color default_color;
     public float hydration_scale;
+    public float base_growth_rate;
     
     void Awake()
     {
@@ -503,7 +504,7 @@ public class cropGrowth : MonoBehaviour
         hydration_scale = Mathf.Pow(2, hydration_count);
         Color new_color = new Vector4(defaultR * hydration_scale,defaultG * hydration_scale, defaultB * hydration_scale, defaultA * hydration_scale);
         crop_material.SetColor("_BaseColor",new_color);
-        growth_rate *= hydration_scale;
+        growth_rate = base_growth_rate * hydration_scale;
     }
 }
 

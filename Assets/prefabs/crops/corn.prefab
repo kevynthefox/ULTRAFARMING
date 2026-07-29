@@ -186,6 +186,7 @@ MonoBehaviour:
   defaultB: 0
   defaultA: 0
   hydration_scale: 0
+  base_growth_rate: 0.1
 --- !u!114 &8655806127194593519
 MonoBehaviour:
   m_ObjectHideFlags: 0

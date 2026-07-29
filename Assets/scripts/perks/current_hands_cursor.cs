@@ -61,6 +61,8 @@ public class current_hands_cursor : MonoBehaviour
                 Debug.Log("is in an acceptable layer");
                 if (pickup.grabbing)
                 {
+
+                    
                     
                     if (other.TryGetComponent(out Boid boid))
                     {
@@ -84,5 +86,25 @@ public class current_hands_cursor : MonoBehaviour
             }
         }
         
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (pickup.grabbing)
+        {
+
+            if (other.CompareTag("sellable") && other.TryGetComponent(out cropGrowth growth_logic))
+            {
+                if (perk_logic.current.perk4)
+                {
+                    growth_logic.hydrate(-1);
+                }
+
+                if (perk_logic.current.perk5)
+                {
+                    growth_logic.hydrate(1);
+                }
+            }
+        }
     }
 }
