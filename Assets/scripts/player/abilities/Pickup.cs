@@ -26,12 +26,15 @@ public class Pickup : MonoBehaviour//, IPointerClickHandler,IScrollHandler
     public Transform previous_parent;
 
     public int rotation_state;
-    
+
+    public bool grabbing;
+    public current_hands_cursor currenthands;
    
     public void move(InputAction.CallbackContext context)
     {
         if (context.started)
         {
+            grabbing = true;
             //this is the part for getting the object
 
             #region get_obj
@@ -83,10 +86,17 @@ public class Pickup : MonoBehaviour//, IPointerClickHandler,IScrollHandler
                     previous_parent = null;
                 }
 
-                
 
-                obj.transform.parent = cursor.transform;
-                obj.transform.localPosition = Vector3.zero;
+                if (perk_logic.current.perk6)
+                {
+                    currenthands.StartCoroutine(currenthands.puppet());
+                }
+                else
+                {
+                    obj.transform.parent = cursor.transform;
+                    obj.transform.localPosition = Vector3.zero;
+                }
+
                 if (obj.TryGetComponent(out Rigidbody rb))
                 {
                     rb.isKinematic = true;
@@ -136,6 +146,7 @@ public class Pickup : MonoBehaviour//, IPointerClickHandler,IScrollHandler
 
         if (context.canceled)
         {
+            grabbing = false;
             #region release_obj
             
             if (obj != null)
