@@ -2,6 +2,7 @@ using System;
 using statusEffects;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class perk_logic : MonoBehaviour
 {
@@ -12,6 +13,16 @@ public class perk_logic : MonoBehaviour
     public int watering_can_customization;
 
     public GameObject water_ball_prefab;
+    
+    public Image perk_slot_1;
+    public Image perk_slot_2;
+    public Image perk_slot_3;
+    public Image perk_slot_4;
+
+    public int perk_slot_1_perk;
+    public int perk_slot_2_perk;
+    public int perk_slot_3_perk;
+    public int perk_slot_4_perk;
     
     public static perk_logic current;
     public bool perk1; //rushing river
