@@ -533,6 +533,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6428842717865058974, guid: e3ee30caf07d64891b0d195532db6986, type: 3}
+      propertyPath: maxGrowth
+      value: 10000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6612,7 +6616,7 @@ Transform:
   m_GameObject: {fileID: 1394474350}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -16.9, y: 25, z: -16}
+  m_LocalPosition: {x: -16.9, y: 17.7, z: -16}
   m_LocalScale: {x: 100, y: 0.5, z: 32}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9393,6 +9397,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 84890441033297026, guid: e3ee30caf07d64891b0d195532db6986, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 139003153898952334, guid: e3ee30caf07d64891b0d195532db6986, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 868990336414349300, guid: e3ee30caf07d64891b0d195532db6986, type: 3}
       propertyPath: m_Name
       value: corn (1)

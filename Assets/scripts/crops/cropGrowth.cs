@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using statusEffects;
+using TMPro;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class cropGrowth : MonoBehaviour
 {
@@ -54,6 +56,13 @@ public class cropGrowth : MonoBehaviour
     public float hydration_scale;
     public float base_growth_rate;
     
+    [Header("progress bar")]
+    public TextMeshProUGUI text_part;
+    public TextMeshProUGUI text_dev_note;
+    public Image progress_bar;
+    public Canvas canvas;
+    
+    
     void Awake()
     {
         harvested_part = cropData.cropPrefab;
@@ -61,7 +70,7 @@ public class cropGrowth : MonoBehaviour
         this.GetComponent<Renderer>().material = crop_material;
     }
 
-    public void Start_growing()
+    public IEnumerator Start_growing()
     {
         started_growth = true;
 
@@ -80,18 +89,28 @@ public class cropGrowth : MonoBehaviour
             }
         }
         
+
+        if (maxGrowth / 60 > 0.2f)
+        {
+            canvas.gameObject.SetActive(true);
+            if (maxGrowth >= 1000)
+            {
+                text_dev_note.text = "plant booting <br> <br> this is your fault. i hope you are happy";
+            }
+        }
+
         for (int i = 0; i < maxGrowth; i++)
         {
             if (i == 0)
             {
                 var bottom = Instantiate(bottom_section, transform.position + offset, transform.rotation);
                 next_point = bottom.transform.Find("next_point").gameObject;
-                
-                bottom.transform.Rotate(90,0,0);// = new quaternion(90,0,0,0);
+
+                bottom.transform.Rotate(90, 0, 0); // = new quaternion(90,0,0,0);
                 bottom.transform.parent = this.transform;
-                
+
                 previous_point = this.gameObject;
-                add_segment_to_crop_segments(i,bottom);
+                add_segment_to_crop_segments(i, bottom);
                 segments.Add(bottom);
                 previous_point = bottom;
             }
@@ -101,59 +120,88 @@ public class cropGrowth : MonoBehaviour
                 {
                     var top = Instantiate(top_section, transform.position, transform.rotation);
                     segments.Add(top);
-                    
-                    top.transform.parent = previous_point.transform;//this makes it so all segments above the previous one move up at once, so that the whole plant can actually grow instead of collecting in one spot
+
+                    top.transform.parent =
+                        previous_point
+                            .transform; //this makes it so all segments above the previous one move up at once, so that the whole plant can actually grow instead of collecting in one spot
                     //top.transform.Rotate(90f, transform.rotation.y + (i * 90f),0);
-                    
-                    add_segment_to_crop_segments(i,top);
+
+                    add_segment_to_crop_segments(i, top);
                     next_point = null;
-                    
-                    
+
+
                 }
                 else
                 {
-                    procedural_rotation = new Quaternion(90f , transform.rotation.y + (i * 90f),
-                        transform.rotation.z , transform.rotation.w);
+                    procedural_rotation = new Quaternion(90f, transform.rotation.y + (i * 90f),
+                        transform.rotation.z, transform.rotation.w);
 
-                    var middle = Instantiate(middle_section, previous_point.transform.position, quaternion.identity);//transform.rotation ); //the i * 90 is to make it turn more each segment
+                    var middle = Instantiate(middle_section, previous_point.transform.position,
+                        quaternion.identity); //transform.rotation ); //the i * 90 is to make it turn more each segment
                     next_point = middle.transform.Find("next_point").gameObject;
-                    
-                    
-                    middle.transform.parent = previous_point.transform;//this makes it so all segments above the previous one move up at once, so that the whole plant can actually grow instead of collecting in one spot
+
+
+                    middle.transform.parent =
+                        previous_point
+                            .transform; //this makes it so all segments above the previous one move up at once, so that the whole plant can actually grow instead of collecting in one spot
                     //middle.transform.Rotate(90,0,0 + (i*90));
                     //Debug.Log("rotation of " + i.ToString() + ": " + middle.transform.localEulerAngles);
-                    
-                    
-                    
-                    add_segment_to_crop_segments(i,middle);
+
+
+
+                    add_segment_to_crop_segments(i, middle);
                     previous_point = middle;
                     segments.Add(middle);
-                    
-                    
+
+
                 }
             }
-           
 
-            
-        }
+            if (i != 0) segments[i].SetActive(false);
 
-        foreach (var segment in segments)
-        { 
-            
-            //add a thing to add it to the segments data list thingy here
-            if (segment != segments.First())
+            if (maxGrowth / 60 > 0.2f)
             {
-                segment.SetActive(false);   
+                //Debug.Log(segments.Count / maxGrowth);
+                progress_bar.fillAmount = (float)segments.Count / maxGrowth;
+                text_part.text = segments.Count + "/" + maxGrowth;
+
+                if (frame_display.current.frameRate <= 15)
+                {
+                    text_dev_note.text =
+                        "uh you should probably pull this thing <br> <br> out of the ground before your computer explodes..";
+                }
+                
+                if (CompareTag("finished_crop"))
+                {
+                    text_dev_note.text =
+                        "thanks. uh you should probably not make something <br> <br> this large again.. im gonna delete this now for you.";
+                    yield return new WaitForSeconds(20);
+                    Destroy(this.gameObject);
+                    
+                    yield break;
+                }
             }
-            //shrink them down until they're invisible so that they can grow, then turn them off to save processing power
+
+            yield return new WaitForEndOfFrame();
         }
-        
+
+
+
+
+
         if (growthIncrementer.current.crops.Count == 0)
         {
             growthIncrementer.current.crops.Add(this);
             growthIncrementer.current.startGrowthIncrement();
             //if this is the first crop, start the growth incrementer
         }
+        
+        if (maxGrowth / 60 > 0.2f)
+        {
+            canvas.gameObject.SetActive(false);
+        }
+        
+        tag = "growing_crop";
     }
 
     //public quaternion rotaty;
@@ -488,8 +536,8 @@ public class cropGrowth : MonoBehaviour
                         //Physics.Raycast(this.transform.position,Vector3.down,out RaycastHit hit);
                         transform.rotation = quaternion.identity; // = Quaternion.LookRotation(hit.transform.up);
                         //honestly.. like.. why would it ever need to be sideways? this is a perfectly flat plane
-                        tag = "growing_crop";
-                        Start_growing();
+                        
+                        StartCoroutine(Start_growing());
                     }
                 }
             }

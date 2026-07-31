@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class frame_display : MonoBehaviour
 {
+    public static frame_display current;
+    
     private float pollingTime = 1f;
     private float time;
     private int frameCount;
@@ -15,9 +17,9 @@ public class frame_display : MonoBehaviour
     public TextMeshProUGUI frame;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
+        current = this;
     }
 
     // Update is called once per frame

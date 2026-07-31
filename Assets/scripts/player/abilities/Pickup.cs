@@ -138,6 +138,11 @@ public class Pickup : MonoBehaviour//, IPointerClickHandler,IScrollHandler
                         {
                             growth.hydrate(1);
                         }
+
+                        if (growth.started_growth == true)
+                        {
+                            obj.tag = "finished_crop";
+                        }
                     }
                 }
             }
