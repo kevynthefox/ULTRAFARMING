@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using statusEffects;
 using Unity.Mathematics;
 using UnityEngine;
@@ -13,18 +14,34 @@ public class perk_logic : MonoBehaviour
     public int watering_can_customization;
 
     public GameObject water_ball_prefab;
+
+    public Image hoe_slot;
+    public Image scythe_slot;
+    public Image seed_bag_slot;
+    public Image watering_can_slot;
     
     public Image perk_slot_1;
     public Image perk_slot_2;
     public Image perk_slot_3;
     public Image perk_slot_4;
 
+    public List<Sprite> perk_images;
+    public List<Sprite> hoe_images;
+    public List<Sprite> scythe_images;
+    public List<Sprite> seed_bag_images;
+    public List<Sprite> watering_can_images;
+
     public int perk_slot_1_perk;
     public int perk_slot_2_perk;
     public int perk_slot_3_perk;
     public int perk_slot_4_perk;
+
+    public int slot_old_value;
     
     public static perk_logic current;
+    public static event Action<perk_logic> OnPerkSlotLogicEvent;
+    
+    
     public bool perk1; //rushing river
 
     public bool perk2; //slippery
@@ -45,19 +62,79 @@ public class perk_logic : MonoBehaviour
     public void hoe_customization_choser(int i)
     {
         hoe_customization = i;
+        hoe_slot.sprite = hoe_images[i];
     }
     public void scythe_customization_choser(int i)
     {
         scythe_customization = i;
+        scythe_slot.sprite = scythe_images[i];
     }
     public void seed_bag_customization_choser(int i)
     {
         seed_bag_customization = i;
+        seed_bag_slot.sprite = seed_bag_images[i];
     }
     public void watering_can_customization_choser(int i)
     {
         watering_can_customization = i;
+        watering_can_slot.sprite = watering_can_images[i];
         watering_can_customization_logic();
+    }
+
+    public void perk_slot_logic(int new_value, int slot_value)//slot value like 1 is slot 1
+    {
+        slot_old_value = 0;
+        
+        if (slot_value == 1)  slot_old_value = perk_slot_1_perk;
+        if (slot_value == 2)  slot_old_value = perk_slot_2_perk;
+        if (slot_value == 3)  slot_old_value = perk_slot_3_perk;
+        if (slot_value == 4)  slot_old_value = perk_slot_4_perk;
+        
+        
+        if (slot_old_value == 1) perk1_toggle();
+        if (slot_old_value == 2) perk2_toggle();
+        if (slot_old_value == 3) perk3_toggle();
+        if (slot_old_value == 4) perk4_toggle();
+        if (slot_old_value == 5) perk5_toggle();
+        if (slot_old_value == 6) perk6_toggle();
+
+        if (slot_value == 1)
+        {
+            perk_slot_1_perk = new_value; 
+            perk_slot_1.sprite = perk_images[new_value];
+        }
+
+        if (slot_value == 2)
+        {
+            perk_slot_2_perk = new_value; 
+            perk_slot_2.sprite = perk_images[new_value];
+        }
+
+        if (slot_value == 3)
+        {
+            perk_slot_3_perk = new_value; 
+            perk_slot_3.sprite = perk_images[new_value];
+        }
+
+        if (slot_value == 4)
+        {
+            perk_slot_4_perk = new_value; 
+            perk_slot_4.sprite = perk_images[new_value];
+        }
+        slot_old_value = new_value;
+        
+        if (slot_old_value == 1) perk1_toggle();
+        if (slot_old_value == 2) perk2_toggle();
+        if (slot_old_value == 3) perk3_toggle();
+        if (slot_old_value == 4) perk4_toggle();
+        if (slot_old_value == 5) perk5_toggle();
+        if (slot_old_value == 6) perk6_toggle();
+
+        if (OnPerkSlotLogicEvent != null)
+        {
+            OnPerkSlotLogicEvent(this);
+        }
+        
     }
     
     
