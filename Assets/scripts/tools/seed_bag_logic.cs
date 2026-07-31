@@ -272,7 +272,7 @@ public class seed_bag_logic : MonoBehaviour
         seed.transform.parent = null;
         seed.transform.position = throw_point.position;
         seed.AddComponent<Rigidbody>().useGravity = true;
-
+        
     }
 
     public void throw_single_seed()
@@ -296,6 +296,11 @@ public class seed_bag_logic : MonoBehaviour
             {
                 current_seed_count -= 1;
             }
+            
+            if (perk_logic.current.seed_bag_customization == 2)
+            {
+                growth.maxGrowth = Mathf.RoundToInt(growth.maxGrowth * current_seed_count);
+            }
         }
         else
         {
@@ -314,7 +319,7 @@ public class seed_bag_logic : MonoBehaviour
         {
             re_scale_seed(seeds[i]);
             throw_seed(throw_points[i], seeds[i]);
-
+            
         }
 
         for (int i = 0; i < seeds.Count; i++)
@@ -324,7 +329,14 @@ public class seed_bag_logic : MonoBehaviour
                 rb.linearVelocity = throw_points[i].forward * throw_speed;
                 
             }
-            seeds[i].GetComponent<cropGrowth>().manual_or_thrown = true;
+            
+            seeds[i].TryGetComponent(out cropGrowth growth);
+            growth.manual_or_thrown = true;
+            
+            if (perk_logic.current.seed_bag_customization == 2)
+            {
+                growth.maxGrowth = Mathf.RoundToInt(growth.maxGrowth * (current_seed_count - i));
+            }
         }
         
         
