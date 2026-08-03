@@ -9,11 +9,11 @@ namespace statusEffects
 
 
 //[CreateAssetMenu(fileName = "StatusEffectTemplate", menuName = "status effect template")] //note, this may only let you add copies of this script via scriptable objects.. so you might just have to copy and paste this script a lot instead.
-    public class StatusEffectTemplate : MonoBehaviour
+    public class dirty_buff : MonoBehaviour
     {
-        public float time_remaining, time_max; //if time max is 0 then the effect lasts until some other condition is met. like having a speed boost until you jump?
+        public float time_remaining, time_max = 60; //if time max is 0 then the effect lasts until some other condition is met. like having a speed boost until you jump?
 
-        public int stack_count, max_stack_count;
+        public int stack_count, max_stack_count = 10;
 
         public Canvas effect_display_area;
         public GameObject effect_display;
@@ -27,17 +27,19 @@ namespace statusEffects
 
         public bool moved_version; //this bool exists as a way to check if this is the script that has been created by the script moving to the parent object.
 
+        public float earth_element_multiplier = 1.5f;
+        
         public void Start()
         {
             if (moved_version == false)
             {
-                if (this.transform.parent.TryGetComponent(out StatusEffectTemplate this_script)) //change statuseffecttemplate out for the name of the script.
+                if (this.transform.parent.TryGetComponent(out dirty_buff this_script)) //change statuseffecttemplate out for the name of the script.
                 {
                     this_script.add();
                 }
                 else
                 {
-                    transform.parent.AddComponent<StatusEffectTemplate>().moved_version = true;
+                    transform.parent.AddComponent<dirty_buff>().moved_version = true;
                 }
 
                 Destroy(this.gameObject);
@@ -48,7 +50,7 @@ namespace statusEffects
                 stack_count = 1;
                 time_remaining = time_max;
                 
-                effect_display_prefab = StatusEffectAdder.current.statusEffect_displays[0];//replace with whatever number is associated with this effect
+                effect_display_prefab = StatusEffectAdder.current.statusEffect_displays[2];//replace with whatever number is associated with this effect
                 
                 effect_display_area = GetComponentInChildren<Canvas>();
                 effect_display = Instantiate(effect_display_prefab);
@@ -68,9 +70,13 @@ namespace statusEffects
 
         public IEnumerator apply_effect()
         {
+            
+            
+
+            
             if (apply_type == 1)
             {
-                //apply 1 time, at the start.
+                
             }
 
             if (apply_type == 2)

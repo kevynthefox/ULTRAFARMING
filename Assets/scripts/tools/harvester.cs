@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using statusEffects;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,6 +18,8 @@ public class harvester : MonoBehaviour
 
     public bool is_scythe;
     public Animator animator;
+    
+    public float additional_parts;
     
 
     private void OnTriggerStay(Collider other)
@@ -67,7 +70,27 @@ public class harvester : MonoBehaviour
     {
         foreach (var part in parts)
         {
-            for (int i = 0; i < part.number_of_harvestable_parts; i++)
+            
+            if (perk_logic.current.perk7)
+            {
+                if (perk_logic.current.perk8)
+                {
+                    if (StatusEffectAdder.current.player.TryGetComponent(out dirty_buff dirty))
+                    {
+                        additional_parts = Mathf.RoundToInt(perk_logic.current.seed_bag_animator.gameObject
+                            .GetComponent<seed_bag_logic>().current_seed_count * Mathf.Pow(dirty.earth_element_multiplier,dirty.stack_count));
+                    }
+                    else
+                    {
+                        additional_parts = perk_logic.current.seed_bag_animator.gameObject.GetComponent<seed_bag_logic>().current_seed_count;
+                    }
+                }
+                else
+                {
+                    additional_parts = perk_logic.current.seed_bag_animator.gameObject.GetComponent<seed_bag_logic>().current_seed_count;
+                }
+            }
+            for (int i = 0; i < part.number_of_harvestable_parts + additional_parts; i++)
             {
                 float sizeMultiplier = growthIncrementer.current.crop_size_multiplier + part.local_sizeMultiplier;
                 var crop = Instantiate(part.part, output_point.position, Quaternion.identity);
@@ -75,6 +98,18 @@ public class harvester : MonoBehaviour
                 crop.GetComponent<cropGrowth>().local_sizeMultiplier = sizeMultiplier;
                 crop.GetComponent<product_data_holder>().local_value_multiplier = sizeMultiplier;
                 if (is_scythe == true) crop.GetComponent<Rigidbody>().isKinematic = true;
+
+                if (perk_logic.current.scythe_customization == 2)
+                {
+                    float randomX = UnityEngine.Random.Range(-3, 3);
+                    float randomY = UnityEngine.Random.Range(-3, 3);
+                    float randomZ = UnityEngine.Random.Range(-3, 3);
+                    
+                    crop.transform.parent = this.transform;
+                    crop.transform.localPosition = new Vector3(randomX, randomY, randomZ);
+                    crop.transform.parent = null;
+                    crop.GetComponent<Rigidbody>().isKinematic = false;
+                }
             }
         }
         parts.Clear();

@@ -136,9 +136,10 @@ namespace statusEffects
                 //add logic here to undo the effect.
                 stack_count += 1;
                 StartCoroutine(apply_effect());
-                time_remaining = time_max;
+                
                 effect_display_text_stack.text = "x"+stack_count;
             }
+            time_remaining = time_max;
         }
 
         public void remove()

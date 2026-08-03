@@ -95,7 +95,18 @@ public class watering_can : MonoBehaviour
                 {
                     if (water_count > 0)
                     {
-                        growth.growth_rate *= speed_multiplier;
+                        if (perk_logic.current.watering_can_customization == 0 || perk_logic.current.watering_can_customization == 1)
+                        {
+                            growth.growth_rate *= speed_multiplier;
+                        }
+                        else
+                        {
+                            if (perk_logic.current.watering_can_customization == 2)
+                            {
+                                growth.local_sizeMultiplier = Mathf.Abs(growth.local_sizeMultiplier * speed_multiplier);
+                                other.transform.localScale *= speed_multiplier;
+                            }
+                        }
                     }
                 }
             }

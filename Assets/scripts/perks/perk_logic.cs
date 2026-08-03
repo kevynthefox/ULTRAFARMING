@@ -58,11 +58,15 @@ public class perk_logic : MonoBehaviour
 
     public bool perk6; //current hands
 
+    public bool perk7; //blessing of the plants. for every seed you have, of the same type as the plant you are harvesting, gain a chance to get an extra seed when harvesting.
+
+    public bool perk8; //filthy. digging applies dirty.
     
     public void hoe_customization_choser(int i)
     {
         hoe_customization = i;
         hoe_slot.sprite = hoe_images[i];
+        hoe_customization_logic();
     }
     public void scythe_customization_choser(int i)
     {
@@ -97,6 +101,8 @@ public class perk_logic : MonoBehaviour
         if (slot_old_value == 4) perk4_toggle();
         if (slot_old_value == 5) perk5_toggle();
         if (slot_old_value == 6) perk6_toggle();
+        if (slot_old_value == 7) perk7_toggle();
+        if (slot_old_value == 8) perk8_toggle();
 
         if (slot_value == 1)
         {
@@ -129,7 +135,9 @@ public class perk_logic : MonoBehaviour
         if (slot_old_value == 4) perk4_toggle();
         if (slot_old_value == 5) perk5_toggle();
         if (slot_old_value == 6) perk6_toggle();
-
+        if (slot_old_value == 7) perk7_toggle();
+        if (slot_old_value == 8) perk8_toggle();
+        
         if (OnPerkSlotLogicEvent != null)
         {
             OnPerkSlotLogicEvent(this);
@@ -166,6 +174,32 @@ public class perk_logic : MonoBehaviour
     public void perk6_toggle()
     {
         perk6 = !perk6;
+    }
+    public void perk7_toggle()
+    {
+        perk7 = !perk7;
+    }
+    public void perk8_toggle()
+    {
+        perk8 = !perk8;
+    }
+    public void hoe_customization_logic()
+    {
+        if (hoe_customization == 2)
+        {
+            Debug.Log("triggering hoe 2");
+            hoe_animator.TryGetComponent(out TerrainInteractor terrainInteractor);
+            terrainInteractor.voxelIDToPlace = 1;
+            terrainInteractor.ReplaceBlockInPlace = false;
+            terrainInteractor.toolType = TerrainInteractor.ToolType.Radius;
+        }
+        else
+        {
+            hoe_animator.TryGetComponent(out TerrainInteractor terrainInteractor);
+            terrainInteractor.voxelIDToPlace = 0;
+            terrainInteractor.ReplaceBlockInPlace = true;
+            terrainInteractor.toolType = TerrainInteractor.ToolType.SingleBlock;
+        }
     }
 
     public void watering_can_customization_logic()

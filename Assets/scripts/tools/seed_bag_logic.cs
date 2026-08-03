@@ -342,7 +342,7 @@ public class seed_bag_logic : MonoBehaviour
         
 
         seeds.Clear();
-        
+        current_seed_count = 0;
         update_texts();
     }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using statusEffects;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -240,13 +241,25 @@ public class TerrainInteractor : MonoBehaviour
                     if (ReplaceBlockInPlace)
                     {
                         if (hitInfo.normal.x > 0 || hitInfo.normal.y > 0 || hitInfo.normal.z > 0)
+                        {
                             blockPos -= hitInfo.normal;
+                            if (perk_logic.current.perk8)
+                            {
+                                StatusEffectAdder.current.addStatusEffect(StatusEffectAdder.current.player,2);
+                            }
+                        }
                     }
                     else
                     {
 
                         if (hitInfo.normal.x < 0 || hitInfo.normal.y < 0 || hitInfo.normal.z < 0)
+                        {
                             blockPos += hitInfo.normal;
+                            if (perk_logic.current.perk8)
+                            {
+                                StatusEffectAdder.current.addStatusEffect(StatusEffectAdder.current.player, 2);
+                            }
+                        }
                     }
 
                     return true;
