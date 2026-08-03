@@ -517,6 +517,20 @@ public class cropGrowth : MonoBehaviour
                     }
                 }
             }
+            else
+            {
+                if (perk_logic.current.perk10)
+                {
+                    if (StatusEffectAdder.current.player.TryGetComponent(out dirty_buff dirty))
+                    {
+                        number_of_harvestable_parts_per_segment = Mathf.RoundToInt(number_of_harvestable_parts_per_segment * Mathf.Pow(dirty.earth_element_multiplier,dirty.stack_count));
+                    }
+                    else
+                    {
+                        number_of_harvestable_parts_per_segment *= 2;
+                    }
+                }
+            }
             
             if (TryGetComponent(out Rigidbody rb))
             {

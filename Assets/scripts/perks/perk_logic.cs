@@ -42,25 +42,29 @@ public class perk_logic : MonoBehaviour
     public static event Action<perk_logic> OnPerkSlotLogicEvent;
     
     
-    public bool perk1; //rushing river
+    public bool perk1; //rushing river. when you run out of watering can water, gain a speed boost and spawn water below your feet.
 
-    public bool perk2; //slippery
+    public bool perk2; //slippery. increased weapon swing speed by how wet you are.
     public Animator trowel_animator;
     public Animator hoe_animator;
     public Animator scythe_animator;
     public Animator seed_bag_animator;
     public Animator watering_can_animator;
     
-    public bool perk3; //slidey
+    public bool perk3; //slidey. while wet you have 0 friction with the ground.
     
-    public bool perk4;//dehydration
-    public bool perk5;//overhydration
+    public bool perk4;//dehydration. grab a crop to dehydrate it and make it more space efficient in your bag, at the cost of growing slower.
+    public bool perk5;//overhydration. grab a crop to overhydrate it and make it less space efficient in your bag, but it grows faster.
 
-    public bool perk6; //current hands
+    public bool perk6; //current hands. allows you to pick up multiple objects at once by giving them boids.
 
     public bool perk7; //blessing of the plants. for every seed you have, of the same type as the plant you are harvesting, gain a chance to get an extra seed when harvesting.
 
     public bool perk8; //filthy. digging applies dirty.
+
+    public bool perk9; //blessing of the ground. increased jump height per dirty.
+    
+    public bool perk10; //green thumb. increased yield for manually planted crops(non thrown)
     
     public void hoe_customization_choser(int i)
     {
@@ -103,6 +107,9 @@ public class perk_logic : MonoBehaviour
         if (slot_old_value == 6) perk6_toggle();
         if (slot_old_value == 7) perk7_toggle();
         if (slot_old_value == 8) perk8_toggle();
+        if (slot_old_value == 9) perk9_toggle();
+        if (slot_old_value == 10) perk10_toggle();
+
 
         if (slot_value == 1)
         {
@@ -137,6 +144,8 @@ public class perk_logic : MonoBehaviour
         if (slot_old_value == 6) perk6_toggle();
         if (slot_old_value == 7) perk7_toggle();
         if (slot_old_value == 8) perk8_toggle();
+        if (slot_old_value == 9) perk9_toggle();
+        if (slot_old_value == 10) perk10_toggle();
         
         if (OnPerkSlotLogicEvent != null)
         {
@@ -182,6 +191,14 @@ public class perk_logic : MonoBehaviour
     public void perk8_toggle()
     {
         perk8 = !perk8;
+    }
+    public void perk9_toggle()
+    {
+        perk9 = !perk9;
+    }
+    public void perk10_toggle()
+    {
+        perk10 = !perk10;
     }
     public void hoe_customization_logic()
     {

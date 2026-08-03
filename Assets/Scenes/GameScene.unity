@@ -1365,6 +1365,14 @@ PrefabInstance:
       propertyPath: slot_num
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7175962043109445254, guid: e4829f4cf7eaf1bf08c46db08df8fefc, type: 3}
+      propertyPath: slot_num
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7394650618550825910, guid: e4829f4cf7eaf1bf08c46db08df8fefc, type: 3}
+      propertyPath: slot_num
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8097681976941833152, guid: e4829f4cf7eaf1bf08c46db08df8fefc, type: 3}
       propertyPath: m_Name
       value: perk menu 3
@@ -2529,6 +2537,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1833095840}
     - target: {fileID: 5317417284348168557, guid: e4829f4cf7eaf1bf08c46db08df8fefc, type: 3}
+      propertyPath: slot_num
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7175962043109445254, guid: e4829f4cf7eaf1bf08c46db08df8fefc, type: 3}
+      propertyPath: slot_num
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7394650618550825910, guid: e4829f4cf7eaf1bf08c46db08df8fefc, type: 3}
       propertyPath: slot_num
       value: 2
       objectReference: {fileID: 0}
@@ -9645,6 +9661,14 @@ PrefabInstance:
       propertyPath: slot_num
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 7175962043109445254, guid: e4829f4cf7eaf1bf08c46db08df8fefc, type: 3}
+      propertyPath: slot_num
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7394650618550825910, guid: e4829f4cf7eaf1bf08c46db08df8fefc, type: 3}
+      propertyPath: slot_num
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 8097681976941833152, guid: e4829f4cf7eaf1bf08c46db08df8fefc, type: 3}
       propertyPath: m_Name
       value: perk menu 4
@@ -16605,6 +16629,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 9a1acd85dcbb13b63a7cf8b8be52df90, type: 3}
   - {fileID: 21300000, guid: b965752f3189b43f88145933df0d8b81, type: 3}
   - {fileID: 21300000, guid: d376a40d973febda4a91899a3bc62119, type: 3}
+  - {fileID: 21300000, guid: ef255b7949888c6ef825a67f8fb6a1c0, type: 3}
+  - {fileID: 21300000, guid: 68266aee26f421fd1b15056d80bedc9d, type: 3}
   hoe_images:
   - {fileID: 21300000, guid: cc727b4c8d478ca3790c02b6f75cc237, type: 3}
   - {fileID: 21300000, guid: 690bb32e1e2177b3dadfb18589e8fe2c, type: 3}
@@ -16639,6 +16665,8 @@ MonoBehaviour:
   perk6: 0
   perk7: 0
   perk8: 0
+  perk9: 0
+  perk10: 0
 --- !u!1 &7683861148773903278
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using statusEffects;
+using UnityEngine;
 
 public class Jump : MonoBehaviour
 {
@@ -27,7 +28,22 @@ public class Jump : MonoBehaviour
         // Jump when the Jump button is pressed and we are on the ground.
         if (Input.GetButtonDown("Jump") && (!groundCheck || groundCheck.isGrounded))
         {
-            rigidbody.AddForce(Vector3.up * 100 * jumpStrength);
+            if (perk_logic.current.perk9)
+            {
+                if (TryGetComponent(out dirty_buff dirty))
+                {
+                    rigidbody.AddForce(Vector3.up * 100 * jumpStrength * Mathf.Pow(dirty.earth_element_multiplier,dirty.stack_count));
+                }
+                else
+                {
+                    rigidbody.AddForce(Vector3.up * 100 * jumpStrength);
+                }
+            }
+            else
+            {
+                rigidbody.AddForce(Vector3.up * 100 * jumpStrength);
+            }
+            
             Jumped?.Invoke();
         }
     }
