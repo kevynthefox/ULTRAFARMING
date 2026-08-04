@@ -69,8 +69,8 @@ public class cart_logic : MonoBehaviour
         Debug.Log("discharging cargo");
         foreach (GameObject g in items)
         {
-            g.transform.localPosition = new Vector3(g.transform.localPosition.x, -4, g.transform.localPosition.z);
-            g.transform.parent = null;
+            g.transform.localPosition = new Vector3(g.transform.localPosition.x, 2, -12);
+            
             if (g.TryGetComponent(out Rigidbody rb))
             {
                 rb.isKinematic = false;
@@ -79,6 +79,10 @@ public class cart_logic : MonoBehaviour
             {
                 g.AddComponent<Rigidbody>().isKinematic = false;
             }
+            
+            g.transform.parent = null;
         }
+        
+        items.Clear();
     }
 }

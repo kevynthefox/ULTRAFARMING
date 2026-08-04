@@ -68,6 +68,8 @@ public class perk_logic : MonoBehaviour
 
     public bool perk11; //pet rock. n amount of your stock will be bought at minimum every time. n scaling with dirty.
     public GameObject pet_rock;
+
+    public bool perk12; //unkempt charm. add a bonus to sell price based on how dirty you are.
     
     public void hoe_customization_choser(int i)
     {
@@ -113,6 +115,7 @@ public class perk_logic : MonoBehaviour
         if (slot_old_value == 9) perk9_toggle();
         if (slot_old_value == 10) perk10_toggle();
         if (slot_old_value == 11) perk11_toggle();
+        if (slot_old_value == 12) perk12_toggle();
 
 
         if (slot_value == 1)
@@ -151,6 +154,7 @@ public class perk_logic : MonoBehaviour
         if (slot_old_value == 9) perk9_toggle();
         if (slot_old_value == 10) perk10_toggle();
         if (slot_old_value == 11) perk11_toggle();
+        if (slot_old_value == 12) perk12_toggle();
         
         if (OnPerkSlotLogicEvent != null)
         {
@@ -209,6 +213,10 @@ public class perk_logic : MonoBehaviour
     {
         perk11 = !perk11;
         pet_rock.SetActive(perk11);
+    }
+    public void perk12_toggle()
+    {
+        perk12 = !perk12;
     }
     public void hoe_customization_logic()
     {

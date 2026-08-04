@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using statusEffects;
 using TMPro;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ public class sell : MonoBehaviour
     
     public int quantity;
     public int minimum; //minimum amount to buy
-    public float sell_price;
+    public float sell_price,sell_price_bonus;
     public List<int> max_products_per_type;
     public List<int> product_num_per_type;
     
@@ -33,7 +34,7 @@ public class sell : MonoBehaviour
         
         sell_price = 0;
         quantity = 0;
-        
+        sell_price_bonus = 0;
 
         if (perk_logic.current.perk11)
         {
@@ -45,12 +46,20 @@ public class sell : MonoBehaviour
             minimum = 1;
             quantity = UnityEngine.Random.Range(minimum,products.Count);
         }
+
+        if (perk_logic.current.perk12)
+        {
+            if (StatusEffectAdder.current.player.TryGetComponent(out dirty_buff dirty))
+            {
+                sell_price_bonus = Mathf.Pow(dirty.earth_element_multiplier, dirty.stack_count);
+            }
+        }
         
         for (int i = 0; i < quantity; i++)
         {
             if (products[i].TryGetComponent(out product_data_holder prod))
             {
-                sell_price += (prod.base_value * prod.local_value_multiplier);
+                sell_price += sell_price_bonus + (prod.base_value * prod.local_value_multiplier);
             }
             
             products_to_remove.Add(products[i]);
