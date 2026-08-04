@@ -58,13 +58,16 @@ public class perk_logic : MonoBehaviour
 
     public bool perk6; //current hands. allows you to pick up multiple objects at once by giving them boids.
 
-    public bool perk7; //blessing of the plants. for every seed you have, of the same type as the plant you are harvesting, gain a chance to get an extra seed when harvesting.
+    public bool perk7; //blessing of the plants. for every seed you have, of the same type as the plant you are harvesting, gain a 'chance' to get an extra seed when harvesting. 'chance' works the same way that it does for the shopping
 
     public bool perk8; //filthy. digging applies dirty.
 
     public bool perk9; //blessing of the ground. increased jump height per dirty.
     
     public bool perk10; //green thumb. increased yield for manually planted crops(non thrown)
+
+    public bool perk11; //pet rock. n amount of your stock will be bought at minimum every time. n scaling with dirty.
+    public GameObject pet_rock;
     
     public void hoe_customization_choser(int i)
     {
@@ -109,6 +112,7 @@ public class perk_logic : MonoBehaviour
         if (slot_old_value == 8) perk8_toggle();
         if (slot_old_value == 9) perk9_toggle();
         if (slot_old_value == 10) perk10_toggle();
+        if (slot_old_value == 11) perk11_toggle();
 
 
         if (slot_value == 1)
@@ -146,6 +150,7 @@ public class perk_logic : MonoBehaviour
         if (slot_old_value == 8) perk8_toggle();
         if (slot_old_value == 9) perk9_toggle();
         if (slot_old_value == 10) perk10_toggle();
+        if (slot_old_value == 11) perk11_toggle();
         
         if (OnPerkSlotLogicEvent != null)
         {
@@ -199,6 +204,11 @@ public class perk_logic : MonoBehaviour
     public void perk10_toggle()
     {
         perk10 = !perk10;
+    }
+    public void perk11_toggle()
+    {
+        perk11 = !perk11;
+        pet_rock.SetActive(perk11);
     }
     public void hoe_customization_logic()
     {

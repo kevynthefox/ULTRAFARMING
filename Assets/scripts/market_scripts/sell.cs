@@ -9,6 +9,7 @@ public class sell : MonoBehaviour
     public List<GameObject> products_to_remove;
     
     public int quantity;
+    public int minimum; //minimum amount to buy
     public float sell_price;
     public List<int> max_products_per_type;
     public List<int> product_num_per_type;
@@ -20,6 +21,7 @@ public class sell : MonoBehaviour
     public string item_list_text;
 
     public int customers_served;
+
     
     
     public bool commit;
@@ -32,8 +34,18 @@ public class sell : MonoBehaviour
         sell_price = 0;
         quantity = 0;
         
-        quantity = UnityEngine.Random.Range(1,products.Count);
 
+        if (perk_logic.current.perk11)
+        {
+            minimum = Mathf.RoundToInt(products.Count * (perk_logic.current.pet_rock.transform.localScale.x / 100));
+            quantity = UnityEngine.Random.Range(minimum,products.Count);
+        }
+        else
+        {
+            minimum = 1;
+            quantity = UnityEngine.Random.Range(minimum,products.Count);
+        }
+        
         for (int i = 0; i < quantity; i++)
         {
             if (products[i].TryGetComponent(out product_data_holder prod))
@@ -78,15 +90,20 @@ public class sell : MonoBehaviour
                     {
                         if (product_num_per_type[prod.product_id] < max_products_per_type[prod.product_id])
                         {
-                            products.Add(other.gameObject);
-                            product_num_per_type[prod.product_id]++;
-
-                            item_list_text = null;
-                            for (int i = 0; i < max_products_per_type.Count; i++)
+                            if (other.transform.parent == null)
                             {
-                                item_list_text += i + ": " + product_num_per_type[i] + "/" +  max_products_per_type[i] + "<br>";
+                                products.Add(other.gameObject);
+                                product_num_per_type[prod.product_id]++;
+
+                                item_list_text = null;
+                                for (int i = 0; i < max_products_per_type.Count; i++)
+                                {
+                                    item_list_text += i + ": " + product_num_per_type[i] + "/" +
+                                                      max_products_per_type[i] + "<br>";
+                                }
+
+                                item_list.text = item_list_text;
                             }
-                            item_list.text = item_list_text;
                         }
                     }
                 }

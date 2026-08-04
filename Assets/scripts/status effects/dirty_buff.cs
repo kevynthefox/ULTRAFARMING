@@ -70,7 +70,11 @@ namespace statusEffects
 
         public IEnumerator apply_effect()
         {
-            
+            if (perk_logic.current.pet_rock.activeSelf)
+            {
+                float rock_new_scale = Mathf.Pow(earth_element_multiplier, stack_count);
+                perk_logic.current.pet_rock.transform.localScale =  new Vector3(rock_new_scale, rock_new_scale, rock_new_scale);
+            }
             
 
             
@@ -140,6 +144,12 @@ namespace statusEffects
             effect_display = null;
             effect_display_text_time = null;
 
+            if (perk_logic.current.pet_rock.activeSelf)
+            {
+
+                perk_logic.current.pet_rock.transform.localScale = Vector3.one;
+            }
+            
             Destroy(this); //doesnt destroy the gameobject, destroys this script on it.
         }
     }

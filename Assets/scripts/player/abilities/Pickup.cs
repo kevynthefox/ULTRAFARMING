@@ -79,6 +79,7 @@ public class Pickup : MonoBehaviour//, IPointerClickHandler,IScrollHandler
                     if (obj.transform.parent.TryGetComponent(out cart_logic cart_log))
                     {
                         previous_parent = null;
+                        cart_log.items.Remove(obj);
                     }
                 }
                 else
