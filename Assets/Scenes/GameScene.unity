@@ -1618,6 +1618,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 976449202}
     m_Modifications:
+    - target: {fileID: 1067182778970555467, guid: e4829f4cf7eaf1bf08c46db08df8fefc, type: 3}
+      propertyPath: slot_num
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1394007725136724429, guid: e4829f4cf7eaf1bf08c46db08df8fefc, type: 3}
       propertyPath: slot_num
       value: 3
@@ -2921,6 +2925,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 976449202}
     m_Modifications:
+    - target: {fileID: 1067182778970555467, guid: e4829f4cf7eaf1bf08c46db08df8fefc, type: 3}
+      propertyPath: slot_num
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1394007725136724429, guid: e4829f4cf7eaf1bf08c46db08df8fefc, type: 3}
       propertyPath: slot_num
       value: 2
@@ -11036,6 +11044,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 976449202}
     m_Modifications:
+    - target: {fileID: 1067182778970555467, guid: e4829f4cf7eaf1bf08c46db08df8fefc, type: 3}
+      propertyPath: slot_num
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 1394007725136724429, guid: e4829f4cf7eaf1bf08c46db08df8fefc, type: 3}
       propertyPath: slot_num
       value: 4
@@ -16830,6 +16842,70 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 4c0fb702-2f3d-4056-9417-790710d28ffb
     m_ActionName: 'Player/open_perk_menu[/Keyboard/tab]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7683364991622791365}
+        m_TargetAssemblyTypeName: perk_logic, Assembly-CSharp
+        m_MethodName: perk1_ability
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 72a18a04-5e19-4a13-8e74-677b13a79a6d
+    m_ActionName: 'Player/perk_1_ability[/Keyboard/z]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7683364991622791365}
+        m_TargetAssemblyTypeName: perk_logic, Assembly-CSharp
+        m_MethodName: perk2_ability
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 12600282-9e7b-401b-bcb9-a28bcf647ec5
+    m_ActionName: 'Player/perk_2_ability[/Keyboard/x]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7683364991622791365}
+        m_TargetAssemblyTypeName: perk_logic, Assembly-CSharp
+        m_MethodName: perk3_ability
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: e05de9a1-a7a4-4b95-986a-55b8178e0c2f
+    m_ActionName: 'Player/perk_3_ability[/Keyboard/c]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7683364991622791365}
+        m_TargetAssemblyTypeName: perk_logic, Assembly-CSharp
+        m_MethodName: perk4_ability
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 963c4968-f3f8-4dc2-bdc3-3c31bebf0c5d
+    m_ActionName: 'Player/perk_4_ability[/Keyboard/v]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player
@@ -18076,6 +18152,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 68266aee26f421fd1b15056d80bedc9d, type: 3}
   - {fileID: 21300000, guid: 36df91c419feb266e82e6f068c5d5111, type: 3}
   - {fileID: 21300000, guid: 0373646779b09d2fcb4a09e82710cf65, type: 3}
+  - {fileID: 21300000, guid: 7f75ec83e35f4d526b0ecf18522688a8, type: 3}
   hoe_images:
   - {fileID: 21300000, guid: cc727b4c8d478ca3790c02b6f75cc237, type: 3}
   - {fileID: 21300000, guid: 690bb32e1e2177b3dadfb18589e8fe2c, type: 3}
@@ -18115,6 +18192,8 @@ MonoBehaviour:
   perk11: 0
   pet_rock: {fileID: 251215481}
   perk12: 0
+  perk13: 0
+  camera: {fileID: 6065348528747006869}
 --- !u!1 &7683861148773903278
 GameObject:
   m_ObjectHideFlags: 0

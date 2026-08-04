@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using statusEffects;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class perk_logic : MonoBehaviour
@@ -70,6 +71,11 @@ public class perk_logic : MonoBehaviour
     public GameObject pet_rock;
 
     public bool perk12; //unkempt charm. add a bonus to sell price based on how dirty you are.
+
+
+    public bool perk13; // gimbal jets. gives you the ability to redirect your current velocity to wherever you are looking. ability is triggered by a button like "perk 2 ability button" rather than "gimbal jet button"
+    public GameObject camera;
+    public float current_velocity;
     
     public void hoe_customization_choser(int i)
     {
@@ -116,7 +122,7 @@ public class perk_logic : MonoBehaviour
         if (slot_old_value == 10) perk10_toggle();
         if (slot_old_value == 11) perk11_toggle();
         if (slot_old_value == 12) perk12_toggle();
-
+        if (slot_old_value == 13) perk13_toggle();
 
         if (slot_value == 1)
         {
@@ -155,6 +161,7 @@ public class perk_logic : MonoBehaviour
         if (slot_old_value == 10) perk10_toggle();
         if (slot_old_value == 11) perk11_toggle();
         if (slot_old_value == 12) perk12_toggle();
+        if (slot_old_value == 13) perk13_toggle();
         
         if (OnPerkSlotLogicEvent != null)
         {
@@ -217,6 +224,19 @@ public class perk_logic : MonoBehaviour
     public void perk12_toggle()
     {
         perk12 = !perk12;
+    }
+    public void perk13_toggle()
+    {
+        perk13 = !perk13;
+        TryGetComponent(out Rigidbody rb);
+        if (perk13)
+        {
+            rb.useGravity = false;
+        }
+        else
+        {
+            rb.useGravity = true;
+        }
     }
     public void hoe_customization_logic()
     {
@@ -302,8 +322,58 @@ public class perk_logic : MonoBehaviour
             watering_can_animator.speed = 1;
         }
     }
-    
-    
-    
-    
+
+
+    public void perk1_ability(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            if (perk_slot_1_perk == 13)
+            {
+                Debug.Log("perk_slot_1_perk");
+                TryGetComponent(out Rigidbody rb);
+                current_velocity = rb.linearVelocity.magnitude;
+                rb.linearVelocity = camera.transform.forward * current_velocity;
+            }
+        }
+    }
+    public void perk2_ability(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            if (perk_slot_2_perk == 13)
+            {
+                Debug.Log("perk_slot_2_perk");
+                TryGetComponent(out Rigidbody rb);
+                current_velocity = rb.linearVelocity.magnitude;
+                rb.linearVelocity = camera.transform.forward * current_velocity;
+            }
+        }
+    }
+    public void perk3_ability(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            if (perk_slot_3_perk == 13)
+            {
+                Debug.Log("perk_slot_3_perk");
+                TryGetComponent(out Rigidbody rb);
+                current_velocity = rb.linearVelocity.magnitude;
+                rb.linearVelocity = camera.transform.forward * current_velocity;
+            }
+        }
+    }
+    public void perk4_ability(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            if (perk_slot_4_perk == 13)
+            {
+                Debug.Log("perk_slot_4_perk");
+                TryGetComponent(out Rigidbody rb);
+                current_velocity = rb.linearVelocity.magnitude;
+                rb.linearVelocity = camera.transform.forward * current_velocity;
+            }
+        }
+    }
 }

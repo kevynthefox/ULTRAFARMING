@@ -185,6 +185,42 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "perk_1_ability",
+                    "type": "Button",
+                    "id": "72a18a04-5e19-4a13-8e74-677b13a79a6d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "perk_2_ability",
+                    "type": "Button",
+                    "id": "12600282-9e7b-401b-bcb9-a28bcf647ec5",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "perk_3_ability",
+                    "type": "Button",
+                    "id": "e05de9a1-a7a4-4b95-986a-55b8178e0c2f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "perk_4_ability",
+                    "type": "Button",
+                    "id": "963c4968-f3f8-4dc2-bdc3-3c31bebf0c5d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -735,6 +771,50 @@
                     "processors": "",
                     "groups": "",
                     "action": "open_perk_menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fff28700-fe3b-4b09-98eb-dbae75147a08",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "perk_1_ability",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "20a8a394-8494-431f-bd14-bb60ca17d0d1",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "perk_2_ability",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d679b108-d773-4058-9b97-84e6ff7441e5",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "perk_3_ability",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b1b0ad76-c3c3-4668-9dcb-c5e01dd0233d",
+                    "path": "<Keyboard>/v",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "perk_4_ability",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
