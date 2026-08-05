@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45db38c81e9c77b6b8d485eede6f886b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::cropGrowth
-  maxGrowth: 1000
+  maxGrowth: 100
   growth_rate: 0.1
   excess_growth: 0
   excess_segments: 0

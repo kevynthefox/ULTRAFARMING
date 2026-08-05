@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Boid : MonoBehaviour {
@@ -29,8 +31,13 @@ public class Boid : MonoBehaviour {
     Transform cachedTransform;
     public Transform target;
     
+    
     // fish
     public bool dead;
+    
+    //heat seeking scythe
+    public bool multiple_targets;
+    public List<Transform> targets;
 
     void Awake () {
         material = transform.GetComponentInChildren<MeshRenderer> ().material;
@@ -130,4 +137,16 @@ public class Boid : MonoBehaviour {
         return Vector3.ClampMagnitude (v, settings.maxSteerForce);
     }
 
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (targets.Contains(other.transform))
+        {
+            if (multiple_targets)
+            {
+                targets.Remove(other.transform);
+                target = targets.First();
+            }
+        }
+    }
 }

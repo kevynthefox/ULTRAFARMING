@@ -63,6 +63,9 @@ namespace statusEffects
                 //set the state of the variables for the script upon instantiation on the parent object, here.(as in what the base states of the variables should be.)
 
                 //keep in mind that anything to consolodate the effects must happen before the start in this object, so before the effect is added.
+                
+                health_system.OnPlayerDeathEvent += remove_on_death;
+                
                 StartCoroutine(apply_effect());
                 StartCoroutine(timer_tracker());
             }
@@ -150,6 +153,15 @@ namespace statusEffects
                 perk_logic.current.pet_rock.transform.localScale = Vector3.one;
             }
             
+            Destroy(this); //doesnt destroy the gameobject, destroys this script on it.
+        }
+        
+        public void remove_on_death(health_system healthSystem)
+        {
+            Destroy(effect_display);
+            effect_display = null;
+            effect_display_text_time = null;
+
             Destroy(this); //doesnt destroy the gameobject, destroys this script on it.
         }
     }

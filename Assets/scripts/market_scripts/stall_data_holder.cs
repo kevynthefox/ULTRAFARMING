@@ -8,9 +8,12 @@ public class stall_data_holder : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<nav_pathfinding>().destinations[0] == this.transform)
+        if (other.TryGetComponent(out nav_pathfinding pathfinding))
         {
-            controller_rhythm.start_game();
+            if (pathfinding.destinations[0] == this.transform)
+            {
+                controller_rhythm.start_game();
+            }
         }
     }
 }

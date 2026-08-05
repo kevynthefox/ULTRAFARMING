@@ -515,6 +515,18 @@ public class cropGrowth : MonoBehaviour
                     
                         Destroy(this.gameObject);
                     }
+                    
+                    if (perk_logic.current.seed_bag_customization == 3)
+                    {
+                        var fire_ball = Instantiate(perk_logic.current.fire_ball_prefab, transform.position, transform.rotation);
+
+                        if (StatusEffectAdder.current.player.TryGetComponent(out fire_buff fire))
+                        {
+                            fire_ball.transform.localScale = Vector3.one * math.pow(fire.fire_element_multiplier,  fire.stack_count);
+                        }
+                    
+                        Destroy(this.gameObject);
+                    }
                 }
             }
             else

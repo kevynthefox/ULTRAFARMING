@@ -14,7 +14,7 @@ public class perk_logic : MonoBehaviour
     public int seed_bag_customization;
     public int watering_can_customization;
 
-    public GameObject water_ball_prefab;
+    public GameObject water_ball_prefab,fire_ball_prefab;
 
     public Image hoe_slot;
     public Image scythe_slot;
