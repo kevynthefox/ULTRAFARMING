@@ -98,6 +98,14 @@ public class watering_can : MonoBehaviour
                         if (perk_logic.current.watering_can_customization == 0 || perk_logic.current.watering_can_customization == 1)
                         {
                             growth.growth_rate *= speed_multiplier;
+                            if (growth.growth_rate < 0)
+                            {
+                                growth.growth_mult_sign = -1;
+                            }
+                            if (growth.growth_rate > 0)
+                            {
+                                growth.growth_mult_sign = 1;
+                            }
                         }
                         else
                         {

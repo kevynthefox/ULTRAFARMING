@@ -235,182 +235,350 @@ public class cropGrowth : MonoBehaviour
 
             segments_data[current_segment].dist_percentage += (growth_rate + excess_growth);
 
-            if (current_dist_percentage >= 1.00f)
+            if (growth_mult_sign > 0)
             {
-                //Debug.Log("current segment: " + current_segment + " segments.count: " + segments.Count);
-                if (current_segment >=
-                    segments.Count -
-                    1) // the -1 is here because segment count has to start at 0, and segments.count counts 0 as one of the counted
+                if (current_dist_percentage >= 1.00f)
                 {
-                    //Debug.Log("finished growing, removing from list");
-                    //growthIncrementer.current.crops.Remove(this);
-                    this.tag = "finished_crop";
-                    //adjust_collider_size();
-                }
-                else
-                {
-
-
-                    if (current_dist_percentage > 1)
+                    //Debug.Log("current segment: " + current_segment + " segments.count: " + segments.Count);
+                    if (current_segment >=
+                        segments.Count -
+                        1) // the -1 is here because segment count has to start at 0, and segments.count counts 0 as one of the counted
                     {
-                        excess_growth = current_dist_percentage - 1;
-                        if (excess_growth < 0.001)
+                        //Debug.Log("finished growing, removing from list");
+                        //growthIncrementer.current.crops.Remove(this);
+                        this.tag = "finished_crop";
+                        //adjust_collider_size();
+                    }
+                    else
+                    {
+
+
+                        if (current_dist_percentage > 1)
                         {
-                            excess_growth =
-                                0; //this is to avoid the slow buildup of excess growth due to floating point errors
+                            excess_growth = current_dist_percentage - 1;
+                            if (excess_growth < 0.001)
+                            {
+                                excess_growth =
+                                    0; //this is to avoid the slow buildup of excess growth due to floating point errors
+                            }
+
+                            if (excess_growth >= 1)
+                            {
+                                excess_segments = Mathf.FloorToInt(excess_growth);
+
+                                if (excess_segments % 2 == 1)
+                                    step_growth_segments_even(); //checks if its odd, then sends to the even one
+                                if (excess_segments % 2 == 0)
+                                    step_growth_segments_odd(); //checks if its even, then sends it to the odd one
+
+
+                                //current_segment += excess_segments;
+
+                                excess_growth -= excess_segments;
+                                excess_segments = 0;
+                            }
                         }
 
-                        if (excess_growth >= 1)
+                        if (current_segment + 1 <= maxGrowth - 1)
                         {
-                            excess_segments = Mathf.FloorToInt(excess_growth);
-
-                            if (excess_segments % 2 == 1)
-                                step_growth_segments_even(); //checks if its odd, then sends to the even one
-                            if (excess_segments % 2 == 0)
-                                step_growth_segments_odd(); //checks if its even, then sends it to the odd one
-
-
-                            //current_segment += excess_segments;
-
-                            excess_growth -= excess_segments;
-                            excess_segments = 0;
+                            segments_data[current_segment + 1]._next_point =
+                                segments_data[current_segment]._next_point_obj.transform.position;
                         }
+
+
+                        check_off_segment(); //after current segment has finished growing, tick the next segment
                     }
 
-                    if (current_segment + 1 <= maxGrowth - 1)
-                    {
-                        segments_data[current_segment + 1]._next_point =
-                            segments_data[current_segment]._next_point_obj.transform.position;
-                    }
-
-
-                    check_off_segment(); //after current segment has finished growing, tick the next segment
                 }
-
             }
+            else
+            {
+                if (current_dist_percentage <= 0.00f)
+                {
+                    //Debug.Log("current segment: " + current_segment + " segments.count: " + segments.Count);
+                    if (current_segment >= segments.Count - 1) // the -1 is here because segment count has to start at 0, and segments.count counts 0 as one of the counted
+                    {
+                        //Debug.Log("finished growing, removing from list");
+                        //growthIncrementer.current.crops.Remove(this);
+                        this.tag = "finished_crop";
+                        //adjust_collider_size();
+                    }
+                    else
+                    {
+
+
+                        if (current_dist_percentage < 0)
+                        {
+                            excess_growth = current_dist_percentage - 1;
+                            if (excess_growth > -0.001)
+                            {
+                                excess_growth =
+                                    0; //this is to avoid the slow buildup of excess growth due to floating point errors
+                            }
+
+                            if (excess_growth <= -1)
+                            {
+                                excess_segments = Mathf.FloorToInt(excess_growth);
+
+                                if (excess_segments % 2 == 1)
+                                    step_growth_segments_even(); //checks if its odd, then sends to the even one
+                                if (excess_segments % 2 == 0)
+                                    step_growth_segments_odd(); //checks if its even, then sends it to the odd one
+
+
+                                //current_segment += excess_segments;
+
+                                excess_growth += excess_segments;
+                                excess_segments = 0;
+                            }
+                        }
+
+                        if (current_segment + 1 <= maxGrowth - 1)
+                        {
+                            segments_data[current_segment + 1]._next_point =
+                                segments_data[current_segment]._next_point_obj.transform.position;
+                        }
+
+
+                        check_off_segment(); //after current segment has finished growing, tick the next segment
+                    }
+
+                }
+            }
+
         }
 
     }
     
     public void step_growth_segments_odd()
     {
-        for (int i = 0; i < excess_segments; i++)
+        for (int i = 0; i < Mathf.Abs(excess_segments); i++)
         {
             if (current_segment <= maxGrowth - 1)
             {
                 //Debug.Log("step_segments " + excess_segments);
-                if (current_segment >= 1)
+
+                if (growth_mult_sign > 0)
                 {
-                    if (segments[current_segment].activeSelf == false)
+                    if (current_segment >= 1)
                     {
-                        segments[current_segment].SetActive(true);
-                        segments[current_segment].transform.localPosition = new Vector3(0, 0, -4);
-                        segments[current_segment].transform.localScale = new Vector3(1, 1, 1);
-                        segments[current_segment].transform.localRotation = /*rotaty;*/ new quaternion(0, 0, 1, 1);
-                        //if (current_segment == 80) segments[current_segment].transform.localRotation = /*new Quaternion(1,1,0,0);*/ rotaty;
-                        /*if (current_segment == segments.Count-1)
+                        if (segments[current_segment].activeSelf == false)
                         {
-                            Debug.Log("on the last segment");
-                            segments[current_segment].transform.localRotation = new Quaternion(1,1,0,0);
-                        } */
-                        segments[current_segment].name = ("segment: " + current_segment);
+                            segments[current_segment].SetActive(true);
+                            segments[current_segment].transform.localPosition = new Vector3(0, 0, -4);
+                            segments[current_segment].transform.localScale = new Vector3(1, 1, 1);
+                            segments[current_segment].transform.localRotation = /*rotaty;*/ new quaternion(0, 0, 1, 1);
+                            //if (current_segment == 80) segments[current_segment].transform.localRotation = /*new Quaternion(1,1,0,0);*/ rotaty;
+                            /*if (current_segment == segments.Count-1)
+                            {
+                                Debug.Log("on the last segment");
+                                segments[current_segment].transform.localRotation = new Quaternion(1,1,0,0);
+                            } */
+                            segments[current_segment].name = ("segment: " + current_segment);
+                        }
                     }
-                }
 
-                current_dist_percentage = segments_data[current_segment].dist_percentage;
-                //future_dist_percentage = current_dist_percentage + (growth_rate + excess_growth);
-
+                    current_dist_percentage = segments_data[current_segment].dist_percentage;
+                    //future_dist_percentage = current_dist_percentage + (growth_rate + excess_growth);
 
 
-                segments_data[current_segment].dist_percentage += 1;
 
-                if (current_dist_percentage >= 1.00f)
-                {
-                    //Debug.Log("current segment: " + current_segment + " segments.count: " + segments.Count);
-                    if (current_segment >=
-                        segments.Count -
-                        1) // the -1 is here because segment count has to start at 0, and segments.count counts 0 as one of the counted
+                    segments_data[current_segment].dist_percentage += 1;
+
+                    if (current_dist_percentage >= 1.00f)
                     {
-                        //Debug.Log("finished growing, removing from list");
-                        //growthIncrementer.current.crops.Remove(this);
-                        this.tag = "finished_crop";
-                        //adjust_collider_size();
-                    }
-                    else
-                    {
-
-                        if (current_segment + 1 <= maxGrowth - 1)
+                        //Debug.Log("current segment: " + current_segment + " segments.count: " + segments.Count);
+                        if (current_segment >=
+                            segments.Count -
+                            1) // the -1 is here because segment count has to start at 0, and segments.count counts 0 as one of the counted
                         {
-                            segments_data[current_segment + 1]._next_point =
-                                segments_data[current_segment]._next_point_obj.transform.position;
+                            //Debug.Log("finished growing, removing from list");
+                            //growthIncrementer.current.crops.Remove(this);
+                            this.tag = "finished_crop";
+                            //adjust_collider_size();
+                        }
+                        else
+                        {
+
+                            if (current_segment + 1 <= maxGrowth - 1)
+                            {
+                                segments_data[current_segment + 1]._next_point =
+                                    segments_data[current_segment]._next_point_obj.transform.position;
+                            }
+
+                            check_off_segment(); //after current segment has finished growing, tick the next segment
                         }
 
-                        check_off_segment(); //after current segment has finished growing, tick the next segment
                     }
 
                 }
+                else
+                {
+                    if (current_segment >= 1)
+                    {
+                        if (segments[current_segment].activeSelf == false)
+                        {
+                            segments[current_segment].SetActive(true);
+                            segments[current_segment].transform.localPosition = new Vector3(0, 0, -4);
+                            segments[current_segment].transform.localScale = new Vector3(1, 1, 1);
+                            segments[current_segment].transform.localRotation = /*rotaty;*/ new quaternion(0, 0, 1, 1);
+                            //if (current_segment == 80) segments[current_segment].transform.localRotation = /*new Quaternion(1,1,0,0);*/ rotaty;
+                            /*if (current_segment == segments.Count-1)
+                            {
+                                Debug.Log("on the last segment");
+                                segments[current_segment].transform.localRotation = new Quaternion(1,1,0,0);
+                            } */
+                            segments[current_segment].name = ("segment: " + current_segment);
+                        }
+                    }
 
+                    current_dist_percentage = segments_data[current_segment].dist_percentage;
+                    //future_dist_percentage = current_dist_percentage + (growth_rate + excess_growth);
+
+
+
+                    segments_data[current_segment].dist_percentage -= 1;
+
+                    if (current_dist_percentage <= 0.00f)
+                    {
+                        //Debug.Log("current segment: " + current_segment + " segments.count: " + segments.Count);
+                        if (current_segment >= segments.Count - 1) // the -1 is here because segment count has to start at 0, and segments.count counts 0 as one of the counted
+                        {
+                            //Debug.Log("finished growing, removing from list");
+                            //growthIncrementer.current.crops.Remove(this);
+                            this.tag = "finished_crop";
+                            //adjust_collider_size();
+                        }
+                        else
+                        {
+
+                            if (current_segment + 1 <= maxGrowth - 1)
+                            {
+                                segments_data[current_segment + 1]._next_point =
+                                    segments_data[current_segment]._next_point_obj.transform.position;
+                            }
+
+                            check_off_segment(); //after current segment has finished growing, tick the next segment
+                        }
+
+                    }
+                }
             }
         }
     }
     public void step_growth_segments_even()
     {
-        for (int i = 0; i <= excess_segments; i++)
+        for (int i = 0; i <= Mathf.Abs(excess_segments); i++)
         {
             Debug.Log("step_segments " + excess_segments);
             if (current_segment <= maxGrowth - 1)
             {
                 if (current_segment >= 1)
                 {
-                    if (segments[current_segment].activeSelf == false)
+                    if (growth_mult_sign > 0)
                     {
-                        segments[current_segment].SetActive(true);
-                        segments[current_segment].transform.localPosition = new Vector3(0, 0, -4);
-                        segments[current_segment].transform.localScale = new Vector3(1, 1, 1);
-                        segments[current_segment].transform.localRotation = /*rotaty;*/ new quaternion(0, 0, 1, 1);
-                        //if (current_segment == 80) segments[current_segment].transform.localRotation = /*new Quaternion(1,1,0,0);*/ rotaty;
-                        /*if (current_segment == segments.Count-1)
+                        if (segments[current_segment].activeSelf == false)
                         {
-                            Debug.Log("on the last segment");
-                            segments[current_segment].transform.localRotation = new Quaternion(1,1,0,0);
-                        } */
-                        segments[current_segment].name = ("segment: " + current_segment);
-                    }
-                }
+                            segments[current_segment].SetActive(true);
+                            segments[current_segment].transform.localPosition = new Vector3(0, 0, -4);
+                            segments[current_segment].transform.localScale = new Vector3(1, 1, 1);
+                            segments[current_segment].transform.localRotation = /*rotaty;*/ new quaternion(0, 0, 1, 1);
+                            //if (current_segment == 80) segments[current_segment].transform.localRotation = /*new Quaternion(1,1,0,0);*/ rotaty;
+                            /*if (current_segment == segments.Count-1)
+                            {
+                                Debug.Log("on the last segment");
+                                segments[current_segment].transform.localRotation = new Quaternion(1,1,0,0);
+                            } */
+                            segments[current_segment].name = ("segment: " + current_segment);
+                        }
 
-                current_dist_percentage = segments_data[current_segment].dist_percentage;
-                //future_dist_percentage = current_dist_percentage + (growth_rate + excess_growth);
+
+                        current_dist_percentage = segments_data[current_segment].dist_percentage;
+                        //future_dist_percentage = current_dist_percentage + (growth_rate + excess_growth);
 
 
 
-                segments_data[current_segment].dist_percentage += 1;
+                        segments_data[current_segment].dist_percentage += 1;
 
-                if (current_dist_percentage >= 1.00f)
-                {
-                    //Debug.Log("current segment: " + current_segment + " segments.count: " + segments.Count);
-                    if (current_segment >=
-                        segments.Count -
-                        1) // the -1 is here because segment count has to start at 0, and segments.count counts 0 as one of the counted
-                    {
-                        //Debug.Log("finished growing, removing from list");
-                        //growthIncrementer.current.crops.Remove(this);
-                        this.tag = "finished_crop";
-                        //adjust_collider_size();
+                        if (current_dist_percentage >= 1.00f)
+                        {
+                            //Debug.Log("current segment: " + current_segment + " segments.count: " + segments.Count);
+                            if (current_segment >=
+                                segments.Count -
+                                1) // the -1 is here because segment count has to start at 0, and segments.count counts 0 as one of the counted
+                            {
+                                //Debug.Log("finished growing, removing from list");
+                                //growthIncrementer.current.crops.Remove(this);
+                                this.tag = "finished_crop";
+                                //adjust_collider_size();
+                            }
+                            else
+                            {
+
+                                if (current_segment + 1 <= maxGrowth - 1)
+                                {
+                                    segments_data[current_segment + 1]._next_point =
+                                        segments_data[current_segment]._next_point_obj.transform.position;
+                                }
+
+                                check_off_segment(); //after current segment has finished growing, tick the next segment
+                            }
+
+                        }
                     }
                     else
                     {
-
-                        if (current_segment + 1 <= maxGrowth - 1)
+                        if (segments[current_segment].activeSelf == false)
                         {
-                            segments_data[current_segment + 1]._next_point =
-                                segments_data[current_segment]._next_point_obj.transform.position;
+                            segments[current_segment].SetActive(true);
+                            segments[current_segment].transform.localPosition = new Vector3(0, 0, -4);
+                            segments[current_segment].transform.localScale = new Vector3(1, 1, 1);
+                            segments[current_segment].transform.localRotation = /*rotaty;*/ new quaternion(0, 0, 1, 1);
+                            //if (current_segment == 80) segments[current_segment].transform.localRotation = /*new Quaternion(1,1,0,0);*/ rotaty;
+                            /*if (current_segment == segments.Count-1)
+                            {
+                                Debug.Log("on the last segment");
+                                segments[current_segment].transform.localRotation = new Quaternion(1,1,0,0);
+                            } */
+                            segments[current_segment].name = ("segment: " + current_segment);
                         }
 
-                        check_off_segment(); //after current segment has finished growing, tick the next segment
+
+                        current_dist_percentage = segments_data[current_segment].dist_percentage;
+                        //future_dist_percentage = current_dist_percentage + (growth_rate + excess_growth);
+
+
+
+                        segments_data[current_segment].dist_percentage -= 1;
+
+                        if (current_dist_percentage <= 0.00f)
+                        {
+                            //Debug.Log("current segment: " + current_segment + " segments.count: " + segments.Count);
+                            if (current_segment >=
+                                segments.Count -
+                                1) // the -1 is here because segment count has to start at 0, and segments.count counts 0 as one of the counted
+                            {
+                                //Debug.Log("finished growing, removing from list");
+                                //growthIncrementer.current.crops.Remove(this);
+                                this.tag = "finished_crop";
+                                //adjust_collider_size();
+                            }
+                            else
+                            {
+
+                                if (current_segment + 1 <= maxGrowth - 1)
+                                {
+                                    segments_data[current_segment + 1]._next_point =
+                                        segments_data[current_segment]._next_point_obj.transform.position;
+                                }
+
+                                check_off_segment(); //after current segment has finished growing, tick the next segment
+                            }
+
+                        }
                     }
-
                 }
-
+                
             }
         }
     }
@@ -430,8 +598,8 @@ public class cropGrowth : MonoBehaviour
     public void check_off_segment()
     {
         
-        
-        current_segment++; //its not current segment +1 below because the first segment has no crop on itZz
+        if(growth_mult_sign > 0) current_segment++; //its not current segment +1 below because the first segment has no crop on itZz
+        if(growth_mult_sign < 0) current_segment--;
         number_of_harvestable_parts = (current_segment) * number_of_harvestable_parts_per_segment;
         
         //adjust_collider_size();

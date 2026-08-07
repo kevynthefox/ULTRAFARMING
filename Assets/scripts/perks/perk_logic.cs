@@ -270,29 +270,33 @@ public class perk_logic : MonoBehaviour
 
     public void watering_can_customization_logic()
     {
+        watering_can_animator.TryGetComponent(out watering_can can_logic);
+        
         if (watering_can_customization == 1)
         {
-            if (watering_can_animator.TryGetComponent(out watering_can can_logic))
+        
+            if (StatusEffectAdder.current.player.TryGetComponent(out wet_buff wet_logic))
             {
-                if (StatusEffectAdder.current.player.TryGetComponent(out wet_buff wet_logic))
-                {
-                    can_logic.water_collider.size = new Vector3(50 * Mathf.Pow(wet_logic.water_element_multiplier,wet_logic.stack_count), 3, 40);
-                    can_logic.water_drain_amount = 0.1f *  Mathf.Pow(wet_logic.water_element_multiplier,wet_logic.stack_count);
-                }
-                else
-                {
-                    can_logic.water_collider.size = new Vector3(100, 3, 40);
-                    can_logic.water_drain_amount = 0.2f;
-                }
+                can_logic.water_collider.size = new Vector3(50 * Mathf.Pow(wet_logic.water_element_multiplier,wet_logic.stack_count), 3, 40);
+                can_logic.water_drain_amount = 0.1f *  Mathf.Pow(wet_logic.water_element_multiplier,wet_logic.stack_count);
             }
+            else
+            {
+                can_logic.water_collider.size = new Vector3(100, 3, 40);
+                can_logic.water_drain_amount = 0.2f;
+            }
+        
         }
         else
         {
-            if (watering_can_animator.TryGetComponent(out watering_can can_logic))
-            {
-                can_logic.water_collider.size = new Vector3(50, 3, 40);
-                can_logic.water_drain_amount = 0.1f;
-            }   
+            can_logic.water_collider.size = new Vector3(50, 3, 40);
+            can_logic.water_drain_amount = 0.1f;
+          
+        }
+
+        if (watering_can_customization == 3)
+        {
+            can_logic.speed_multiplier = -can_logic.speed_multiplier;
         }
     }
     
