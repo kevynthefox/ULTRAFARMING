@@ -16,7 +16,7 @@ public class TerrainInteractor : MonoBehaviour
     public byte voxelIDToPlace = 4;
 
     public bool dig_state;
-    public int range;
+    public int range,default_range;
     public List<Transform> dig_points;
     public Transform current_dig_point;
     public float delay_between_actions;
@@ -26,6 +26,11 @@ public class TerrainInteractor : MonoBehaviour
     public AudioSource  audioSource;
     public AudioClip[] clips;
     public AudioClip[] clips_loop;
+
+    public FirstPersonMovement player_movement;
+    public Rigidbody player_rigid_body;
+    public GameObject player_camera;
+    public float rocket_hoe_speed,max_speed;
     
     private void Start()
     {
@@ -108,13 +113,13 @@ public class TerrainInteractor : MonoBehaviour
                         {
                             can_logic.watering = true;
                             can_logic.water_drain_amount = 1;
-                            range = 40;
+                            range = default_range * 10;
                         }
                         else
                         {
                             can_logic.watering = false;
                             can_logic.water_drain_amount = 0.1f;
-                            range = 4;
+                            range = default_range;
                         }
                         can_logic.update_texts();
                     }
@@ -122,10 +127,47 @@ public class TerrainInteractor : MonoBehaviour
                 }
                 else
                 {
-                    range = 4;
+                    range = default_range;
                 }
-                
-                
+
+                if (perk_logic.current.hoe_customization == 3)
+                {
+                    if (player_movement.gameObject.TryGetComponent(out fire_buff fire))
+                    {
+                        if (player_rigid_body.linearVelocity.magnitude < max_speed *
+                            Mathf.Pow(fire.fire_element_multiplier,
+                                fire.stack_count) && !perk_logic.current.no_friction) //the "and perk 3 off" part is supposed to be so that if you have slidey on, you have no speed cap :3
+                        {
+                            player_rigid_body.linearVelocity += player_camera.transform.forward * rocket_hoe_speed *
+                                                                Mathf.Pow(fire.fire_element_multiplier,
+                                                                    fire.stack_count);
+                        }
+                        else
+                        {
+                            if (perk_logic.current.no_friction)
+                            {
+                                player_rigid_body.linearVelocity += player_camera.transform.forward * rocket_hoe_speed *
+                                                                    Mathf.Pow(fire.fire_element_multiplier,
+                                                                        fire.stack_count);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (player_rigid_body.linearVelocity.magnitude < max_speed && !perk_logic.current.no_friction)
+                        {
+                            player_rigid_body.linearVelocity += player_camera.transform.forward * rocket_hoe_speed;
+                        }
+                        else
+                        {
+                            if (perk_logic.current.no_friction)
+                            {
+                                player_rigid_body.linearVelocity += player_camera.transform.forward * rocket_hoe_speed;
+                            }
+                        }
+                    }
+
+                }
                 
                 foreach( Transform digpoint in dig_points)
                 {
@@ -133,14 +175,24 @@ public class TerrainInteractor : MonoBehaviour
                     dig();
                 }
 
+                if (perk_logic.current.hoe_customization == 3)
+                {
+                    player_movement.enabled = false;
+                }
+                
             }
             else
             {
-                if (perk_logic.current.watering_can_animator.TryGetComponent(out watering_can can_logic))
+                if (perk_logic.current.hoe_customization == 2 && perk_logic.current.watering_can_animator.TryGetComponent(out watering_can can_logic))
                 {
                     can_logic.watering = false;
                     can_logic.water_drain_amount = 0.1f;
-                    range = 4;
+                    range = default_range;
+                }
+                
+                if (perk_logic.current.hoe_customization == 3)
+                {
+                    player_movement.enabled = true;
                 }
             }
 

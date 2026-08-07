@@ -55,6 +55,7 @@ public class perk_logic : MonoBehaviour
     public Animator watering_can_animator;
     
     public bool perk3; //slidey. while wet you have 0 friction with the ground.
+    public bool no_friction;
     
     public bool perk4;//dehydration. grab a crop to dehydrate it and make it more space efficient in your bag, at the cost of growing slower.
     public bool perk5;//overhydration. grab a crop to overhydrate it and make it less space efficient in your bag, but it grows faster.
@@ -242,19 +243,27 @@ public class perk_logic : MonoBehaviour
     }
     public void hoe_customization_logic()
     {
+        hoe_animator.TryGetComponent(out TerrainInteractor terrainInteractor);
         if (hoe_customization == 2)
         {
             Debug.Log("triggering hoe 2");
-            hoe_animator.TryGetComponent(out TerrainInteractor terrainInteractor);
             terrainInteractor.voxelIDToPlace = 1;
             terrainInteractor.ReplaceBlockInPlace = false;
             terrainInteractor.toolType = TerrainInteractor.ToolType.Radius;
         }
         else
         {
-            hoe_animator.TryGetComponent(out TerrainInteractor terrainInteractor);
             terrainInteractor.voxelIDToPlace = 0;
             terrainInteractor.ReplaceBlockInPlace = true;
+            terrainInteractor.toolType = TerrainInteractor.ToolType.SingleBlock;
+        }
+
+        if (hoe_customization == 3)
+        {
+            terrainInteractor.toolType = TerrainInteractor.ToolType.Radius;
+        }
+        else
+        {
             terrainInteractor.toolType = TerrainInteractor.ToolType.SingleBlock;
         }
     }

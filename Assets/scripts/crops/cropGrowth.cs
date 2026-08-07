@@ -19,6 +19,9 @@ public class cropGrowth : MonoBehaviour
     public bool started_growth;
     
     public bool ground_type; //this is so it only checks if the crop is in the ground if the crop is supposed to go in the ground. ie: not a vine
+
+    public int growth_mult_sign; //when positive, things are added, when negative, things are subtracted. ie "++" becomes "--" essentially.
+    
     
     [Header("sections")]
     public Vector3 offset; //this is so that the bottom segment isnt floating

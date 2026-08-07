@@ -106,6 +106,11 @@ namespace statusEffects
                 while (time_remaining > 0)
                 {
 
+                    if (perk_logic.current.perk3)
+                    {
+                        perk_logic.current.no_friction = true;
+                    }
+                    
                     time_remaining -= 0.1f;
                     effect_display_text_time.text = time_remaining.ToString();
                     yield return new WaitForSeconds(0.1f);
@@ -149,6 +154,11 @@ namespace statusEffects
             effect_display = null;
             effect_display_text_time = null;
 
+            if (perk_logic.current.perk3)
+            {
+                perk_logic.current.no_friction = false;
+            }
+            
             Destroy(this); //doesnt destroy the gameobject, destroys this script on it.
         }
         
@@ -158,6 +168,11 @@ namespace statusEffects
             effect_display = null;
             effect_display_text_time = null;
 
+            if (perk_logic.current.perk3)
+            {
+                perk_logic.current.no_friction = false;
+            }
+            
             Destroy(this); //doesnt destroy the gameobject, destroys this script on it.
         }
     }

@@ -27,7 +27,7 @@ namespace statusEffects
 
         public bool moved_version; //this bool exists as a way to check if this is the script that has been created by the script moving to the parent object.
 
-        public float fire_element_multiplier = 1.5f;
+        public float fire_element_multiplier = 1.4f;
 
         public float damage_number = 1;
         

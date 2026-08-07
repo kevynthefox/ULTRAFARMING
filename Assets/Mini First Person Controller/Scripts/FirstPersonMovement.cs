@@ -41,7 +41,7 @@ public class FirstPersonMovement : MonoBehaviour
 
         // Apply movement.
         
-        if (perk_logic.current.perk3 && this.TryGetComponent(out wet_buff wet_log))
+        if (perk_logic.current.no_friction)
         {
             rigidbody.linearVelocity += transform.rotation * new Vector3(targetVelocity.x, /*rigidbody.linearVelocity.y*/ 0, targetVelocity.y);
         }
