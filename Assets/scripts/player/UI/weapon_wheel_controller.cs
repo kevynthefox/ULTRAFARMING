@@ -53,20 +53,25 @@ public class weapon_wheel_controller : MonoBehaviour
                         weapon.SetActive(false);
                     } //this is so that the seed bag isn't turned off when placed on the ground and you switch weapons
                 }
+                else if (weapon.TryGetComponent(out harvester harvest_logic))
+                {
+                    if (harvest_logic.scythe_in_hand == true)
+                    {
+                        weapon.SetActive(false);
+                    }
+                }
+                else if (weapon.TryGetComponent(out watering_can can_logic))
+                {
+                    if (can_logic.placed_forWeaponWheel == false)
+                    {
+                        //Debug.Log("bag was held,switching off");
+                        weapon.SetActive(false);
+                    } //this is so that the seed bag isn't turned off when placed on the ground and you switch weapons
+                }
                 else
                 {
-                    if (weapon.TryGetComponent(out watering_can can_logic))
-                    {
-                        if (can_logic.placed_forWeaponWheel == false)
-                        {
-                            //Debug.Log("bag was held,switching off");
-                            weapon.SetActive(false);
-                        } //this is so that the seed bag isn't turned off when placed on the ground and you switch weapons
-                    }
-                    else
-                    {
-                        weapon.SetActive(false);   
-                    }   
+                    weapon.SetActive(false);   
+                    
                 }
             }
         }

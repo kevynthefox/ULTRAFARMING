@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class perk_logic : MonoBehaviour
 {
+
+    public GameObject perk_menu;
     
     public int hoe_customization;
     public int scythe_customization;

@@ -166,36 +166,61 @@ public class harvester : MonoBehaviour
     {
         if (this.gameObject.activeSelf == true)
         {
-            if (perk_logic.current.scythe_customization == 3)
+        
+            if (perk_logic.current.scythe_customization == 3 && !perk_logic.current.perk_menu.activeSelf)
             {
-                Collider[] hitColliders = Physics.OverlapSphere(StatusEffectAdder.current.player.transform.position, radius_to_search);
-                foreach (var hitCollider in hitColliders)
+                if (scythe_in_hand)
                 {
-                    //hitCollider.SendMessage("AddDamage");
-                    if (hitCollider.CompareTag("finished_crop") || hitCollider.CompareTag("growing_crop"))
+                    Collider[] hitColliders = Physics.OverlapSphere(StatusEffectAdder.current.player.transform.position,
+                        radius_to_search);
+                    foreach (var hitCollider in hitColliders)
                     {
-                        if (!targets.Contains(hitCollider.transform)) targets.Add(hitCollider.transform);
+                        //hitCollider.SendMessage("AddDamage");
+                        if (hitCollider.CompareTag("finished_crop") || hitCollider.CompareTag("growing_crop"))
+                        {
+                            if (!targets.Contains(hitCollider.transform)) targets.Add(hitCollider.transform);
+                        }
+                    }
+
+                    if (targets.Count > 0)
+                    {
+                        transform.parent = null;
+                        transform.position = StatusEffectAdder.current.player.transform.position;
+
+                        animator.enabled = false;
+                        harvesting = true;
+
+                        scythe_flight.targets = targets;
+                        scythe_flight.enabled = true;
+                        scythe_flight.Start();
+
+                        scythe_in_hand = false;
+
+                        if (!TryGetComponent(out Rigidbody rb))
+                        {
+                            this.AddComponent<Rigidbody>().isKinematic = true;
+                        }
                     }
                 }
-
-                transform.parent = null;
-                transform.position = StatusEffectAdder.current.player.transform.position;
-                
-                animator.enabled = false;
-                
-                scythe_flight.targets = targets;
-                scythe_flight.enabled = true;
-                scythe_flight.Start();
-                
+                else
+                {
+                    Debug.Log("recalling scythe");
+                    scythe_flight.targets.Clear();
+                    scythe_flight.targets.Add(scythe_flight.home);
+                }
             }
             else
             {
                 if (context.started)
                 {
+
+                
                     animator.Play("scythe_down");
                     //PlayRandomClip(audioSource,clips);
                     //animator.SetBool("scythe_down", true);
                     animator.SetBool("actively_doing_animation", true);
+                
+
                 }
 
                 if (context.canceled)
@@ -204,9 +229,9 @@ public class harvester : MonoBehaviour
                     animator.SetBool("scythe_down", false);
                     harvesting = false;
                 }
+
             }
 
-            
         }
     }
 
@@ -214,6 +239,25 @@ public class harvester : MonoBehaviour
     {
         animator.SetBool("scythe_down", true);
         harvesting = true;
+    }
+
+    public void scytheFlight_return()
+    {
+        transform.parent = return_point.transform;
+        transform.localPosition = new Vector3(0.538f,-0.616f,0);
+                
+        animator.enabled = true;
+        harvesting = false;
+                
+        scythe_flight.arrived_home = true;
+        
+        scythe_flight.enabled = false;
+        scythe_in_hand = true;
+
+        if (TryGetComponent(out Rigidbody rb))
+        {
+            Destroy(rb);
+        }
     }
 }
 
