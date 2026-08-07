@@ -156,7 +156,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::cropGrowth
   maxGrowth: 100
-  growth_rate: 0.1
+  growth_rate: 1
   excess_growth: 0
   excess_segments: 0
   started_growth: 0
