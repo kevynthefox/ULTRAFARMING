@@ -80,10 +80,20 @@ namespace statusEffects
 
         public IEnumerator apply_effect()
         {
-            if (apply_type == 1)
+            //apply 1 time, at the start.
+            if (perk_logic.current.perk14)
             {
-                //apply 1 time, at the start.
+                if (TryGetComponent(out wet_buff wet_buff))
+                {
+                    wet_buff.max_stack_count = 10 * Mathf.RoundToInt(Mathf.Pow(fire_element_multiplier, stack_count));
+                }
+                
+                if (TryGetComponent(out dirty_buff dirtyBuff))
+                {
+                    dirtyBuff.max_stack_count = 10 * Mathf.RoundToInt(Mathf.Pow(fire_element_multiplier, stack_count));
+                }
             }
+
 
             if (apply_type == 2)
             {
@@ -147,6 +157,23 @@ namespace statusEffects
             Destroy(effect_display);
             effect_display = null;
             effect_display_text_time = null;
+            
+            if (perk_logic.current.perk14)
+            {
+                if (TryGetComponent(out wet_buff wetBuff))
+                {
+                    wetBuff.max_stack_count = 10;
+                    if (wetBuff.stack_count > wetBuff.max_stack_count) wetBuff.stack_count = wetBuff.max_stack_count;
+                    wetBuff.effect_display_text_stack.text = "x"+ wetBuff.stack_count;
+                }
+                
+                if (TryGetComponent(out dirty_buff dirtyBuff))
+                {
+                    dirtyBuff.max_stack_count = 10;
+                    if (dirtyBuff.stack_count > dirtyBuff.max_stack_count) dirtyBuff.stack_count = dirtyBuff.max_stack_count;
+                    dirtyBuff.effect_display_text_stack.text = "x"+ dirtyBuff.stack_count;
+                }
+            }
 
             Destroy(this); //doesnt destroy the gameobject, destroys this script on it.
         }
@@ -157,6 +184,23 @@ namespace statusEffects
             effect_display = null;
             effect_display_text_time = null;
 
+            if (perk_logic.current.perk14)
+            {
+                if (TryGetComponent(out wet_buff wetBuff))
+                {
+                    wetBuff.max_stack_count = 10;
+                    if (wetBuff.stack_count > wetBuff.max_stack_count) wetBuff.stack_count = wetBuff.max_stack_count;
+                    wetBuff.effect_display_text_stack.text = "x"+ wetBuff.stack_count;
+                }
+                
+                if (TryGetComponent(out dirty_buff dirtyBuff))
+                {
+                    dirtyBuff.max_stack_count = 10;
+                    if (dirtyBuff.stack_count > dirtyBuff.max_stack_count) dirtyBuff.stack_count = dirtyBuff.max_stack_count;
+                    dirtyBuff.effect_display_text_stack.text = "x"+ dirtyBuff.stack_count;
+                }
+            }
+            
             Destroy(this); //doesnt destroy the gameobject, destroys this script on it.
         }
     }

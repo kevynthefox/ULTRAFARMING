@@ -74,6 +74,16 @@ namespace statusEffects
         public IEnumerator apply_effect()
         {
             
+            if (perk_logic.current.perk14)
+            {
+                if (TryGetComponent(out fire_buff fireBuff))
+                {
+                    max_stack_count =
+                        10 * Mathf.RoundToInt(Mathf.Pow(fireBuff.fire_element_multiplier, fireBuff.stack_count));
+                    Debug.Log(10 * Mathf.RoundToInt(Mathf.Pow(fireBuff.fire_element_multiplier, fireBuff.stack_count)));
+                }
+            }
+            
             if (perk_logic.current.perk2)
             {
                 perk_logic.current.perk2_logic();

@@ -73,6 +73,16 @@ namespace statusEffects
 
         public IEnumerator apply_effect()
         {
+            
+            if (perk_logic.current.perk14)
+            {
+                if (TryGetComponent(out fire_buff fireBuff))
+                {
+                    max_stack_count =
+                        10 * Mathf.RoundToInt(Mathf.Pow(fireBuff.fire_element_multiplier, fireBuff.stack_count));
+                }
+            }
+            
             if (perk_logic.current.pet_rock.activeSelf)
             {
                 float rock_new_scale = Mathf.Pow(earth_element_multiplier, stack_count);
