@@ -296,7 +296,11 @@ public class perk_logic : MonoBehaviour
 
         if (watering_can_customization == 3)
         {
-            can_logic.speed_multiplier = -can_logic.speed_multiplier;
+            can_logic.watering_sign = -1;
+        }
+        else
+        {
+            can_logic.watering_sign = 1;
         }
     }
     

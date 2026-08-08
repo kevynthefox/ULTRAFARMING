@@ -7744,7 +7744,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'water left: 2/10'
+  m_text: 'water left: 10.01/10'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7810,7 +7810,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -7.600647, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -10787,6 +10787,7 @@ MonoBehaviour:
   place_origin: {fileID: 958372764094958235}
   return_point: {fileID: 1979521827}
   water_collider: {fileID: 1555604563}
+  watering_sign: 1
 --- !u!95 &1555604567
 Animator:
   serializedVersion: 7
@@ -13407,7 +13408,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2272519611308737645, guid: e3ee30caf07d64891b0d195532db6986, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -23.9
+      value: 14.74
       objectReference: {fileID: 0}
     - target: {fileID: 2272519611308737645, guid: e3ee30caf07d64891b0d195532db6986, type: 3}
       propertyPath: m_LocalPosition.y
@@ -13415,7 +13416,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2272519611308737645, guid: e3ee30caf07d64891b0d195532db6986, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 52.8
+      value: 15.86
       objectReference: {fileID: 0}
     - target: {fileID: 2272519611308737645, guid: e3ee30caf07d64891b0d195532db6986, type: 3}
       propertyPath: m_LocalRotation.w
@@ -13444,6 +13445,10 @@ PrefabInstance:
     - target: {fileID: 2272519611308737645, guid: e3ee30caf07d64891b0d195532db6986, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6428842717865058974, guid: e3ee30caf07d64891b0d195532db6986, type: 3}
+      propertyPath: growth_rate
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

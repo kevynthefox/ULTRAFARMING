@@ -27,37 +27,43 @@ public class watering_can : MonoBehaviour
     public Transform return_point;
 
     public BoxCollider water_collider;
+
+    public int watering_sign;
     
     public void OnEnable()
     {
         StartCoroutine(water_tracker());
     }
-    
+
     public void water(InputAction.CallbackContext context)
     {
         if (weapon_wheel_controller.current.selected_weapon == 5)
         {
-            if (context.started)
+            if (perk_logic.current.perk_menu.activeSelf == false)
             {
-                if (water_count > 0)
+                if (context.started)
                 {
-                    //Debug.Log("water start");
-                    animator.Play("can_down");
+                    if (water_count > 0)
+                    {
+                        //Debug.Log("water start");
+                        animator.Play("can_down");
+                        animator.SetBool("can_animating",false);
+                    }
                 }
-            }
-            
-            if (context.canceled)
-            {
-                //Debug.Log("water cancel");
-                watering = false;
-                animator.SetBool("can_down", false);
-                audio_source.Stop();
-                if (water_count > 0) audio_source.PlayOneShot(water_end);
+
+                if (context.canceled)
+                {
+                    //Debug.Log("water cancel");
+                    watering = false;
+                    animator.SetBool("can_down", false);
+                    animator.SetBool("can_animating", true);
+                    audio_source.Stop();
+                    if (water_count > 0) audio_source.PlayOneShot(water_end);
+                }
             }
         }
     }
 
-    
 
     public IEnumerator water_tracker()
     {
@@ -98,14 +104,7 @@ public class watering_can : MonoBehaviour
                         if (perk_logic.current.watering_can_customization == 0 || perk_logic.current.watering_can_customization == 1)
                         {
                             growth.growth_rate *= speed_multiplier;
-                            if (growth.growth_rate < 0)
-                            {
-                                growth.growth_mult_sign = -1;
-                            }
-                            if (growth.growth_rate > 0)
-                            {
-                                growth.growth_mult_sign = 1;
-                            }
+                            growth.growth_mult_sign = watering_sign;
                         }
                         else
                         {
@@ -213,14 +212,14 @@ public class watering_can : MonoBehaviour
             canvas_player.enabled = true;
             canvas_world.enabled = false;
             
-            text_player.text = "water left: " + water_count + "/" + max_water_count;
+            text_player.text = "water left: " + water_count.ToString("0.01") + "/" + max_water_count;
         }
         else
         {
             canvas_player.enabled = false;
             canvas_world.enabled = true;
             
-            text_world.text = "water left: " + water_count + "/" + max_water_count;
+            text_world.text = "water left: " + water_count.ToString("0.01") + "/" + max_water_count;
         }
     }
     

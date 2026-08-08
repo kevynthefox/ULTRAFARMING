@@ -40,6 +40,8 @@ public class cropGrowth : MonoBehaviour
     public crop_data cropData;
     public int number_of_harvestable_parts;
     public int number_of_harvestable_parts_per_segment;
+    
+    public List<GameObject> segments_to_destroy;
 
     [Header("points")]
     public GameObject next_point;
@@ -231,12 +233,16 @@ public class cropGrowth : MonoBehaviour
                 }
             }
 
-            current_dist_percentage = segments_data[current_segment].dist_percentage;
+            
 
-            segments_data[current_segment].dist_percentage += (growth_rate + excess_growth);
+            
 
             if (growth_mult_sign > 0)
             {
+                current_dist_percentage = segments_data[current_segment].dist_percentage;
+                
+                segments_data[current_segment].dist_percentage += (growth_rate + excess_growth);
+                
                 if (current_dist_percentage >= 1.00f)
                 {
                     //Debug.Log("current segment: " + current_segment + " segments.count: " + segments.Count);
@@ -293,56 +299,96 @@ public class cropGrowth : MonoBehaviour
             }
             else
             {
-                if (current_dist_percentage <= 0.00f)
+                if (current_segment > 0)
                 {
-                    //Debug.Log("current segment: " + current_segment + " segments.count: " + segments.Count);
-                    if (current_segment >= segments.Count - 1) // the -1 is here because segment count has to start at 0, and segments.count counts 0 as one of the counted
-                    {
-                        //Debug.Log("finished growing, removing from list");
-                        //growthIncrementer.current.crops.Remove(this);
-                        this.tag = "finished_crop";
-                        //adjust_collider_size();
-                    }
-                    else
-                    {
+                    current_dist_percentage = segments_data[current_segment].dist_percentage;
 
 
-                        if (current_dist_percentage < 0)
+                    segments_data[current_segment].dist_percentage -= (growth_rate + excess_growth);
+
+                    if (current_dist_percentage <= -1.00f)
+                    {
+                        //Debug.Log("current segment: " + current_segment + " segments.count: " + segments.Count);
+                        if (current_segment >=
+                            segments.Count -
+                            1) // the -1 is here because segment count has to start at 0, and segments.count counts 0 as one of the counted
                         {
-                            excess_growth = current_dist_percentage - 1;
-                            if (excess_growth > -0.001)
+                            //Debug.Log("finished growing, removing from list");
+                            //growthIncrementer.current.crops.Remove(this);
+                            this.tag = "finished_crop";
+                            //adjust_collider_size();
+                        }
+                        else
+                        {
+
+
+                            if (current_dist_percentage < 0)
                             {
-                                excess_growth =
-                                    0; //this is to avoid the slow buildup of excess growth due to floating point errors
+                                excess_growth = current_dist_percentage - -1;
+                                if (excess_growth < 0.001)
+                                {
+                                    excess_growth =
+                                        0; //this is to avoid the slow buildup of excess growth due to floating point errors
+                                }
+
+                                if (excess_growth >= 1)
+                                {
+                                    excess_segments = Mathf.FloorToInt(excess_growth);
+
+                                    if (excess_segments % 2 == 1)
+                                        step_growth_segments_even(); //checks if its odd, then sends to the even one
+                                    if (excess_segments % 2 == 0)
+                                        step_growth_segments_odd(); //checks if its even, then sends it to the odd one
+
+
+                                    //current_segment += excess_segments;
+
+                                    excess_growth += excess_segments;
+                                    excess_segments = 0;
+                                }
                             }
 
-                            if (excess_growth <= -1)
+                            /*if (current_segment + 1 <= maxGrowth - 1)
                             {
-                                excess_segments = Mathf.FloorToInt(excess_growth);
-
-                                if (excess_segments % 2 == 1)
-                                    step_growth_segments_even(); //checks if its odd, then sends to the even one
-                                if (excess_segments % 2 == 0)
-                                    step_growth_segments_odd(); //checks if its even, then sends it to the odd one
+                                segments_data[current_segment + 1]._next_point =
+                                    segments_data[current_segment]._next_point_obj.transform.position;
+                            }*/
 
 
-                                //current_segment += excess_segments;
+                            segments[current_segment].SetActive(false);
 
-                                excess_growth += excess_segments;
-                                excess_segments = 0;
-                            }
+                            check_off_segment(); //after current segment has finished growing, tick the next segment
                         }
 
-                        if (current_segment + 1 <= maxGrowth - 1)
-                        {
-                            segments_data[current_segment + 1]._next_point =
-                                segments_data[current_segment]._next_point_obj.transform.position;
-                        }
+                    }
+                }
+                else
+                {
+                    this.AddComponent<Rigidbody>().isKinematic = true;
 
 
-                        check_off_segment(); //after current segment has finished growing, tick the next segment
+                    if (TryGetComponent(out MeshRenderer mr))
+                    {
+                        mr.enabled = true;
                     }
 
+                    tag = "sellable";
+
+                    
+                    
+                    foreach (GameObject segment in segments)
+                    {
+                        segments_to_destroy.Add(segment);
+                    }
+
+                    for (int i = 0; i < segments_to_destroy.Count; i++)
+                    {
+                        Destroy(segments[i]);
+                    }
+                    segments_to_destroy.Clear();
+                    segments.Clear();
+                    segments_data.Clear();
+                    started_growth = false;
                 }
             }
 
@@ -762,6 +808,8 @@ public class cropGrowth : MonoBehaviour
                         //Physics.Raycast(this.transform.position,Vector3.down,out RaycastHit hit);
                         transform.rotation = quaternion.identity; // = Quaternion.LookRotation(hit.transform.up);
                         //honestly.. like.. why would it ever need to be sideways? this is a perfectly flat plane
+                        
+                        growth_mult_sign = 1;
                         
                         StartCoroutine(Start_growing());
                     }
