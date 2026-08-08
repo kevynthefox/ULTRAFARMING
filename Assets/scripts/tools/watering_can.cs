@@ -71,12 +71,12 @@ public class watering_can : MonoBehaviour
         {
             if (watering)
             {
-                Debug.Log("watering is true");
+                //Debug.Log("watering is true");
                 if (water_count > 0)
                 {
-                    Debug.Log("draining water");
+                    //Debug.Log("draining water");
                     water_count -= water_drain_amount;
-                    Debug.Log("water drained");
+                    //Debug.Log("water drained");
                     update_texts();
                 }
                 else
@@ -101,7 +101,7 @@ public class watering_can : MonoBehaviour
                 {
                     if (water_count > 0)
                     {
-                        if (perk_logic.current.watering_can_customization == 0 || perk_logic.current.watering_can_customization == 1)
+                        if (perk_logic.current.watering_can_customization != 2)
                         {
                             growth.growth_rate *= speed_multiplier;
                             growth.growth_mult_sign = watering_sign;

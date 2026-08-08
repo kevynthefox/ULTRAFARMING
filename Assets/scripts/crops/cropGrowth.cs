@@ -243,6 +243,11 @@ public class cropGrowth : MonoBehaviour
                 
                 segments_data[current_segment].dist_percentage += (growth_rate + excess_growth);
                 
+                if (segments_data[current_segment].dist_percentage > 1)
+                {
+                    segments_data[current_segment].dist_percentage = 1;
+                }
+                
                 if (current_dist_percentage >= 1.00f)
                 {
                     //Debug.Log("current segment: " + current_segment + " segments.count: " + segments.Count);
@@ -306,7 +311,12 @@ public class cropGrowth : MonoBehaviour
 
                     segments_data[current_segment].dist_percentage -= (growth_rate + excess_growth);
 
-                    if (current_dist_percentage <= -1.00f)
+                    if (segments_data[current_segment].dist_percentage < 0)
+                    {
+                        segments_data[current_segment].dist_percentage = 0;
+                    }
+                    
+                    if (current_dist_percentage <= 0.00f)
                     {
                         //Debug.Log("current segment: " + current_segment + " segments.count: " + segments.Count);
                         if (current_segment >=
