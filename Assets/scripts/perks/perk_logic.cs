@@ -81,15 +81,22 @@ public class perk_logic : MonoBehaviour
     public bool perk12; //unkempt charm. add a bonus to sell price based on how dirty you are.
 
 
-    public bool
-        perk13; // gimbal jets. gives you the ability to redirect your current velocity to wherever you are looking. ability is triggered by a button like "perk 2 ability button" rather than "gimbal jet button"
+    public bool perk13; // gimbal jets. gives you the ability to redirect your current velocity to wherever you are looking. ability is triggered by a button like "perk 2 ability button" rather than "gimbal jet button"
 
     public GameObject camera;
     public float current_velocity;
 
-    public bool
-        perk14; //elemental heat. fire boosts the effects of other elemental buffs(like wet and dirty). it boosts those effects by increasing their max stack by roundtoint mathf.pow firemult, firestack. (done this way because this is less complicated than other ways)
+    public bool perk14; //elemental heat. fire boosts the effects of other elemental buffs(like wet and dirty). it boosts those effects by increasing their max stack by roundtoint mathf.pow firemult, firestack. (done this way because this is less complicated than other ways)
 
+    public bool perk15; //pocket rocket. consume max stacks of water, dirt, and fire, and some amount of money, to summon a rocket that rapidly transports you and anything inside of it straight home.
+    public GameObject rocket;
+    public GameObject cursor;
+    bool fire_check;
+    bool wet_check;
+    bool dirt_check;
+    bool money_check;
+    public money_holder money;
+    
     public void hoe_customization_choser(int i)
     {
         hoe_customization = i;
@@ -140,6 +147,7 @@ public class perk_logic : MonoBehaviour
         if (slot_old_value == 12) perk12_toggle();
         if (slot_old_value == 13) perk13_toggle();
         if (slot_old_value == 14) perk14_toggle();
+        if (slot_old_value == 15) perk15_toggle();
 
         if (slot_value == 1)
         {
@@ -181,7 +189,8 @@ public class perk_logic : MonoBehaviour
         if (slot_old_value == 12) perk12_toggle();
         if (slot_old_value == 13) perk13_toggle();
         if (slot_old_value == 14) perk14_toggle();
-
+        if (slot_old_value == 15) perk15_toggle();
+        
         if (OnPerkSlotLogicEvent != null)
         {
             OnPerkSlotLogicEvent(this);
@@ -270,6 +279,10 @@ public class perk_logic : MonoBehaviour
             rb.useGravity = true;
         }
     }
+    public void perk15_toggle()
+    {
+        perk15 = !perk15;
+    }
 
     public void perk14_toggle()
     {
@@ -311,7 +324,7 @@ public class perk_logic : MonoBehaviour
         if (watering_can_customization == 1)
         {
 
-            if (StatusEffectAdder.current.player.TryGetComponent(out wet_buff wet_logic))
+            if (this.TryGetComponent(out wet_buff wet_logic))
             {
                 can_logic.water_collider.size =
                     new Vector3(50 * Mathf.Pow(wet_logic.water_element_multiplier, wet_logic.stack_count), 3, 40);
@@ -354,7 +367,7 @@ public class perk_logic : MonoBehaviour
     {
         if (perk2)
         {
-            if (StatusEffectAdder.current.player.TryGetComponent(out wet_buff wet_logic))
+            if (this.TryGetComponent(out wet_buff wet_logic))
             {
                 trowel_animator.speed = math.pow(wet_logic.water_element_multiplier, wet_logic.stack_count);
                 hoe_animator.speed = math.pow(wet_logic.water_element_multiplier, wet_logic.stack_count);
@@ -385,15 +398,15 @@ public class perk_logic : MonoBehaviour
     {
         if (perk14)
         {
-            if (StatusEffectAdder.current.player.TryGetComponent(out fire_buff fireBuff))
+            if (this.TryGetComponent(out fire_buff fireBuff))
             {
-                if (StatusEffectAdder.current.player.TryGetComponent(out wet_buff wetBuff))
+                if (this.TryGetComponent(out wet_buff wetBuff))
                 {
                     wetBuff.max_stack_count =
                         10 * Mathf.RoundToInt(Mathf.Pow(fireBuff.fire_element_multiplier, fireBuff.stack_count));
                 }
 
-                if (StatusEffectAdder.current.player.TryGetComponent(out dirty_buff dirtyBuff))
+                if (this.TryGetComponent(out dirty_buff dirtyBuff))
                 {
                     dirtyBuff.max_stack_count =
                         10 * Mathf.RoundToInt(Mathf.Pow(fireBuff.fire_element_multiplier, fireBuff.stack_count));
@@ -402,7 +415,7 @@ public class perk_logic : MonoBehaviour
         }
         else
         {
-            if (StatusEffectAdder.current.player.TryGetComponent(out wet_buff wetBuff))
+            if (this.TryGetComponent(out wet_buff wetBuff))
             {
                 wetBuff.max_stack_count = 10;
                 if (wetBuff.stack_count > wetBuff.max_stack_count) 
@@ -410,7 +423,7 @@ public class perk_logic : MonoBehaviour
                 wetBuff.effect_display_text_stack.text = "x"+ wetBuff.stack_count;
             }
 
-            if (StatusEffectAdder.current.player.TryGetComponent(out dirty_buff dirtyBuff))
+            if (this.TryGetComponent(out dirty_buff dirtyBuff))
             {
                 dirtyBuff.max_stack_count = 10;
                 if (dirtyBuff.stack_count > dirtyBuff.max_stack_count)
@@ -434,6 +447,75 @@ public void perk1_ability(InputAction.CallbackContext context)
                 current_velocity = rb.linearVelocity.magnitude;
                 rb.linearVelocity = camera.transform.forward * current_velocity;
             }
+            if (perk_slot_1_perk == 15)
+            {
+
+                if (this.TryGetComponent(out fire_buff fireBuff))
+                {
+                    if (fireBuff.stack_count >= fireBuff.max_stack_count)
+                    {
+                        fire_check = true;
+                    }
+                    else
+                    {
+                        fire_check = false;
+                    }
+                }
+                else
+                {
+                    fire_check = false;
+                }
+                if (this.TryGetComponent(out wet_buff wetBuff))
+                {
+                    if (wetBuff.stack_count >= wetBuff.max_stack_count)
+                    {
+                        wet_check = true;
+                    }
+                    else
+                    {
+                        wet_check = false;
+                    }
+                }
+                else
+                {
+                    wet_check = false;
+                }
+                if (this.TryGetComponent(out dirty_buff dirtyBuff))
+                {
+                    if (dirtyBuff.stack_count >= dirtyBuff.max_stack_count)
+                    {
+                        dirt_check = true;
+                    }
+                    else
+                    {
+                        dirt_check = false;
+                    }
+                }
+                else
+                {
+                    dirt_check = false;
+                }
+                if (money.money >= 500)
+                {
+                    money_check = true;
+                }
+                else
+                {
+                    money_check = false;
+                }
+
+                if (fire_check && wet_check && dirt_check && money_check)
+                {
+                    rocket.transform.position = new Vector3(cursor.transform.position.x, 29, cursor.transform.position.z);
+                    rocket.transform.localEulerAngles = new Vector3(0,cursor.transform.eulerAngles.y,0);
+
+                    fireBuff.time_remaining = 0.1f;
+                    dirtyBuff.time_remaining = 0.1f;
+                    wetBuff.time_remaining = 0.1f;
+                    money.money_update(-500);
+                }
+                
+            }
         }
     }
     public void perk2_ability(InputAction.CallbackContext context)
@@ -446,6 +528,78 @@ public void perk1_ability(InputAction.CallbackContext context)
                 TryGetComponent(out Rigidbody rb);
                 current_velocity = rb.linearVelocity.magnitude;
                 rb.linearVelocity = camera.transform.forward * current_velocity;
+            }
+
+            if (perk_slot_2_perk == 15)
+            {
+                if (this.TryGetComponent(out fire_buff fireBuff))
+                {
+                    if (fireBuff.stack_count >= fireBuff.max_stack_count)
+                    {
+                        fire_check = true;
+                    }
+                    else
+                    {
+                        fire_check = false;
+                    }
+                }
+                else
+                {
+                    fire_check = false;
+                }
+
+                if (this.TryGetComponent(out wet_buff wetBuff))
+                {
+                    if (wetBuff.stack_count >= wetBuff.max_stack_count)
+                    {
+                        wet_check = true;
+                    }
+                    else
+                    {
+                        wet_check = false;
+                    }
+                }
+                else
+                {
+                    wet_check = false;
+                }
+
+                if (this.TryGetComponent(out dirty_buff dirtyBuff))
+                {
+                    if (dirtyBuff.stack_count >= dirtyBuff.max_stack_count)
+                    {
+                        dirt_check = true;
+                    }
+                    else
+                    {
+                        dirt_check = false;
+                    }
+                }
+                else
+                {
+                    dirt_check = false;
+                }
+
+                if (money.money >= 500)
+                {
+                    money_check = true;
+                }
+                else
+                {
+                    money_check = false;
+                }
+
+                if (fire_check && wet_check && dirt_check && money_check)
+                {
+                    rocket.transform.position =
+                        new Vector3(cursor.transform.position.x, 29, cursor.transform.position.z);
+                    rocket.transform.localEulerAngles = new Vector3(0, cursor.transform.eulerAngles.y, 0);
+
+                    fireBuff.time_remaining = 0.1f;
+                    dirtyBuff.time_remaining = 0.1f;
+                    wetBuff.time_remaining = 0.1f;
+                    money.money_update(-500);
+                }
             }
         }
     }
@@ -460,6 +614,73 @@ public void perk1_ability(InputAction.CallbackContext context)
                 current_velocity = rb.linearVelocity.magnitude;
                 rb.linearVelocity = camera.transform.forward * current_velocity;
             }
+            if (perk_slot_3_perk == 15)
+            {
+                if (this.TryGetComponent(out fire_buff fireBuff))
+                {
+                    if (fireBuff.stack_count >= fireBuff.max_stack_count)
+                    {
+                        fire_check = true;
+                    }
+                    else
+                    {
+                        fire_check = false;
+                    }
+                }
+                else
+                {
+                    fire_check = false;
+                }
+                if (this.TryGetComponent(out wet_buff wetBuff))
+                {
+                    if (wetBuff.stack_count >= wetBuff.max_stack_count)
+                    {
+                        wet_check = true;
+                    }
+                    else
+                    {
+                        wet_check = false;
+                    }
+                }
+                else
+                {
+                    wet_check = false;
+                }
+                if (this.TryGetComponent(out dirty_buff dirtyBuff))
+                {
+                    if (dirtyBuff.stack_count >= dirtyBuff.max_stack_count)
+                    {
+                        dirt_check = true;
+                    }
+                    else
+                    {
+                        dirt_check = false;
+                    }
+                }
+                else
+                {
+                    dirt_check = false;
+                }
+                if (money.money >= 500)
+                {
+                    money_check = true;
+                }
+                else
+                {
+                    money_check = false;
+                }
+
+                if (fire_check && wet_check && dirt_check && money_check)
+                {
+                    rocket.transform.position = new Vector3(cursor.transform.position.x, 29, cursor.transform.position.z);
+                    rocket.transform.localEulerAngles = new Vector3(0,cursor.transform.eulerAngles.y,0);
+
+                    fireBuff.time_remaining = 0.1f;
+                    dirtyBuff.time_remaining = 0.1f;
+                    wetBuff.time_remaining = 0.1f;
+                    money.money_update(-500);
+                }
+            }
         }
     }
     public void perk4_ability(InputAction.CallbackContext context)
@@ -472,6 +693,73 @@ public void perk1_ability(InputAction.CallbackContext context)
                 TryGetComponent(out Rigidbody rb);
                 current_velocity = rb.linearVelocity.magnitude;
                 rb.linearVelocity = camera.transform.forward * current_velocity;
+            }
+            if (perk_slot_4_perk == 15)
+            {
+                if (this.TryGetComponent(out fire_buff fireBuff))
+                {
+                    if (fireBuff.stack_count >= fireBuff.max_stack_count)
+                    {
+                        fire_check = true;
+                    }
+                    else
+                    {
+                        fire_check = false;
+                    }
+                }
+                else
+                {
+                    fire_check = false;
+                }
+                if (this.TryGetComponent(out wet_buff wetBuff))
+                {
+                    if (wetBuff.stack_count >= wetBuff.max_stack_count)
+                    {
+                        wet_check = true;
+                    }
+                    else
+                    {
+                        wet_check = false;
+                    }
+                }
+                else
+                {
+                    wet_check = false;
+                }
+                if (this.TryGetComponent(out dirty_buff dirtyBuff))
+                {
+                    if (dirtyBuff.stack_count >= dirtyBuff.max_stack_count)
+                    {
+                        dirt_check = true;
+                    }
+                    else
+                    {
+                        dirt_check = false;
+                    }
+                }
+                else
+                {
+                    dirt_check = false;
+                }
+                if (money.money >= 500)
+                {
+                    money_check = true;
+                }
+                else
+                {
+                    money_check = false;
+                }
+
+                if (fire_check && wet_check && dirt_check && money_check)
+                {
+                    rocket.transform.position = new Vector3(cursor.transform.position.x, 29, cursor.transform.position.z);
+                    rocket.transform.localEulerAngles = new Vector3(0,cursor.transform.eulerAngles.y,0);
+
+                    fireBuff.time_remaining = 0.1f;
+                    dirtyBuff.time_remaining = 0.1f;
+                    wetBuff.time_remaining = 0.1f;
+                    money.money_update(-500);
+                }
             }
         }
     }
