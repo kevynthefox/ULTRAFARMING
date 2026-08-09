@@ -96,6 +96,11 @@ public class perk_logic : MonoBehaviour
     bool dirt_check;
     bool money_check;
     public money_holder money;
+
+    public bool perk16; //gust of steam. press a button to consume all of your fire and water, then apply fire * water amount of force forward(the cursor's version of foward, meaning it can be rotated to yourself) to all objects in front of the cursor. 
+    public steam_gust_cursor cursor_gust_log;
+
+    public List<int> perk_state;
     
     public void hoe_customization_choser(int i)
     {
@@ -148,6 +153,8 @@ public class perk_logic : MonoBehaviour
         if (slot_old_value == 13) perk13_toggle();
         if (slot_old_value == 14) perk14_toggle();
         if (slot_old_value == 15) perk15_toggle();
+        if (slot_old_value == 16) perk16_toggle();
+
 
         if (slot_value == 1)
         {
@@ -190,6 +197,7 @@ public class perk_logic : MonoBehaviour
         if (slot_old_value == 13) perk13_toggle();
         if (slot_old_value == 14) perk14_toggle();
         if (slot_old_value == 15) perk15_toggle();
+        if (slot_old_value == 16) perk16_toggle();
         
         if (OnPerkSlotLogicEvent != null)
         {
@@ -279,15 +287,19 @@ public class perk_logic : MonoBehaviour
             rb.useGravity = true;
         }
     }
-    public void perk15_toggle()
-    {
-        perk15 = !perk15;
-    }
-
+    
     public void perk14_toggle()
     {
         perk14 = !perk14;
         perk14_logic();
+    }
+    public void perk15_toggle()
+    {
+        perk15 = !perk15;
+    }
+    public void perk16_toggle()
+    {
+        perk16 = !perk16;
     }
 
     public void hoe_customization_logic()
@@ -436,331 +448,130 @@ public class perk_logic : MonoBehaviour
 
 
 
-public void perk1_ability(InputAction.CallbackContext context)
+    public void perk1_ability(InputAction.CallbackContext context)
     {
         if (context.started)
         {
-            if (perk_slot_1_perk == 13)
-            {
-                Debug.Log("perk_slot_1_perk");
-                TryGetComponent(out Rigidbody rb);
-                current_velocity = rb.linearVelocity.magnitude;
-                rb.linearVelocity = camera.transform.forward * current_velocity;
-            }
-            if (perk_slot_1_perk == 15)
-            {
-
-                if (this.TryGetComponent(out fire_buff fireBuff))
-                {
-                    if (fireBuff.stack_count >= fireBuff.max_stack_count)
-                    {
-                        fire_check = true;
-                    }
-                    else
-                    {
-                        fire_check = false;
-                    }
-                }
-                else
-                {
-                    fire_check = false;
-                }
-                if (this.TryGetComponent(out wet_buff wetBuff))
-                {
-                    if (wetBuff.stack_count >= wetBuff.max_stack_count)
-                    {
-                        wet_check = true;
-                    }
-                    else
-                    {
-                        wet_check = false;
-                    }
-                }
-                else
-                {
-                    wet_check = false;
-                }
-                if (this.TryGetComponent(out dirty_buff dirtyBuff))
-                {
-                    if (dirtyBuff.stack_count >= dirtyBuff.max_stack_count)
-                    {
-                        dirt_check = true;
-                    }
-                    else
-                    {
-                        dirt_check = false;
-                    }
-                }
-                else
-                {
-                    dirt_check = false;
-                }
-                if (money.money >= 500)
-                {
-                    money_check = true;
-                }
-                else
-                {
-                    money_check = false;
-                }
-
-                if (fire_check && wet_check && dirt_check && money_check)
-                {
-                    rocket.transform.position = new Vector3(cursor.transform.position.x, 29, cursor.transform.position.z);
-                    rocket.transform.localEulerAngles = new Vector3(0,cursor.transform.eulerAngles.y,0);
-
-                    fireBuff.time_remaining = 0.1f;
-                    dirtyBuff.time_remaining = 0.1f;
-                    wetBuff.time_remaining = 0.1f;
-                    money.money_update(-500);
-                }
-                
-            }
+            perk_ability_logic(0);
         }
     }
     public void perk2_ability(InputAction.CallbackContext context)
     {
         if (context.started)
         {
-            if (perk_slot_2_perk == 13)
-            {
-                Debug.Log("perk_slot_2_perk");
-                TryGetComponent(out Rigidbody rb);
-                current_velocity = rb.linearVelocity.magnitude;
-                rb.linearVelocity = camera.transform.forward * current_velocity;
-            }
-
-            if (perk_slot_2_perk == 15)
-            {
-                if (this.TryGetComponent(out fire_buff fireBuff))
-                {
-                    if (fireBuff.stack_count >= fireBuff.max_stack_count)
-                    {
-                        fire_check = true;
-                    }
-                    else
-                    {
-                        fire_check = false;
-                    }
-                }
-                else
-                {
-                    fire_check = false;
-                }
-
-                if (this.TryGetComponent(out wet_buff wetBuff))
-                {
-                    if (wetBuff.stack_count >= wetBuff.max_stack_count)
-                    {
-                        wet_check = true;
-                    }
-                    else
-                    {
-                        wet_check = false;
-                    }
-                }
-                else
-                {
-                    wet_check = false;
-                }
-
-                if (this.TryGetComponent(out dirty_buff dirtyBuff))
-                {
-                    if (dirtyBuff.stack_count >= dirtyBuff.max_stack_count)
-                    {
-                        dirt_check = true;
-                    }
-                    else
-                    {
-                        dirt_check = false;
-                    }
-                }
-                else
-                {
-                    dirt_check = false;
-                }
-
-                if (money.money >= 500)
-                {
-                    money_check = true;
-                }
-                else
-                {
-                    money_check = false;
-                }
-
-                if (fire_check && wet_check && dirt_check && money_check)
-                {
-                    rocket.transform.position =
-                        new Vector3(cursor.transform.position.x, 29, cursor.transform.position.z);
-                    rocket.transform.localEulerAngles = new Vector3(0, cursor.transform.eulerAngles.y, 0);
-
-                    fireBuff.time_remaining = 0.1f;
-                    dirtyBuff.time_remaining = 0.1f;
-                    wetBuff.time_remaining = 0.1f;
-                    money.money_update(-500);
-                }
-            }
+            perk_ability_logic(1);
         }
     }
     public void perk3_ability(InputAction.CallbackContext context)
     {
         if (context.started)
         {
-            if (perk_slot_3_perk == 13)
-            {
-                Debug.Log("perk_slot_3_perk");
-                TryGetComponent(out Rigidbody rb);
-                current_velocity = rb.linearVelocity.magnitude;
-                rb.linearVelocity = camera.transform.forward * current_velocity;
-            }
-            if (perk_slot_3_perk == 15)
-            {
-                if (this.TryGetComponent(out fire_buff fireBuff))
-                {
-                    if (fireBuff.stack_count >= fireBuff.max_stack_count)
-                    {
-                        fire_check = true;
-                    }
-                    else
-                    {
-                        fire_check = false;
-                    }
-                }
-                else
-                {
-                    fire_check = false;
-                }
-                if (this.TryGetComponent(out wet_buff wetBuff))
-                {
-                    if (wetBuff.stack_count >= wetBuff.max_stack_count)
-                    {
-                        wet_check = true;
-                    }
-                    else
-                    {
-                        wet_check = false;
-                    }
-                }
-                else
-                {
-                    wet_check = false;
-                }
-                if (this.TryGetComponent(out dirty_buff dirtyBuff))
-                {
-                    if (dirtyBuff.stack_count >= dirtyBuff.max_stack_count)
-                    {
-                        dirt_check = true;
-                    }
-                    else
-                    {
-                        dirt_check = false;
-                    }
-                }
-                else
-                {
-                    dirt_check = false;
-                }
-                if (money.money >= 500)
-                {
-                    money_check = true;
-                }
-                else
-                {
-                    money_check = false;
-                }
-
-                if (fire_check && wet_check && dirt_check && money_check)
-                {
-                    rocket.transform.position = new Vector3(cursor.transform.position.x, 29, cursor.transform.position.z);
-                    rocket.transform.localEulerAngles = new Vector3(0,cursor.transform.eulerAngles.y,0);
-
-                    fireBuff.time_remaining = 0.1f;
-                    dirtyBuff.time_remaining = 0.1f;
-                    wetBuff.time_remaining = 0.1f;
-                    money.money_update(-500);
-                }
-            }
+            perk_ability_logic(2);
         }
     }
     public void perk4_ability(InputAction.CallbackContext context)
     {
         if (context.started)
         {
-            if (perk_slot_4_perk == 13)
+            perk_ability_logic(3);
+        }
+    }
+
+    public void perk_ability_logic(int perk_activated)
+    {
+        perk_state.Clear();
+        perk_state.Add(perk_slot_1_perk);
+        perk_state.Add(perk_slot_2_perk);
+        perk_state.Add(perk_slot_3_perk);
+        perk_state.Add(perk_slot_4_perk);
+        
+        if (perk_state[perk_activated] == 13)
+        {
+            Debug.Log("perk_slot_1_perk");
+            TryGetComponent(out Rigidbody rb);
+            current_velocity = rb.linearVelocity.magnitude;
+            rb.linearVelocity = camera.transform.forward * current_velocity;
+        }
+        if (perk_state[perk_activated] == 15)
+        {
+
+            if (this.TryGetComponent(out fire_buff fireBuff))
             {
-                Debug.Log("perk_slot_4_perk");
-                TryGetComponent(out Rigidbody rb);
-                current_velocity = rb.linearVelocity.magnitude;
-                rb.linearVelocity = camera.transform.forward * current_velocity;
-            }
-            if (perk_slot_4_perk == 15)
-            {
-                if (this.TryGetComponent(out fire_buff fireBuff))
+                if (fireBuff.stack_count >= fireBuff.max_stack_count)
                 {
-                    if (fireBuff.stack_count >= fireBuff.max_stack_count)
-                    {
-                        fire_check = true;
-                    }
-                    else
-                    {
-                        fire_check = false;
-                    }
+                    fire_check = true;
                 }
                 else
                 {
                     fire_check = false;
                 }
-                if (this.TryGetComponent(out wet_buff wetBuff))
+            }
+            else
+            {
+                fire_check = false;
+            }
+            if (this.TryGetComponent(out wet_buff wetBuff))
+            {
+                if (wetBuff.stack_count >= wetBuff.max_stack_count)
                 {
-                    if (wetBuff.stack_count >= wetBuff.max_stack_count)
-                    {
-                        wet_check = true;
-                    }
-                    else
-                    {
-                        wet_check = false;
-                    }
+                    wet_check = true;
                 }
                 else
                 {
                     wet_check = false;
                 }
-                if (this.TryGetComponent(out dirty_buff dirtyBuff))
+            }
+            else
+            {
+                wet_check = false;
+            }
+            if (this.TryGetComponent(out dirty_buff dirtyBuff))
+            {
+                if (dirtyBuff.stack_count >= dirtyBuff.max_stack_count)
                 {
-                    if (dirtyBuff.stack_count >= dirtyBuff.max_stack_count)
-                    {
-                        dirt_check = true;
-                    }
-                    else
-                    {
-                        dirt_check = false;
-                    }
+                    dirt_check = true;
                 }
                 else
                 {
                     dirt_check = false;
                 }
-                if (money.money >= 500)
-                {
-                    money_check = true;
-                }
-                else
-                {
-                    money_check = false;
-                }
-
-                if (fire_check && wet_check && dirt_check && money_check)
-                {
-                    rocket.transform.position = new Vector3(cursor.transform.position.x, 29, cursor.transform.position.z);
-                    rocket.transform.localEulerAngles = new Vector3(0,cursor.transform.eulerAngles.y,0);
-
-                    fireBuff.time_remaining = 0.1f;
-                    dirtyBuff.time_remaining = 0.1f;
-                    wetBuff.time_remaining = 0.1f;
-                    money.money_update(-500);
-                }
             }
+            else
+            {
+                dirt_check = false;
+            }
+            if (money.money >= 500)
+            {
+                money_check = true;
+            }
+            else
+            {
+                money_check = false;
+            }
+
+            if (fire_check && wet_check && dirt_check && money_check)
+            {
+                rocket.transform.position = new Vector3(cursor.transform.position.x, 29, cursor.transform.position.z);
+                rocket.transform.localEulerAngles = new Vector3(0,cursor.transform.eulerAngles.y,0);
+
+                fireBuff.time_remaining = 0.1f;
+                dirtyBuff.time_remaining = 0.1f;
+                wetBuff.time_remaining = 0.1f;
+                money.money_update(-500);
+            }
+            
+        }
+
+        if (perk_state[perk_activated] == 16)
+        {
+            if (TryGetComponent(out fire_buff fireBuff) && TryGetComponent(out wet_buff wetBuff))
+            {
+                cursor_gust_log.StartCoroutine(cursor_gust_log.pow(10 * fireBuff.stack_count * wetBuff.stack_count));
+                fireBuff.time_remaining = 0.1f;
+                wetBuff.time_remaining = 0.1f;
+            }
+            
+            
         }
     }
 }

@@ -190,17 +190,49 @@ public class Pickup : MonoBehaviour//, IPointerClickHandler,IScrollHandler
 
 }
 
+
+
+    public void press_1(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            rotation_state = 1;
+        }
+    }
+    public void press_2(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            rotation_state = 2;
+        }
+    }
+    public void press_3(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            rotation_state = 3;
+        }
+    }
+    public void press_4(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            rotation_state = 0;
+        }
+    }
+    public void press_5(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            cursor.transform.localEulerAngles = Vector3.zero;
+        }
+    }
+    
     public void scroll(InputAction.CallbackContext context) 
     {
         var cachedInput = context.ReadValue<Vector2>();
         float y_plus = cachedInput.y;
         //Debug.Log ("scrolling mouse");
-
-        if (Input.GetKey(KeyCode.Alpha1)) rotation_state = 1;
-        if (Input.GetKey(KeyCode.Alpha2)) rotation_state = 2;
-        if (Input.GetKey(KeyCode.Alpha3)) rotation_state = 3;
-        if (Input.GetKey(KeyCode.Alpha4)) rotation_state = 0;//would use keyDOWN but they already have to be scrolling so that makes this tricky to time
-        if (Input.GetKey(KeyCode.Alpha5)) cursor.transform.localEulerAngles = Vector3.zero;
         
         
         if (rotation_state == 0 ) cursor_dist += y_plus;// Input.mouseScrollDelta.y;

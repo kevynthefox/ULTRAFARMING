@@ -221,6 +221,51 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "press_1",
+                    "type": "Button",
+                    "id": "1e2d7f7f-edc4-4ef1-bb5a-33a222ae2a20",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "press_2",
+                    "type": "Button",
+                    "id": "e3d29caf-720b-4c2f-b9f2-2f5de1dd1698",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "press_3",
+                    "type": "Button",
+                    "id": "604bb379-0537-40fb-97ae-478d8735eebb",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "press_4",
+                    "type": "Button",
+                    "id": "42f33652-1908-40d4-ac7c-066d7e259789",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "press_5",
+                    "type": "Button",
+                    "id": "9e3cc161-7fe3-42b0-96cf-5dc849c3d685",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -815,6 +860,61 @@
                     "processors": "",
                     "groups": "",
                     "action": "perk_4_ability",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f0fbe1e6-3400-4577-86c0-018e2bf007b4",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "press_1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2abafc25-a780-4533-ae1e-ce9b4ebe71b4",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "press_2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b83a2fe9-e428-4f5c-8eea-1408d0b737d1",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "press_3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "354f27cb-fba3-4177-b0cd-e2ba0c6d69ad",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "press_4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2dbe9f6b-3e4d-4b91-838b-947d77783ff0",
+                    "path": "<Keyboard>/5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "press_5",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
