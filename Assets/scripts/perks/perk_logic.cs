@@ -101,6 +101,12 @@ public class perk_logic : MonoBehaviour
     public steam_gust_cursor cursor_gust_log;
 
     public List<int> perk_state;
+
+    public bool perk17; //crystalization. consumes all of your dirty and flaming, to give you health(simply adds health to your healthbar, even if that gives more health than your max. this enables a second healthbar for the crystalization buff btw, that will stretch across the screen to be comically long.
+    public health_system healthSystem;
+
+    public bool perk18; //primoridal flame. when you take damage, gain 1 stack of each elemental buff, and raise the max stack count of each elemental buff to 60. this may sound really good, but fire does damage and if you have more fire you die faster >:3
+    public int default_max_stack;
     
     public void hoe_customization_choser(int i)
     {
@@ -154,6 +160,8 @@ public class perk_logic : MonoBehaviour
         if (slot_old_value == 14) perk14_toggle();
         if (slot_old_value == 15) perk15_toggle();
         if (slot_old_value == 16) perk16_toggle();
+        if (slot_old_value == 17) perk17_toggle();
+        if (slot_old_value == 18) perk18_toggle();
 
 
         if (slot_value == 1)
@@ -198,6 +206,8 @@ public class perk_logic : MonoBehaviour
         if (slot_old_value == 14) perk14_toggle();
         if (slot_old_value == 15) perk15_toggle();
         if (slot_old_value == 16) perk16_toggle();
+        if (slot_old_value == 17) perk17_toggle();
+        if (slot_old_value == 18) perk18_toggle();
         
         if (OnPerkSlotLogicEvent != null)
         {
@@ -210,6 +220,11 @@ public class perk_logic : MonoBehaviour
     public void Awake()
     {
         current = this;
+    }
+
+    public void Start()
+    {
+        health_system.OnPlayerDeathEvent += reset_stack_count_on_death;
     }
 
     public void perk1_toggle()
@@ -301,7 +316,22 @@ public class perk_logic : MonoBehaviour
     {
         perk16 = !perk16;
     }
-
+    public void perk17_toggle()
+    {
+        perk17 = !perk17;
+    }
+    public void perk18_toggle()
+    {
+        perk18 = !perk18;
+        if (perk18)
+        {
+            default_max_stack = 60;
+        }
+        else
+        {
+            default_max_stack = 10;
+        }
+    }
     public void hoe_customization_logic()
     {
         hoe_animator.TryGetComponent(out TerrainInteractor terrainInteractor);
@@ -415,13 +445,13 @@ public class perk_logic : MonoBehaviour
                 if (this.TryGetComponent(out wet_buff wetBuff))
                 {
                     wetBuff.max_stack_count =
-                        10 * Mathf.RoundToInt(Mathf.Pow(fireBuff.fire_element_multiplier, fireBuff.stack_count));
+                        default_max_stack * Mathf.RoundToInt(Mathf.Pow(fireBuff.fire_element_multiplier, fireBuff.stack_count));
                 }
 
                 if (this.TryGetComponent(out dirty_buff dirtyBuff))
                 {
                     dirtyBuff.max_stack_count =
-                        10 * Mathf.RoundToInt(Mathf.Pow(fireBuff.fire_element_multiplier, fireBuff.stack_count));
+                        default_max_stack * Mathf.RoundToInt(Mathf.Pow(fireBuff.fire_element_multiplier, fireBuff.stack_count));
                 }
             }
         }
@@ -429,7 +459,7 @@ public class perk_logic : MonoBehaviour
         {
             if (this.TryGetComponent(out wet_buff wetBuff))
             {
-                wetBuff.max_stack_count = 10;
+                wetBuff.max_stack_count = default_max_stack;
                 if (wetBuff.stack_count > wetBuff.max_stack_count) 
                     wetBuff.stack_count = wetBuff.max_stack_count;
                 wetBuff.effect_display_text_stack.text = "x"+ wetBuff.stack_count;
@@ -437,7 +467,7 @@ public class perk_logic : MonoBehaviour
 
             if (this.TryGetComponent(out dirty_buff dirtyBuff))
             {
-                dirtyBuff.max_stack_count = 10;
+                dirtyBuff.max_stack_count = default_max_stack;
                 if (dirtyBuff.stack_count > dirtyBuff.max_stack_count)
                     dirtyBuff.stack_count = dirtyBuff.max_stack_count;
                 dirtyBuff.effect_display_text_stack.text = "x"+ dirtyBuff.stack_count;
@@ -561,7 +591,6 @@ public class perk_logic : MonoBehaviour
             }
             
         }
-
         if (perk_state[perk_activated] == 16)
         {
             if (TryGetComponent(out fire_buff fireBuff) && TryGetComponent(out wet_buff wetBuff))
@@ -572,6 +601,32 @@ public class perk_logic : MonoBehaviour
             }
             
             
+        }
+        if (perk_state[perk_activated] == 17)
+        {
+            if (TryGetComponent(out fire_buff fireBuff) && TryGetComponent(out dirty_buff dirtyBuff))
+            {
+                healthSystem.health += dirtyBuff.stack_count * fireBuff.stack_count;
+                fireBuff.time_remaining = 0.1f;
+                dirtyBuff.time_remaining = 0.1f;
+            }
+        }
+
+        if (perk_state[perk_activated] == 18) 
+        {
+            default_max_stack += 60;
+        }
+    }
+
+    public void reset_stack_count_on_death(health_system healthSystem)
+    {
+        if (perk18)
+        {
+            default_max_stack = 60;
+        }
+        else
+        {
+            default_max_stack = 10;
         }
     }
 }

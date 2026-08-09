@@ -25,10 +25,10 @@ namespace statusEffects
             effect.transform.SetParent(target.transform);
         }
 
-        [ContextMenu("buff 0 test")]
-        public void test_buff_0()
+        [ContextMenu("buff 3 test")]
+        public void test_buff_3()
         {
-            addStatusEffect(player, 0);
+            addStatusEffect(player, 3);
         }
     }
 }

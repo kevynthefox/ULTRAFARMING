@@ -65,6 +65,8 @@ namespace statusEffects
                 //keep in mind that anything to consolodate the effects must happen before the start in this object, so before the effect is added.
                 
                 health_system.OnPlayerDeathEvent += remove_on_death;
+
+                if (perk_logic.current.perk18) max_stack_count = perk_logic.current.default_max_stack;
                 
                 StartCoroutine(apply_effect());
                 StartCoroutine(timer_tracker());
@@ -136,6 +138,7 @@ namespace statusEffects
 
         public void add()
         {
+            if (perk_logic.current.perk18) max_stack_count = perk_logic.current.default_max_stack;
             if (stack_count < max_stack_count)
             {
                 //add logic here to undo the effect.
