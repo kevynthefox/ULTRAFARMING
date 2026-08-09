@@ -122,13 +122,20 @@ public class watering_can : MonoBehaviour
             {
                 if (other.gameObject.TryGetComponent(out cropGrowth growth))
                 {
-                    if (perk_logic.current.perk5)
+                    if (perk_logic.current.perk5 && perk_logic.current.watering_can_customization !=3)
                     {
                         Debug.Log("sped up plant");
                         
                         growth.growth_rate *= speed_multiplier;
                         
                         growth.hydrate(Mathf.RoundToInt(speed_multiplier));
+                    }
+
+                    if (perk_logic.current.perk4 && perk_logic.current.watering_can_customization == 3)
+                    {
+                        growth.growth_rate /= speed_multiplier;
+                        
+                        growth.hydrate(Mathf.RoundToInt(-speed_multiplier));
                     }
                 }
             }
