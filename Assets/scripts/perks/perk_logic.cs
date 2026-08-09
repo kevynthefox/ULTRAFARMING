@@ -241,6 +241,7 @@ public class perk_logic : MonoBehaviour
     public void perk3_toggle()
     {
         perk3 = !perk3;
+        if (!perk3) no_friction = false;
     }
 
     public void perk4_toggle()

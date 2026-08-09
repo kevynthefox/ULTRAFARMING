@@ -14616,6 +14616,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6428842717865058974, guid: e3ee30caf07d64891b0d195532db6986, type: 3}
+      propertyPath: maxGrowth
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6428842717865058974, guid: e3ee30caf07d64891b0d195532db6986, type: 3}
       propertyPath: growth_rate
       value: 0.1
       objectReference: {fileID: 0}
