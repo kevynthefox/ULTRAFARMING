@@ -582,9 +582,13 @@ public class perk_logic : MonoBehaviour
 
             if (fire_check && wet_check && dirt_check && money_check)
             {
+                rocket.TryGetComponent(out rocket_logic rocket_log);
+                rocket_log.rocket_animator.Play("door_reset");
+                rocket_log.door_open = false;
+                
                 rocket.transform.position = new Vector3(cursor.transform.position.x, 29, cursor.transform.position.z);
                 rocket.transform.localEulerAngles = new Vector3(0,cursor.transform.eulerAngles.y,0);
-
+                
                 fireBuff.time_remaining = 0.1f;
                 dirtyBuff.time_remaining = 0.1f;
                 wetBuff.time_remaining = 0.1f;

@@ -30,9 +30,9 @@ public class health_system : MonoBehaviour
                 {
                     if (perk_logic.current.perk18)
                     {
-                        StatusEffectAdder.current.addStatusEffect(StatusEffectAdder.current.player,1);
-                        StatusEffectAdder.current.addStatusEffect(StatusEffectAdder.current.player,2);
-                        StatusEffectAdder.current.addStatusEffect(StatusEffectAdder.current.player,3);
+                        StatusEffectAdder.current.addStatusEffect(this.gameObject,1);
+                        StatusEffectAdder.current.addStatusEffect(this.gameObject,2);
+                        StatusEffectAdder.current.addStatusEffect(this.gameObject,3);
                     }
                 }
                 

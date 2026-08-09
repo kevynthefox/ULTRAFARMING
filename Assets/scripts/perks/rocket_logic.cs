@@ -13,6 +13,15 @@ public class rocket_logic : MonoBehaviour
     
     public AudioClip launch_sound;
     public AudioClip land_sound;
+
+    public bool door_open;
+
+    public void toggle_door_open()
+    {
+        door_open = !door_open;
+        if (door_open) rocket_animator.Play("door_open");
+        else rocket_animator.Play("door_close");
+    }
     
     public IEnumerator arrive()
     {
